@@ -8,7 +8,7 @@
 package edu.wpi.first.wpilibj.templates;
 
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,6 +18,18 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class Robot extends IterativeRobot {
+    
+    SpeedController frontRightMotor = new Victor(1);
+    SpeedController frontLeftMotor = new Victor(2);
+    SpeedController backRightMotor = new Victor(3);
+    SpeedController backLeftMotor = new Victor(4);
+    
+    Joystick leftStick = new Joystick(1);
+    Joystick rightStick = new Joystick(2);
+   
+    Drive drive = new Drive(frontRightMotor,frontLeftMotor,
+                            backRightMotor,backLeftMotor,leftStick,rightStick);
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -37,7 +49,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        
+    drive.tankDrive();
     }
     
     /**
