@@ -43,19 +43,21 @@ public class Drive {
     
     public void tankDrive(){
         makeSureYouCanDrive();
-        if (canDrive){
         getJoystickY();
         setDeadband();
         setAllMotors();
-        }
     }
     
     public void makeSureYouCanDrive(){
+        if (_leftStick.getTrigger()){
+                canDrive = !false;
+        }
         if (_rightStick.getTrigger()){
                 canDrive = !true;
             }
-        if (_leftStick.getTrigger()){
-                canDrive = !false;
+        if (!canDrive){
+            leftMotorOutput = 0.0;
+            rightMotorOutput = 0.0;
         }
     }
                 
