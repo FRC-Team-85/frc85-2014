@@ -31,7 +31,7 @@ public class Drive {
     private double leftMotorOutput;
     private double rightMotorOutput;
     
-    private final double DEADBAND = 0.1;
+    private final double DEADBAND = 0.3;
     
     
     public Drive(){
@@ -54,22 +54,31 @@ public class Drive {
     
                 
     public void getJoystickY(){
-        rightMotorOutput = _rightStick.getY();
-        leftMotorOutput = _leftStick.getY();
+        rightMotorOutput = -_rightStick.getY();
+        leftMotorOutput = -_leftStick.getY();
+        //System.out.println("left: " + leftMotorOutput);
+        //System.out.println("right: " + rightMotorOutput);
     }
     
     public void setDeadband(){
-        if (rightMotorOutput < DEADBAND){
+        if (Math.abs(rightMotorOutput) < DEADBAND){
             rightMotorOutput = 0.0;
         }
-        if (leftMotorOutput < DEADBAND){
+        if (Math.abs(leftMotorOutput) < DEADBAND){
             leftMotorOutput = 0.0;
         }
+        //System.out.println("left: " + leftMotorOutput);
+        //System.out.println("right: " + rightMotorOutput);
 }
     
     public void setAllMotors(){
         setLeftMotors();
         setRightMotors();
+        
+        System.out.println("frontRight: " + _frontRightMotor.get());
+        System.out.println("frontLeft: " + _frontLeftMotor.get());
+        System.out.println("backRight: " + _backRightMotor.get());
+        System.out.println("backLeft: " + _backLeftMotor.get());
     }
     
     public void setLeftMotors(){
