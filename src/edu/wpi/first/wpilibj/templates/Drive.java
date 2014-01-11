@@ -17,10 +17,10 @@ public class Drive {
     private final SpeedController _backRightMotor;
     private final SpeedController _backLeftMotor;
     
-    private final int FRONTRIGHTVICTOR = 1;
-    private final int FRONTLEFTVICTOR = 2;
-    private final int BACKRIGHTVICTOR = 3;
-    private final int BACKLEFTVICTOR = 4;
+    private final int FRONTRIGHTVICTOR = 2;
+    private final int FRONTLEFTVICTOR = 1;
+    private final int BACKRIGHTVICTOR = 4;
+    private final int BACKLEFTVICTOR = 3;
     
     private final Joystick _leftStick;
     private final Joystick _rightStick;
@@ -55,7 +55,7 @@ public class Drive {
                 
     public void getJoystickY(){
         rightMotorOutput = -_rightStick.getY();
-        leftMotorOutput = -_leftStick.getY();
+        leftMotorOutput = _leftStick.getY();
         //System.out.println("left: " + leftMotorOutput);
         //System.out.println("right: " + rightMotorOutput);
     }
@@ -74,11 +74,10 @@ public class Drive {
     public void setAllMotors(){
         setLeftMotors();
         setRightMotors();
-        
-        System.out.println("frontRight: " + _frontRightMotor.get());
-        System.out.println("frontLeft: " + _frontLeftMotor.get());
-        System.out.println("backRight: " + _backRightMotor.get());
-        System.out.println("backLeft: " + _backLeftMotor.get());
+        //System.out.println("frontRight: " + _frontRightMotor.get());
+        //System.out.println("frontLeft: " + _frontLeftMotor.get());
+        //System.out.println("backRight: " + _backRightMotor.get());
+        //System.out.println("backLeft: " + _backLeftMotor.get());
     }
     
     public void setLeftMotors(){
