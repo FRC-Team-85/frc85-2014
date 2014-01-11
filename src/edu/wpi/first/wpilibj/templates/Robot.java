@@ -19,16 +19,7 @@ import edu.wpi.first.wpilibj.*;
  */
 public class Robot extends IterativeRobot {
     
-    SpeedController frontRightMotor = new Victor(1);
-    SpeedController frontLeftMotor = new Victor(2);
-    SpeedController backRightMotor = new Victor(3);
-    SpeedController backLeftMotor = new Victor(4);
-    
-    Joystick leftStick = new Joystick(1);
-    Joystick rightStick = new Joystick(2);
-   
-    Drive drive = new Drive(frontRightMotor,frontLeftMotor,
-                            backRightMotor,backLeftMotor,leftStick,rightStick);
+    Drive drive = new Drive();
     
     /**
      * This function is run when the robot is first started up and should be

@@ -17,49 +17,41 @@ public class Drive {
     private final SpeedController _backRightMotor;
     private final SpeedController _backLeftMotor;
     
+    private final int FRONTRIGHTVICTOR = 1;
+    private final int FRONTLEFTVICTOR = 2;
+    private final int BACKRIGHTVICTOR = 3;
+    private final int BACKLEFTVICTOR = 4;
+    
     private final Joystick _leftStick;
     private final Joystick _rightStick;
     
+    private final int LEFTSTICK = 1;
+    private final int RIGHTSTICK = 2;
             
     private double leftMotorOutput;
     private double rightMotorOutput;
     
-    private boolean canDrive = true;
+    private final double DEADBAND = 0.1;
     
-    private final double _deadband = 0.0;
     
-    public Drive(SpeedController frontRightMotor, SpeedController frontLeftMotor,
-            SpeedController backRightMotor, SpeedController backLeftMotor, 
-            Joystick leftStick, Joystick rightStick){
-        _frontRightMotor = frontRightMotor;
-        _frontLeftMotor = frontLeftMotor;
-        _backRightMotor = backRightMotor;
-        _backLeftMotor = backLeftMotor;
+    public Drive(){
+   
+        _frontRightMotor = new Victor(FRONTRIGHTVICTOR);
+        _frontLeftMotor = new Victor(FRONTLEFTVICTOR);
+        _backRightMotor = new Victor(BACKRIGHTVICTOR);
+        _backLeftMotor = new Victor(BACKLEFTVICTOR);
         
-        _leftStick = leftStick;
-        _rightStick = rightStick;
+        _leftStick = new Joystick(LEFTSTICK);
+        _rightStick = new Joystick(RIGHTSTICK);
         
     }
     
     public void tankDrive(){
-        makeSureYouCanDrive();
         getJoystickY();
         setDeadband();
         setAllMotors();
     }
     
-    public void makeSureYouCanDrive(){
-        if (_leftStick.getTrigger()){
-                canDrive = !false;
-        }
-        if (_rightStick.getTrigger()){
-                canDrive = !true;
-            }
-        if (!canDrive){
-            leftMotorOutput = 0.0;
-            rightMotorOutput = 0.0;
-        }
-    }
                 
     public void getJoystickY(){
         rightMotorOutput = _rightStick.getY();
@@ -67,10 +59,10 @@ public class Drive {
     }
     
     public void setDeadband(){
-        if (rightMotorOutput < _deadband){
+        if (rightMotorOutput < DEADBAND){
             rightMotorOutput = 0.0;
         }
-        if (leftMotorOutput < _deadband){
+        if (leftMotorOutput < DEADBAND){
             leftMotorOutput = 0.0;
         }
 }
