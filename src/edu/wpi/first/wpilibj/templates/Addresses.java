@@ -31,6 +31,10 @@ public class Addresses {
     public static final int CAM_ENCODER_CHANNEL_A = 5;
     public static final int CAM_ENCODER_CHANNEL_B = 6;
     
+    public static final int INTAKE_MOTOR_LEFT = 7;
+    public static final int INTAKE_MOTOR_RIGHT = 8;
+    public static final int INPUT_POSITION_VALVE = 1;
+    
                             
     
 }
