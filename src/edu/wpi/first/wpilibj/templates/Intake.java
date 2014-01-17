@@ -6,23 +6,26 @@
 
 package edu.wpi.first.wpilibj.templates;
 
+import edu.wpi.first.wpilibj.*;
+
 /**
  *
  * @author Person
  */
 public class Intake {
     
-    /*
-        private final SpeedController leftnamehere;
-        private final SpeedController rightnamehere;
     
-        private final Encoder namehere;
+        private final SpeedController leftIntakeMotor;
+        private final SpeedController rightIntakeMotor;
+        private final Solenoid positionValve;
+        
     
-        private final Solenoid
-    */
     
     public Intake(){
         //Create SpeedControllers,cylinders and Encoders here
+        leftIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_LEFT);
+        rightIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_RIGHT);
+        positionValve = new Solenoid(Addresses.INPUT_POSITION_VALVE);
     }
     
 }

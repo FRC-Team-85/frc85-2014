@@ -18,47 +18,30 @@ public class Drive {
     private final SpeedController _backRightMotor;
     private final SpeedController _backLeftMotor;
     
-    private final int FRONTRIGHTVICTOR = 2;
-    private final int FRONTLEFTVICTOR = 1;
-    private final int BACKRIGHTVICTOR = 4;
-    private final int BACKLEFTVICTOR = 3;
-    
     private final Joystick _leftStick;
     private final Joystick _rightStick;
-    
-    private final int LEFTSTICK = 1;
-    private final int RIGHTSTICK = 2;
     
     private final Encoder _leftEncoder;
     private final Encoder _rightEncoder;
     
-    private final int LEFTENCODERCHANNELA = 1;
-    private final int LEFTENCODERCHANNELB = 2;
-    private final int RIGHTENCODERCHANNELA = 3;
-    private final int RIGHTENCODERCHANNELB = 4;
-            
+ 
     private double leftMotorOutput;
     private double rightMotorOutput;
     
-<<<<<<< HEAD
-    private final double DEADBAND = 0.2;
-=======
     private final double DEADBAND = 0.3;
->>>>>>> 46816100e6466144536f0d11c365cfdd13624d64
-    
     
     public Drive(){
    
-        _frontRightMotor = new Victor(FRONTRIGHTVICTOR);
-        _frontLeftMotor = new Victor(FRONTLEFTVICTOR);
-        _backRightMotor = new Victor(BACKRIGHTVICTOR);
-        _backLeftMotor = new Victor(BACKLEFTVICTOR);
+        _frontRightMotor = new Victor(Addresses.FRONT_RIGHT_VICTOR);
+        _frontLeftMotor = new Victor(Addresses.FRONT_LEFT_VICTOR);
+        _backRightMotor = new Victor(Addresses.BACK_RIGHT_VICTOR);
+        _backLeftMotor = new Victor(Addresses.BACK_LEFT_VICTOR);
         
-        _leftStick = new Joystick(LEFTSTICK);
-        _rightStick = new Joystick(RIGHTSTICK);
+        _leftStick = new Joystick(Addresses.LEFT_STICK);
+        _rightStick = new Joystick(Addresses.RIGHT_STICK);
         
-        _leftEncoder = new Encoder(LEFTENCODERCHANNELA, LEFTENCODERCHANNELB);
-        _rightEncoder = new Encoder(RIGHTENCODERCHANNELA, RIGHTENCODERCHANNELB);
+        _leftEncoder = new Encoder(Addresses.LEFT_ENCODER_CHANNEL_A, Addresses.LEFT_ENCODER_CHANNEL_B);
+        _rightEncoder = new Encoder(Addresses.RIGHT_ENCODER_CHANNEL_A, Addresses.RIGHT_ENCODER_CHANNEL_B);
         
     }
     
