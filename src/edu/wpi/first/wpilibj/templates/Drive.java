@@ -27,6 +27,14 @@ public class Drive {
     
     private final int LEFTSTICK = 1;
     private final int RIGHTSTICK = 2;
+    
+    private final Encoder _leftEncoder;
+    private final Encoder _rightEncoder;
+    
+    private final int LEFTENCODERCHANNELA = 1;
+    private final int LEFTENCODERCHANNELB = 2;
+    private final int RIGHTENCODERCHANNELA = 3;
+    private final int RIGHTENCODERCHANNELB = 4;
             
     private double leftMotorOutput;
     private double rightMotorOutput;
@@ -43,6 +51,9 @@ public class Drive {
         
         _leftStick = new Joystick(LEFTSTICK);
         _rightStick = new Joystick(RIGHTSTICK);
+        
+        _leftEncoder = new Encoder(LEFTENCODERCHANNELA, LEFTENCODERCHANNELB);
+        _rightEncoder = new Encoder(RIGHTENCODERCHANNELA, RIGHTENCODERCHANNELB);
         
     }
     
