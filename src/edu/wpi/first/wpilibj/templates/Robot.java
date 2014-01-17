@@ -7,7 +7,7 @@
 
 package edu.wpi.first.wpilibj.templates;
 
-
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.*;
 
 /**
@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj.*;
  */
 public class Robot extends IterativeRobot {
     
+    NetworkTable table;
+    boolean blob;
+    
     Drive drive = new Drive();
     
     /**
@@ -26,14 +29,14 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-
+        table = NetworkTable.getTable("SmartDashboard");
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+        
     }
 
     /**
@@ -41,6 +44,10 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     drive.tankDrive();
+    if(table.getValue("BFR_COORDINATES") != null)
+        blob = true;
+    else
+        blob = false;
     }
     
     /**
