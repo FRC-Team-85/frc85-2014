@@ -11,6 +11,16 @@ package edu.wpi.first.wpilibj.templates;
  * @author Person
  */
 public class Catapult {
+    /*
+        private final SpeedController leftnamehere;
+        private final SpeedController rightnamehere;
     
-    /*private solenoid final = */
+        private final Encoder namehere;
+    
+        private solenoid final = 
+    */
+    
+    public Catapult(){
+        //create speedcontrollers, cylinders and Encoder here
+    }
 }

@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.*;
 public class Robot extends IterativeRobot {
     
     Drive drive = new Drive();
+    Catapult catapult = new Catapult();
+    Intake intake = new Intake();
     
     /**
      * This function is run when the robot is first started up and should be

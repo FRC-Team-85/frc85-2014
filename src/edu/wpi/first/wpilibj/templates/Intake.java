@@ -12,4 +12,17 @@ package edu.wpi.first.wpilibj.templates;
  */
 public class Intake {
     
+    /*
+        private final SpeedController leftnamehere;
+        private final SpeedController rightnamehere;
+    
+        private final Encoder namehere;
+    
+        private final Solenoid
+    */
+    
+    public Intake(){
+        //Create SpeedControllers,cylinders and Encoders here
+    }
+    
 }
