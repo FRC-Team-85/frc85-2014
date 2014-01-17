@@ -31,7 +31,7 @@ public class Drive {
     private double leftMotorOutput;
     private double rightMotorOutput;
     
-    private final double DEADBAND = 0.1;
+    private final double DEADBAND = 0.2;
     
     
     public Drive(){
