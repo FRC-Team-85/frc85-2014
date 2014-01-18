@@ -16,3 +16,11 @@ nb-configuration.xml
 *.ear
 
 nbproject/project.bak.xml
+
+suite/META-INF/MANIFEST.MF
+
+suite/image.suite
+
+suite/image.suite.metadata
+
+suite/image.sym
