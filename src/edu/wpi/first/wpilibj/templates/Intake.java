@@ -27,5 +27,14 @@ public class Intake {
         rightIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_RIGHT);
         positionValve = new Solenoid(Addresses.INPUT_POSITION_VALVE);
     }
-    
+    public void extend(){
+        positionValve.set(true);
+    }
+    public void retract(){
+        positionValve.set(false);
+    }
+    public void setIntakeSpeed(double speed){
+        leftIntakeMotor.set(speed);
+        rightIntakeMotor.set(speed);
+    }
 }

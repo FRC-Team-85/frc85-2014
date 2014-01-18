@@ -19,11 +19,39 @@ public class Catapult {
     private final Solenoid positionValve;
     private final Encoder camPosition;
     
+    private boolean isFiring = false;
+    
+    private final int FULLCAMCOUNT = 5000;
+    private final double CAMMOTORSPEED = 1;
+    
     public Catapult(){
        leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
        rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
        positionValve = new Solenoid(Addresses.CATAPULT_POSITION_VALVE);
        camPosition = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
        
+    }
+    public void trussPosition(){
+        positionValve.set(true);
+    }
+    public void shootingPosition(){
+        position.set(false);
+    }
+    public void fireCatapult(){
+        isFiring = true;
+    }
+    public void runCatapult(){
+        if (isFiring){
+            if (camPosition.get() >= FULLCAMCOUNT){
+                isFiring = false;
+                leftCamMotor.set(0);
+                rightCamMotor.set(0);
+                camPosition.reset();
+            } else{
+                leftCamMotor.set(CAMMOTORSPEED);
+                rightCamMotor.set(CAMMOTORSPEED);
+            }
+            
+        } 
     }
 }
