@@ -7,8 +7,8 @@
 
 package edu.wpi.first.wpilibj.templates;
 
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,16 +23,10 @@ public class Robot extends IterativeRobot {
     boolean blob;
     
     Drive drive = new Drive();
-    Catapult catapult = new Catapult();
-    Intake intake = new Intake();
+    //Catapult catapult = new Catapult();
+    ImageFiltering imageFiltering = new ImageFiltering();
     
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
-    public void robotInit() {
-        table = NetworkTable.getTable("SmartDashboard");
-    }
+    
 
     /**
      * This function is called periodically during autonomous
@@ -46,10 +40,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     drive.tankDrive();
-    if(table.getValue("BFR_COORDINATES") != null)
-        blob = true;
-    else
-        blob = false;
+    //imageFiltering.runImageFiltering();
     }
     
     /**
