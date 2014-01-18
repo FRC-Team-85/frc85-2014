@@ -35,7 +35,7 @@ public class Catapult {
         positionValve.set(true);
     }
     public void shootingPosition(){
-        position.set(false);
+        positionValve.set(false);
     }
     public void fireCatapult(){
         isFiring = true;
