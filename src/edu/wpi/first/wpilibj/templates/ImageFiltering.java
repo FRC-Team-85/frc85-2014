@@ -10,14 +10,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ImageFiltering {
     
+    
     NetworkTable networkTable = NetworkTable.getTable("SmartDashboard");
-    
-    
     private boolean blob;
-            
+   
+    
     private void getBlob() {
+        
         try {
-            if (networkTable.getString("Blob").equals("True")){
+            if (networkTable.getBoolean("Blob") == true) {
                 blob = true;
             } else {
                 blob = false;
@@ -29,7 +30,7 @@ public class ImageFiltering {
     }
     
     private void runDebug(){
-        SmartDashboard.putString("RoboRealm Blob", networkTable.getString("Blob"));
+        SmartDashboard.putBoolean("RoboRealm Blob", networkTable.getBoolean("Blob"));
         
     }
     

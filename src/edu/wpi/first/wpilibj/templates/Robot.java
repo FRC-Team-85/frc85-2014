@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     drive.tankDrive();
-    //imageFiltering.runImageFiltering();
+    imageFiltering.runImageFiltering();
     }
     
     /**
