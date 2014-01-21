@@ -6,10 +6,8 @@
 
 package edu.wpi.first.wpilibj.templates;
 
-/**
- *
- * @author Ashley
- */
+
+
 public class Addresses {
     
     public static final int FRONT_RIGHT_VICTOR = 2;

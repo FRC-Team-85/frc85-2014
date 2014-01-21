@@ -6,11 +6,8 @@
 
 package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-/**
- *
- * @author Tiger
- */
+
+
 public class Drive {
     
     private final SpeedController _frontRightMotor;
