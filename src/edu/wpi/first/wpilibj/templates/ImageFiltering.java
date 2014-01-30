@@ -12,11 +12,12 @@ public class ImageFiltering {
     
     
     NetworkTable networkTable = NetworkTable.getTable("SmartDashboard");
-    private boolean blob;
+    private boolean blob = false;
    
-    
+    /*
+     * Gets Blobs from Roborealm and checks for hot goal and switches the variable "blob" if true
+     */
     private void getBlob() {
-        
         try {
             if (networkTable.getBoolean("Blob") == true) {
                 blob = true;
@@ -31,7 +32,6 @@ public class ImageFiltering {
     
     private void runDebug(){
         SmartDashboard.putBoolean("RoboRealm Blob", networkTable.getBoolean("Blob"));
-        
     }
     
     public void runImageFiltering(){

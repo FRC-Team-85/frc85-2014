@@ -12,26 +12,26 @@ import edu.wpi.first.wpilibj.*;
 
 public class Intake {
     
-    
         private final SpeedController leftIntakeMotor;
         private final SpeedController rightIntakeMotor;
         private final Solenoid positionValve;
         
-    
-    
-    public Intake(){
+    public Intake() {
         //Create SpeedControllers,cylinders and Encoders here
         leftIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_LEFT);
         rightIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_RIGHT);
         positionValve = new Solenoid(Addresses.INPUT_POSITION_VALVE);
     }
-    public void extend(){
+
+    public void extend() {
         positionValve.set(true);
     }
-    public void retract(){
+
+    public void retract() {
         positionValve.set(false);
     }
-    public void setIntakeSpeed(double speed){
+
+    public void setIntakeSpeed(double speed) {
         leftIntakeMotor.set(speed);
         rightIntakeMotor.set(speed);
     }

@@ -3,12 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
-
-
 
 public class Catapult {
 
@@ -19,37 +16,41 @@ public class Catapult {
     
     private boolean isFiring = false;
     
-    private final int FULLCAMCOUNT = 5000;
-    private final double CAMMOTORSPEED = 1;
+    private final int k_CompleteCamCount = 5000;
+    private final double k_CamMotorSpeed = 1;
+
     
-    public Catapult(){
-       leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
-       rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
-       positionValve = new Solenoid(Addresses.CATAPULT_POSITION_VALVE);
-       camPosition = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
-       
+    public Catapult() {
+        leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
+        rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
+        positionValve = new Solenoid(Addresses.CATAPULT_POSITION_VALVE);
+        camPosition = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
     }
-    public void trussPosition(){
+
+    public void trussPosition() {
         positionValve.set(true);
     }
-    public void shootingPosition(){
+
+    public void shootingPosition() {
         positionValve.set(false);
     }
-    public void fireCatapult(){
+
+    public void fireCatapult() {
         isFiring = true;
     }
-    public void runCatapult(){
-        if (isFiring){
-            if (camPosition.get() >= FULLCAMCOUNT){
+
+    public void runCatapult() {
+        if (isFiring) {
+            if (camPosition.get() >= k_CompleteCamCount) {
                 isFiring = false;
                 leftCamMotor.set(0);
                 rightCamMotor.set(0);
                 camPosition.reset();
-            } else{
-                leftCamMotor.set(CAMMOTORSPEED);
-                rightCamMotor.set(CAMMOTORSPEED);
+            } else {
+                leftCamMotor.set(k_CamMotorSpeed);
+                rightCamMotor.set(k_CamMotorSpeed);
             }
-            
-        } 
+
+        }
     }
 }
