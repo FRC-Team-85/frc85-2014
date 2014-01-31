@@ -5,6 +5,7 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.*;
 
 public class Drive {
@@ -22,7 +23,7 @@ public class Drive {
     
     private double leftMotorOutput;
     private double rightMotorOutput;
-    private final double DEADBAND = 0.3;
+    private final double k_Deadband = 0.2;
 
     public Drive() {
 
@@ -47,15 +48,15 @@ public class Drive {
     }
 
     private void getJoystickY() {
-        rightMotorOutput = -_rightStick.getY();
-        leftMotorOutput = _leftStick.getY();
+        rightMotorOutput = calculateLinearOutput(_rightStick.getY());
+        leftMotorOutput = calculateLinearOutput(_leftStick.getY());
     }
 
     private void setDeadband() {
-        if (Math.abs(rightMotorOutput) < DEADBAND) {
+        if (Math.abs(rightMotorOutput) < k_Deadband) {
             rightMotorOutput = 0.0;
         }
-        if (Math.abs(leftMotorOutput) < DEADBAND) {
+        if (Math.abs(leftMotorOutput) < k_Deadband) {
             leftMotorOutput = 0.0;
         }
     }
@@ -82,5 +83,19 @@ public class Drive {
         System.out.println("backRight: " + _backRightMotor.get());
         System.out.println("backLeft: " + _backLeftMotor.get());   
         }
+    }
+    
+    public double calculateLinearOutput(double output) {
+        double x = output;
+        
+        if (x < 0) {
+            x *= -1;
+            x = (-3.1199*MathUtils.pow(x, 4) + 4.4664*MathUtils.pow(x, 3) - 
+                2.2378*MathUtils.pow(x, 2) - 0.122*x);
+        } else {
+            x = (3.1199*MathUtils.pow(x, 4) - 4.4664*MathUtils.pow(x, 3) + 
+                    2.2378*MathUtils.pow(x, 2) + 0.122*x);
+        }   
+        return x;
     }
 }

@@ -29,7 +29,6 @@ public class Addresses {
     public static final int CAM_MOTOR_LEFT = 9;
     public static final int CAM_MOTOR_RIGHT = 10;
     
-    
     public static final int INPUT_POSITION_VALVE = 1;
     public static final int INTAKE_MOTOR_LEFT = 7;
     public static final int INTAKE_MOTOR_RIGHT = 8;

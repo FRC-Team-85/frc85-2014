@@ -50,7 +50,6 @@ public class Catapult {
                 leftCamMotor.set(k_CamMotorSpeed);
                 rightCamMotor.set(k_CamMotorSpeed);
             }
-
         }
     }
 }
