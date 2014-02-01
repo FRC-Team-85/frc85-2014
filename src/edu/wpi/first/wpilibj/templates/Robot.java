@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        
+    imageFiltering.runImageFiltering();    
     }
 
     /**
@@ -40,7 +40,6 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     drive.runTankDrive();
-    imageFiltering.runImageFiltering();
     }
     
     /**

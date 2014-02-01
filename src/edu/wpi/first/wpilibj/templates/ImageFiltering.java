@@ -17,17 +17,20 @@ public class ImageFiltering {
     /*
      * Gets Blobs from Roborealm and checks for hot goal and switches the variable "blob" if true
      */
-    private void getBlob() {
-        try {
-            if (networkTable.getBoolean("Blob") == true) {
-                blob = true;
-            } else {
-                blob = false;
+    private void getBlob(boolean toggle) {
+        if (toggle = true) {
+            try {
+                if (networkTable.getBoolean("Blob") == true) {
+                    blob = true;
+                } else {
+                    blob = false;
+                }
+            } catch (Exception ex) {
+                SmartDashboard.putString("Exception", "Network Tables Not Found");
+                toggle = false;
             }
-        } catch (Exception ex) {
-            SmartDashboard.putString("Exception", "Network Tables Not Found");
+            SmartDashboard.putBoolean("Blob", blob);
         }
-        SmartDashboard.putBoolean("Blob", blob);
     }
     
     private void runDebug(){
@@ -35,7 +38,7 @@ public class ImageFiltering {
     }
     
     public void runImageFiltering(){
-        getBlob();
+        getBlob(true);
         runDebug();
     }
 }

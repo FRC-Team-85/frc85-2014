@@ -7,6 +7,7 @@ package edu.wpi.first.wpilibj.templates;
 
 import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 
@@ -43,8 +44,9 @@ public class Drive {
     public void runTankDrive() {
         getJoystickY();
         setDeadband();
+        setHalfSpeed(_leftStick.getRawButton(1), _rightStick.getRawButton(1)); //Joystick Triggers
         setAllMotors();
-        runDebug(false);
+        //runDebug(true);
     }
 
     private void getJoystickY() {
@@ -77,11 +79,13 @@ public class Drive {
     }
 
     private void runDebug(boolean toggle) {
-        if (toggle = true){
-         System.out.println("frontRight: " + _frontRightMotor.get());
-        System.out.println("frontLeft: " + _frontLeftMotor.get());
-        System.out.println("backRight: " + _backRightMotor.get());
-        System.out.println("backLeft: " + _backLeftMotor.get());   
+        if (toggle = true) {
+            SmartDashboard.putNumber("LeftJoystickInput", _leftStick.getY());
+            SmartDashboard.putNumber("RightJoystickInput", _rightStick.getY());
+            SmartDashboard.putNumber("LeftOutput", leftMotorOutput);
+            SmartDashboard.putNumber("RightOutput", rightMotorOutput);
+        } else {
+            
         }
     }
     
@@ -97,5 +101,12 @@ public class Drive {
                     2.2378*MathUtils.pow(x, 2) + 0.122*x);
         }   
         return x;
+    }
+    
+    private void setHalfSpeed(boolean button, boolean button2){
+        if (button == true || button2 == true){
+            leftMotorOutput = (leftMotorOutput / 2);
+            rightMotorOutput = (rightMotorOutput / 2);
+        }
     }
 }
