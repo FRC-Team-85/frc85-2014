@@ -13,10 +13,12 @@ public class Addresses {
     public static final int LEFT_STICK = 1;
     public static final int RIGHT_STICK = 2;
     
-    public static final int FRONT_LEFT_VICTOR = 1;
-    public static final int FRONT_RIGHT_VICTOR = 2;
-    public static final int BACK_LEFT_VICTOR = 3;
-    public static final int BACK_RIGHT_VICTOR = 4;
+    public static final int RIGHT_DRIVE_VICTOR1 = 1;
+    public static final int RIGHT_DRIVE_VICTOR2 = 2;
+    public static final int RIGHT_DRIVE_VICTOR3 = 3;
+    public static final int LEFT_DRIVE_VICTOR1 = 4;
+    public static final int LEFT_DRIVE_VICTOR2 = 5;
+    public static final int LEFT_DRIVE_VICTOR3 = 6;
     
     public static final int LEFT_ENCODER_CHANNEL_A = 1;
     public static final int LEFT_ENCODER_CHANNEL_B = 2;

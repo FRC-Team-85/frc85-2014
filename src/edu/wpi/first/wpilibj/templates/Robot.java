@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
  */
 public class Robot extends IterativeRobot {
     
-    NetworkTable table;
-    boolean blob;
+    Joystick leftStick = new Joystick(Addresses.LEFT_STICK);
+    Joystick rightStick = new Joystick(Addresses.RIGHT_STICK);
     
-    Drive drive = new Drive();
+    Drive drive = new Drive(leftStick, rightStick);
     //Catapult catapult = new Catapult();
     ImageFiltering imageFiltering = new ImageFiltering();
     
