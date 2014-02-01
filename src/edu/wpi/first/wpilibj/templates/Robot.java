@@ -8,7 +8,6 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,8 +24,6 @@ public class Robot extends IterativeRobot {
     Drive drive = new Drive(leftStick, rightStick);
     //Catapult catapult = new Catapult();
     ImageFiltering imageFiltering = new ImageFiltering();
-    
-    
 
     /**
      * This function is called periodically during autonomous

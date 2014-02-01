@@ -17,22 +17,19 @@ public class Drive {
     private final SpeedController _rightDriveMotor1;
     private final SpeedController _rightDriveMotor2;
     private final SpeedController _rightDriveMotor3;
-    
     private final Joystick _leftStick;
     private final Joystick _rightStick;
-    
     private final Encoder _leftEncoder;
     private final Encoder _rightEncoder;
-    
     private double leftDriveMotorOutput;
     private double rightDriveMotorOutput;
     private final double k_Deadband = 0.2;
 
     public Drive(Joystick leftStick, Joystick rightStick) {
-        
+
         this._leftStick = leftStick;
-        this._rightStick = rightStick; 
-        
+        this._rightStick = rightStick;
+
         _rightDriveMotor1 = new Victor(Addresses.RIGHT_DRIVE_VICTOR1);
         _rightDriveMotor2 = new Victor(Addresses.RIGHT_DRIVE_VICTOR2);
         _rightDriveMotor3 = new Victor(Addresses.RIGHT_DRIVE_VICTOR3);
@@ -90,27 +87,25 @@ public class Drive {
             SmartDashboard.putNumber("RightJoystickInput", _rightStick.getY());
             SmartDashboard.putNumber("LeftOutput", leftDriveMotorOutput);
             SmartDashboard.putNumber("RightOutput", rightDriveMotorOutput);
-        } else {
-            
         }
     }
-    
+
     public double calculateLinearOutput(double output) {
         double x = output;
-        
+
         if (x < 0) {
             x *= -1;
-            x = (-3.1199*MathUtils.pow(x, 4) + 4.4664*MathUtils.pow(x, 3) - 
-                2.2378*MathUtils.pow(x, 2) - 0.122*x);
+            x = (-3.1199 * MathUtils.pow(x, 4) + 4.4664 * MathUtils.pow(x, 3)
+                    - 2.2378 * MathUtils.pow(x, 2) - 0.122 * x);
         } else {
-            x = (3.1199*MathUtils.pow(x, 4) - 4.4664*MathUtils.pow(x, 3) + 
-                    2.2378*MathUtils.pow(x, 2) + 0.122*x);
-        }   
+            x = (3.1199 * MathUtils.pow(x, 4) - 4.4664 * MathUtils.pow(x, 3)
+                    + 2.2378 * MathUtils.pow(x, 2) + 0.122 * x);
+        }
         return x;
     }
-    
-    private void setHalfSpeed(boolean button, boolean button2){
-        if (button == true || button2 == true){
+
+    private void setHalfSpeed(boolean button, boolean button2) {
+        if (button == true || button2 == true) {
             leftDriveMotorOutput = (leftDriveMotorOutput / 2);
             rightDriveMotorOutput = (rightDriveMotorOutput / 2);
         }

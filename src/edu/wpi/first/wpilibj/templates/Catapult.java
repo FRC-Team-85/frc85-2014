@@ -9,10 +9,12 @@ import edu.wpi.first.wpilibj.*;
 
 public class Catapult {
 
-    private final SpeedController leftCamMotor;
-    private final SpeedController rightCamMotor;
-    private final Solenoid positionValve;
-    private final Encoder camPosition;
+    private final SpeedController _leftCamMotor;
+    private final SpeedController _rightCamMotor;
+    private final Solenoid _positionValve;
+    private final Encoder _camPosition;
+    private final Joystick _leftStick;
+    private final Joystick _rightStick;
     
     private boolean isFiring = false;
     
@@ -20,19 +22,22 @@ public class Catapult {
     private final double k_CamMotorSpeed = 1;
 
     
-    public Catapult() {
-        leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
-        rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
-        positionValve = new Solenoid(Addresses.CATAPULT_POSITION_VALVE);
-        camPosition = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
+    public Catapult(Joystick leftStick, Joystick rightStick) {
+        
+        this._leftStick = leftStick;
+        this._rightStick = rightStick;
+        _leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
+        _rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
+        _positionValve = new Solenoid(Addresses.CATAPULT_POSITION_VALVE);
+        _camPosition = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
     }
 
     public void trussPosition() {
-        positionValve.set(true);
+        _positionValve.set(true);
     }
 
     public void shootingPosition() {
-        positionValve.set(false);
+        _positionValve.set(false);
     }
 
     public void fireCatapult() {
@@ -41,14 +46,14 @@ public class Catapult {
 
     public void runCatapult() {
         if (isFiring) {
-            if (camPosition.get() >= k_CompleteCamCount) {
+            if (_camPosition.get() >= k_CompleteCamCount) {
                 isFiring = false;
-                leftCamMotor.set(0);
-                rightCamMotor.set(0);
-                camPosition.reset();
+                _leftCamMotor.set(0);
+                _rightCamMotor.set(0);
+                _camPosition.reset();
             } else {
-                leftCamMotor.set(k_CamMotorSpeed);
-                rightCamMotor.set(k_CamMotorSpeed);
+                _leftCamMotor.set(k_CamMotorSpeed);
+                _rightCamMotor.set(k_CamMotorSpeed);
             }
         }
     }

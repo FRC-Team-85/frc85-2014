@@ -12,27 +12,35 @@ import edu.wpi.first.wpilibj.*;
 
 public class Intake {
     
-        private final SpeedController leftIntakeMotor;
-        private final SpeedController rightIntakeMotor;
-        private final Solenoid positionValve;
+        private final Joystick _leftStick;
+        private final Joystick _rightStick;
+        private final SpeedController _leftIntakeMotor;
+        private final SpeedController _rightIntakeMotor;
+        private final Solenoid _positionValve;
         
-    public Intake() {
-        //Create SpeedControllers,cylinders and Encoders here
-        leftIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_LEFT);
-        rightIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_RIGHT);
-        positionValve = new Solenoid(Addresses.INPUT_POSITION_VALVE);
+    public Intake(Joystick leftStick, Joystick rightStick) {
+        
+        this._leftStick = leftStick;
+        this._rightStick = rightStick;
+        _leftIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_LEFT);
+        _rightIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_RIGHT);
+        _positionValve = new Solenoid(Addresses.INPUT_POSITION_VALVE);
     }
 
-    public void extend() {
-        positionValve.set(true);
+    private void extend() {
+        _positionValve.set(true);
     }
 
-    public void retract() {
-        positionValve.set(false);
+    private void retract() {
+        _positionValve.set(false);
     }
 
-    public void setIntakeSpeed(double speed) {
-        leftIntakeMotor.set(speed);
-        rightIntakeMotor.set(speed);
+    private void setIntakeSpeed(double speed) {
+        _leftIntakeMotor.set(speed);
+        _rightIntakeMotor.set(speed);
+    }
+    
+    public void runIntakeSystem(){
+        
     }
 }
