@@ -22,14 +22,14 @@ public class Robot extends IterativeRobot {
     Joystick rightStick = new Joystick(Addresses.RIGHT_STICK);
     
     Drive drive = new Drive(leftStick, rightStick);
-    //Catapult catapult = new Catapult();
-    ImageFiltering imageFiltering = new ImageFiltering();
+    Catapult catapult = new Catapult(leftStick, rightStick);
+    //ImageFiltering imageFiltering = new ImageFiltering();
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    imageFiltering.runImageFiltering();    
+    //imageFiltering.runImageFiltering();    
     }
 
     /**
@@ -37,6 +37,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     drive.runTankDrive();
+    catapult.runCatapult();
     }
     
     /**

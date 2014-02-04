@@ -47,12 +47,12 @@ public class Drive {
         setDeadband();
         setHalfSpeed(_leftStick.getRawButton(1), _rightStick.getRawButton(1)); //Joystick Triggers
         setAllMotors();
-        //runDebug(true);
+        runDebug(false);
     }
 
     private void getJoystickY() {
         rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
-        leftDriveMotorOutput = calculateLinearOutput(_leftStick.getY());
+        leftDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
     }
 
     private void setDeadband() {
@@ -87,6 +87,12 @@ public class Drive {
             SmartDashboard.putNumber("RightJoystickInput", _rightStick.getY());
             SmartDashboard.putNumber("LeftOutput", leftDriveMotorOutput);
             SmartDashboard.putNumber("RightOutput", rightDriveMotorOutput);
+            SmartDashboard.putNumber("rightMotor1", _rightDriveMotor1.get());
+            SmartDashboard.putNumber("rightMotor2", _rightDriveMotor2.get());
+            SmartDashboard.putNumber("rightMotor3", _rightDriveMotor3.get());
+            SmartDashboard.putNumber("leftMotor1", _leftDriveMotor1.get());
+            SmartDashboard.putNumber("leftMotor2", _leftDriveMotor2.get());
+            SmartDashboard.putNumber("leftMotor3", _leftDriveMotor3.get());
         }
     }
 
