@@ -35,5 +35,6 @@ public class Addresses {
     public static final int INTAKE_MOTOR_LEFT = 7;
     public static final int INTAKE_MOTOR_RIGHT = 8;
     
-    public static final int AIR_COMPRESSOR = 1;
+    public static final int AIR_COMPRESSOR_OUTPUT = 1;
+    public static final int AIR_COMPRESSOR_INPUT = 2;
 }

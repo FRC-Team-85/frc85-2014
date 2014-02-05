@@ -15,7 +15,6 @@ public class Catapult {
     //private final SpeedController _rightCamMotor;
     //private final Solenoid _positionValve;
     //private final Encoder _camPosition;
-    private final Relay _airCompressor;
     
     private boolean isFiring = false;
     
@@ -31,7 +30,6 @@ public class Catapult {
         //_rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
         //_positionValve = new Solenoid(Addresses.CATAPULT_POSITION_VALVE);
         //_camPosition = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
-        _airCompressor = new Relay(Addresses.AIR_COMPRESSOR);
     }
 /*
     private void trussPosition() {
@@ -48,7 +46,7 @@ public class Catapult {
 */
     public void runCatapult() {
         
-        runAirCompressor();
+        
         /*if (isFiring) {
             if (_camPosition.get() >= k_CompleteCamCount) {
                 isFiring = false;
@@ -61,15 +59,6 @@ public class Catapult {
             }
         }*/
        
-    }
-    
-    private void runAirCompressor() {
-        if (_leftStick.getRawButton(3)) {
-            _airCompressor.set(Relay.Value.kOn);
-        }
-        if (_leftStick.getRawButton(2)) {
-            _airCompressor.set(Relay.Value.kOff);
-        }
     }
     
     
