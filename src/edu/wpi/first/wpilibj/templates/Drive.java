@@ -17,6 +17,8 @@ public class Drive {
     private final SpeedController _rightDriveMotor1;
     private final SpeedController _rightDriveMotor2;
     private final SpeedController _rightDriveMotor3;
+    private final Encoder rightDriveEncoder;
+    private final Encoder leftDriveEncoder;
     private final Joystick _leftStick;
     private final Joystick _rightStick;
     private double leftDriveMotorOutput;
@@ -27,7 +29,9 @@ public class Drive {
 
         this._leftStick = leftStick;
         this._rightStick = rightStick;
-
+        
+        rightDriveEncoder = new Encoder(Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_A, Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_B);
+        leftDriveEncoder = new Encoder(Addresses.LEFT_DRIVE_ENCODER_CHANNEL_A, Addresses.LEFT_DRIVE_ENCODER_CHANNEL_B);
         _rightDriveMotor1 = new Victor(Addresses.RIGHT_DRIVE_VICTOR1);
         _rightDriveMotor2 = new Victor(Addresses.RIGHT_DRIVE_VICTOR2);
         _rightDriveMotor3 = new Victor(Addresses.RIGHT_DRIVE_VICTOR3);
