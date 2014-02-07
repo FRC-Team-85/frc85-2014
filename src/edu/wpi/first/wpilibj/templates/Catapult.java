@@ -9,57 +9,53 @@ import edu.wpi.first.wpilibj.*;
 
 public class Catapult {
 
+    private final DigitalInput limitswitch = new DigitalInput(Addresses.CAM_LIMITSWITCH);
+    
     private final Joystick _leftStick;
     private final Joystick _rightStick;
-    //private final SpeedController _leftCamMotor;
-    //private final SpeedController _rightCamMotor;
-    //private final Solenoid _positionValve;
-    //private final Encoder _camPosition;
+    private final Joystick opStick;
+    private final SpeedController _leftCamMotor;
+    private final SpeedController _rightCamMotor;
+    private final Solenoid _armValve;
+    private final Solenoid _trussValve;
     
     private boolean isFiring = false;
     
-    private final int k_CompleteCamCount = 3600;
     private final double k_CamMotorSpeed = .5;
 
     
-    public Catapult(Joystick leftStick, Joystick rightStick) {
+    public Catapult(Joystick leftStick, Joystick rightStick, Joystick opStick) {
         
+        this.opStick = opStick;
         this._leftStick = leftStick;
         this._rightStick = rightStick;
-        //_leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
-        //_rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
-        //_positionValve = new Solenoid(Addresses.CATAPULT_POSITION_VALVE);
-        //_camPosition = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
-    }
-/*
-    private void trussPosition() {
-        _positionValve.set(true);
+        _leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
+        _rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
+        _armValve = new Solenoid(Addresses.LEFT_SOLENOID);
+        _trussValve = new Solenoid(Addresses.RIGHT_SOLENOID);
     }
 
-    private void shootingPosition() {
-        _positionValve.set(false);
-    }
-
-    private void fireCatapult() {
-        isFiring = true;
-    }
-*/
     public void runCatapult() {
-        
-        
-        /*if (isFiring) {
-            if (_camPosition.get() >= k_CompleteCamCount) {
-                isFiring = false;
-                _leftCamMotor.set(0);
-                _rightCamMotor.set(0);
-                _camPosition.reset();
-            } else {
-                _leftCamMotor.set(k_CamMotorSpeed);
-                _rightCamMotor.set(k_CamMotorSpeed);
-            }
-        }*/
-       
+        if(limitswitch.get() && !opStick.getRawButton(1))/**Button subject to change**/ {
+            _leftCamMotor.set(0.0);
+            _rightCamMotor.set(0.0);
+        } else {
+            _leftCamMotor.set(k_CamMotorSpeed);
+            _rightCamMotor.set(k_CamMotorSpeed);
+        }
     }
-    
-    
+    public void extendArm(){
+        if(opStick.getRawButton(2)){
+            _armValve.set(true);
+        } else {
+            _armValve.set(false);
+        }
+    }
+    public void setTruss() {
+        if(opStick.getRawButton(3)) {
+            _trussValve.set(true);
+        } else {
+            _trussValve.set(false);
+        }
+    }
 }

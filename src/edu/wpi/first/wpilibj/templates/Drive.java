@@ -19,8 +19,6 @@ public class Drive {
     private final SpeedController _rightDriveMotor3;
     private final Joystick _leftStick;
     private final Joystick _rightStick;
-    private final Encoder _leftEncoder;
-    private final Encoder _rightEncoder;
     private double leftDriveMotorOutput;
     private double rightDriveMotorOutput;
     private final double k_Deadband = 0.2;
@@ -36,9 +34,6 @@ public class Drive {
         _leftDriveMotor1 = new Victor(Addresses.LEFT_DRIVE_VICTOR1);
         _leftDriveMotor2 = new Victor(Addresses.LEFT_DRIVE_VICTOR2);
         _leftDriveMotor3 = new Victor(Addresses.LEFT_DRIVE_VICTOR3);
-
-        _leftEncoder = new Encoder(Addresses.LEFT_ENCODER_CHANNEL_A, Addresses.LEFT_ENCODER_CHANNEL_B);
-        _rightEncoder = new Encoder(Addresses.RIGHT_ENCODER_CHANNEL_A, Addresses.RIGHT_ENCODER_CHANNEL_B);
 
     }
 
