@@ -19,8 +19,6 @@ public class Catapult {
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
-    private boolean isFiring = false;
-    
     private final double k_CamMotorSpeed = .5;
 
     
@@ -35,7 +33,11 @@ public class Catapult {
         _trussValve = new Solenoid(Addresses.RIGHT_SOLENOID);
     }
 
-    public void runCatapult(boolean fire) {
+    public void runCatapult(){
+        runCam(_rightStick.getRawButton(3));
+    }
+    
+    public void runCam(boolean fire) {
         if(limitswitch.get() && !fire)/**Button subject to change**/ {
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);

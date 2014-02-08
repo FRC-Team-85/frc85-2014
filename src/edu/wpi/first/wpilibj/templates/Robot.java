@@ -27,27 +27,22 @@ public class Robot extends IterativeRobot {
     Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_INPUT, Addresses.AIR_COMPRESSOR_OUTPUT);
     //ImageFiltering imageFiltering = new ImageFiltering();
 
-    /**
-     * This function is called periodically during autonomous
-     */
+  
     public void autonomousInit(){
         compressor.start();
     }
+    
     public void autonomousPeriodic() {
     //imageFiltering.runImageFiltering();    
     }
 
-    /**
-     * This function is called periodically during operator control
-     */
+
     public void teleopPeriodic() {
     drive.runTankDrive();
     catapult.runCatapult();
     }
     
-    /**
-     * This function is called periodically during test mode
-     */
+
     public void testPeriodic() {
     
     }
