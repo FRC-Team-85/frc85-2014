@@ -26,15 +26,15 @@ public class Drive {
     private double rightMotorOutput;
     private final double k_Deadband = 0.2;
 
-    public Drive() {
+    public Drive(Joystick leftStick, Joystick rightStick) {
 
         _frontRightMotor = new Victor(Addresses.FRONT_RIGHT_VICTOR);
         _frontLeftMotor = new Victor(Addresses.FRONT_LEFT_VICTOR);
         _backRightMotor = new Victor(Addresses.BACK_RIGHT_VICTOR);
         _backLeftMotor = new Victor(Addresses.BACK_LEFT_VICTOR);
 
-        _leftStick = new Joystick(Addresses.LEFT_STICK);
-        _rightStick = new Joystick(Addresses.RIGHT_STICK);
+        _leftStick = leftStick;
+        _rightStick = rightStick;
 
         _leftEncoder = new Encoder(Addresses.LEFT_ENCODER_CHANNEL_A, Addresses.LEFT_ENCODER_CHANNEL_B);
         _rightEncoder = new Encoder(Addresses.RIGHT_ENCODER_CHANNEL_A, Addresses.RIGHT_ENCODER_CHANNEL_B);

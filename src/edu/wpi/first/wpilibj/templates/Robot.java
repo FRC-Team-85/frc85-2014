@@ -8,7 +8,6 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,10 +18,10 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
  */
 public class Robot extends IterativeRobot {
     
-    NetworkTable table;
-    boolean blob;
-    
-    Drive drive = new Drive();
+    Joystick leftStick = new Joystick(1);
+    Joystick rightStick = new Joystick(2);
+    DriverStation operatorPanel;
+    Drive drive = new Drive(leftStick, rightStick);
     //Catapult catapult = new Catapult();
     ImageFiltering imageFiltering = new ImageFiltering();
     
@@ -40,13 +39,31 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     drive.runTankDrive();
+    testLED(rightStick.getRawButton(2));
+    
+    
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+        
+    }
     
+    private void testLED(boolean button) {
+            operatorPanel = DriverStation.getInstance();
+            if (button) {
+                operatorPanel.setDigitalOut(1, true);
+                operatorPanel.setDigitalOut(3, true);
+                operatorPanel.setDigitalOut(5, true);
+                operatorPanel.setDigitalOut(7, true);
+            } else {
+                operatorPanel.setDigitalOut(1, false);
+                operatorPanel.setDigitalOut(3, false);
+                operatorPanel.setDigitalOut(5, false);
+                operatorPanel.setDigitalOut(7, false);
+            }
     }
     
 }
