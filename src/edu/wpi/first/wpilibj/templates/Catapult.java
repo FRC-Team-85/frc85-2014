@@ -19,7 +19,7 @@ public class Catapult {
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
-    private final double k_CamMotorSpeed = .5;
+    private final double k_CamMotorSpeed = .60;
 
     
     public Catapult(Joystick leftStick, Joystick rightStick, Joystick opStick) {
@@ -34,11 +34,13 @@ public class Catapult {
     }
 
     public void runCatapult(){
-        runCam(_rightStick.getRawButton(3));
+        runCam(_rightStick.getRawButton(5));
+        extendArm();
+        setTruss();
     }
     
     public void runCam(boolean fire) {
-        if(limitswitch.get() && !fire)/**Button subject to change**/ {
+        if(/*limitswitch.get() && */!fire)/**Button subject to change**/ {
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
         } else {
@@ -47,14 +49,14 @@ public class Catapult {
         }
     }
     public void extendArm(){
-        if(opStick.getRawButton(2)){
+        if(_rightStick.getRawButton(2)){
             _armValve.set(true);
         } else {
             _armValve.set(false);
         }
     }
     public void setTruss() {
-        if(opStick.getRawButton(3)) {
+        if(_rightStick.getRawButton(3)) {
             _trussValve.set(true);
         } else {
             _trussValve.set(false);

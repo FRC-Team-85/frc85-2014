@@ -36,7 +36,9 @@ public class Robot extends IterativeRobot {
     //imageFiltering.runImageFiltering();    
     }
 
-
+    public void teleopInit(){
+        compressor.start();
+    }
     public void teleopPeriodic() {
     drive.runTankDrive();
     catapult.runCatapult();
