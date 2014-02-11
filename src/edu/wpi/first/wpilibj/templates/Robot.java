@@ -24,24 +24,28 @@ public class Robot extends IterativeRobot {
     
     Drive drive = new Drive(leftStick, rightStick);
     Catapult catapult = new Catapult(leftStick, rightStick, opStick);
-    Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_INPUT, Addresses.AIR_COMPRESSOR_OUTPUT);
-    //ImageFiltering imageFiltering = new ImageFiltering();
-
-  
-    public void autonomousInit(){
-        compressor.start();
-    }
     
+    Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_PRESSURE_SWITCH, Addresses.AIR_COMPRESSOR_SPIKE);
+    TylersCompressor tCompressor = new TylersCompressor(compressor);
+    //ImageFiltering imageFiltering = new ImageFiltering();
+    
+    public void autonomousInit() {
+        
+    }
     public void autonomousPeriodic() {
-    //imageFiltering.runImageFiltering();    
+    //imageFiltering.runImageFiltering();  
+        tCompressor.runAirCompressor();
     }
 
+        
+    
     public void teleopInit(){
-        compressor.start();
+        
     }
     public void teleopPeriodic() {
     drive.runTankDrive();
     catapult.runCatapult();
+    tCompressor.runAirCompressor();
     }
     
 

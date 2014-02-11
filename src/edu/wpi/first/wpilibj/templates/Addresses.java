@@ -33,8 +33,8 @@ public class Addresses {
     public static final int INTAKE_MOTOR_LEFT = 7;
     public static final int INTAKE_MOTOR_RIGHT = 8;
     
-    public static final int AIR_COMPRESSOR_OUTPUT = 1;
-    public static final int AIR_COMPRESSOR_INPUT = 2;
+    public static final int AIR_COMPRESSOR_PRESSURE_SWITCH = 1;
+    public static final int AIR_COMPRESSOR_SPIKE = 2;
     
     public static final int LEFT_DRIVE_ENCODER_CHANNEL_A = 1;
     public static final int LEFT_DRIVE_ENCODER_CHANNEL_B = 2;
