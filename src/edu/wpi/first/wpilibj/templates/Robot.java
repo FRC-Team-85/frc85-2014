@@ -27,21 +27,11 @@ public class Robot extends IterativeRobot {
     
     Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_PRESSURE_SWITCH, Addresses.AIR_COMPRESSOR_SPIKE);
     TylersCompressor tCompressor = new TylersCompressor(compressor);
-    //ImageFiltering imageFiltering = new ImageFiltering();
-<<<<<<< HEAD
-=======
+    ImageFiltering imageFiltering = new ImageFiltering();
 
-  
-    public void autonomousInit(){
-        //compressor.start();
-    }
->>>>>>> 497e12ecb2ea8f89b6935ee5fd653f1eb4e6fb56
     
-    public void autonomousInit() {
-        
-    }
     public void autonomousPeriodic() {
-    //imageFiltering.runImageFiltering();  
+    imageFiltering.runImageFiltering();  
         tCompressor.runAirCompressor();
     }
 
