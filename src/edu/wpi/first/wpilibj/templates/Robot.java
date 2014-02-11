@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 
   
     public void autonomousInit(){
-        compressor.start();
+        //compressor.start();
     }
     
     public void autonomousPeriodic() {

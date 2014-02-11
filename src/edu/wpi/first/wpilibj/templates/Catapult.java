@@ -19,7 +19,7 @@ public class Catapult {
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
-    private final double k_CamMotorSpeed = .60;
+    private final double k_CamMotorSpeed = .65;
 
     
     public Catapult(Joystick leftStick, Joystick rightStick, Joystick opStick) {
