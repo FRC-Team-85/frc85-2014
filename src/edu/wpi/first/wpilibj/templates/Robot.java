@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     drive.runTankDrive();
-    catapult.runCatapult();
+    //catapult.runCatapult();
     }
     
     /**

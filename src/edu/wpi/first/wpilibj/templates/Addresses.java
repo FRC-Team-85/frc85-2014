@@ -40,4 +40,8 @@ public class Addresses {
     public static final int LEFT_DRIVE_ENCODER_CHANNEL_B = 2;
     public static final int RIGHT_DRIVE_ENCODER_CHANNEL_A = 3;
     public static final int RIGHT_DRIVE_ENCODER_CHANNEL_B = 4;
+    
+    public static final int ENCODER_COUNT = 250;
+    
+    
 }

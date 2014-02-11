@@ -34,11 +34,11 @@ public class Catapult {
         _armValve = new Solenoid(Addresses.LEFT_SOLENOID);
         _trussValve = new Solenoid(Addresses.RIGHT_SOLENOID);
     }
-
-    public void runCatapult(boolean fire) {
+    public void runCam(boolean fire) {
         if(limitswitch.get() && !fire)/**Button subject to change**/ {
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
+            
         } else {
             _leftCamMotor.set(k_CamMotorSpeed);
             _rightCamMotor.set(k_CamMotorSpeed);
@@ -58,5 +58,17 @@ public class Catapult {
             _trussValve.set(false);
         }
     }
-    
+    public boolean getLimit(){//ready to fire
+        return limitswitch.get();
+    }
+    public void setMotors(boolean willfire){
+        if(limitswitch.get() && !willfire){
+            
+            _leftCamMotor.set(0.0);
+            _rightCamMotor.set(0.0);
+        }else {
+            _leftCamMotor.set(k_CamMotorSpeed);
+            _rightCamMotor.set(k_CamMotorSpeed);
+        }
+    }
 }
