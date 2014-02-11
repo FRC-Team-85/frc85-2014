@@ -13,7 +13,7 @@ public class Drive {
 
     private final Joystick _leftStick;
     private final Joystick _rightStick;
-    private final double k_Deadband = 0.25;
+    private final double k_Deadband = 0.3;
     
     private final SpeedController _leftDriveMotor1;
     private final SpeedController _leftDriveMotor2;
