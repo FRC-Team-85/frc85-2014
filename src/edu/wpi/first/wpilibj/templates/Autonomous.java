@@ -19,6 +19,8 @@ public class Autonomous {
     private int stage;
     private int currentDist, dist1, dist2, dist3;
     private double currentSpeed, mSpeed;
+    private double angle1, angle2, angle3;
+    Gyro gyro;
     
     public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFilter){
             this.drive = drive;
@@ -34,18 +36,25 @@ public class Autonomous {
             dist2 = 550;
             dist3 = 750;
             mSpeed = .6;
+            angle1 = 60;
+            angle2 = 120;
+            angle3 = 180;
+            gyro = new Gyro(Addresses.GYRO_CHANNEL);
+            gyro.reset();
     }
     public void selectState(){
         getEncoderValues();
-        
-        if(imageFilter.getBlob()){//if the blob is there
-            if(timer.get() <= 5.0){//and 5 sec havent passed
-                runProcess1();//0-5 process2 w/180
-            } else {
-                runProcess2();//5-10
+        if(!catapult.getArmLimit()){
+            catapult.setArmSolenoid(true);
+        } else {
+            if(imageFilter.getBlob()){//if the blob is there
+                if(timer.get() <= 5.0){//and 5 sec havent passed
+                    runProcess1();//0-5 process2 w/180
+                } else {
+                    runProcess2();//5-10
+                }
             }
         }
-        
         /**if(imageFilter.getBlob() && !hasFired){
             runProcess1();
         } else {
@@ -53,7 +62,22 @@ public class Autonomous {
         }**/
     }
     public void runProcess1(){
-       //runProcess2();
+       switch(stage){
+            case 0:
+                if(catapult.camLimitStop.get() && !willFire){//if ready to fire and done with first fire
+                    stage = 1;
+                }
+                camMotorControl();//drive
+                break;
+            case 1:
+                haulIt();
+                break;
+            case 2:
+                vivaLaRevolution();
+            default:
+                break;
+        }
+        //runProcess2();
         //180
     }
     public void runProcess2(){
@@ -67,8 +91,8 @@ public class Autonomous {
             case 1:
                 haulIt();
                 break;
-            case 2:
-                
+            default:
+                break;
         }
 
     }
@@ -93,5 +117,18 @@ public class Autonomous {
     }
     public void getEncoderValues(){
         currentDist = (leftDriveEncoder.get() + rightDriveEncoder.get()) / 2;
+    }
+    public void vivaLaRevolution(){
+        double currentAngle = Math.abs(gyro.getAngle());
+        if(currentAngle <= angle1){
+            currentSpeed = mSpeed * currentAngle / angle1;
+        } else if(currentAngle <= angle2){
+            currentSpeed = mSpeed;
+        } else if(currentAngle <= angle3){
+            currentSpeed = mSpeed * (1 - (currentAngle-angle2)/(angle3-angle2));
+        } else {
+            currentSpeed = 0;
+            stage++;
+        }
     }
 }

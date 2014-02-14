@@ -86,4 +86,10 @@ public class Catapult {
             _rightCamMotor.set(k_CamMotorSpeed);
         }
     }
+    public boolean getArmLimit(){
+        return intakeLimit.get();
+    }
+    public void setArmSolenoid(boolean bool){
+        _armValve.set(bool);
+    }
 }
