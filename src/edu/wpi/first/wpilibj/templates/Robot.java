@@ -39,7 +39,10 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     drive.runTankDrive();
-    testLED(rightStick.getRawButton(2));
+    testLED(rightStick.getRawButton(2), 1);
+    testLED(rightStick.getRawButton(3),3);
+    testLED(rightStick.getRawButton(4),5);
+    testLED(rightStick.getRawButton(5),7);
     
     
     }
@@ -51,18 +54,12 @@ public class Robot extends IterativeRobot {
         
     }
     
-    private void testLED(boolean button) {
+    private void testLED(boolean button, int inputChannel) {
             operatorPanel = DriverStation.getInstance();
             if (button) {
-                operatorPanel.setDigitalOut(1, true);
-                operatorPanel.setDigitalOut(3, true);
-                operatorPanel.setDigitalOut(5, true);
-                operatorPanel.setDigitalOut(7, true);
+                operatorPanel.setDigitalOut(inputChannel, true);
             } else {
-                operatorPanel.setDigitalOut(1, false);
-                operatorPanel.setDigitalOut(3, false);
-                operatorPanel.setDigitalOut(5, false);
-                operatorPanel.setDigitalOut(7, false);
+                operatorPanel.setDigitalOut(inputChannel, false);
             }
     }
     
