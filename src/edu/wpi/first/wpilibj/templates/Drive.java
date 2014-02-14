@@ -62,12 +62,24 @@ public class Drive {
             leftDriveMotorOutput = 0.0;
         }
     }
-
+    public void setAllMotors(double speed){
+        setLeftMotors(speed);
+        setRightMotors(speed);
+    }
     private void setAllMotors() {
         setLeftMotors();
         setRightMotors();
     }
-
+    private void setLeftMotors(double speed){
+        _leftDriveMotor1.set(speed);
+        _leftDriveMotor2.set(speed);
+        _leftDriveMotor3.set(speed);
+    }
+    private void setRightMotors(double speed) {
+        _rightDriveMotor1.set(speed);
+        _rightDriveMotor2.set(speed);
+        _rightDriveMotor3.set(speed);
+    }
     private void setLeftMotors() {
         _leftDriveMotor1.set(leftDriveMotorOutput);
         _leftDriveMotor2.set(leftDriveMotorOutput);

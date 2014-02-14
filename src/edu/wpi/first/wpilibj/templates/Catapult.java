@@ -63,7 +63,6 @@ public class Catapult {
     }
     public void setMotors(boolean willfire){
         if(limitswitch.get() && !willfire){
-            
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
         }else {

@@ -41,6 +41,8 @@ public class Addresses {
     public static final int RIGHT_DRIVE_ENCODER_CHANNEL_A = 3;
     public static final int RIGHT_DRIVE_ENCODER_CHANNEL_B = 4;
     
+    public static final int EXTEND_ARM_LIMITSWITCH = 9;
+    
     public static final int ENCODER_COUNT = 250;
     
     
