@@ -37,8 +37,8 @@ public class Addresses {
     public static final int AIR_COMPRESSOR_PRESSURE_SWITCH = 1;
     public static final int AIR_COMPRESSOR_SPIKE = 2;
     
-    public static final int LEFT_DRIVE_ENCODER_CHANNEL_A = 1;
-    public static final int LEFT_DRIVE_ENCODER_CHANNEL_B = 2;
-    public static final int RIGHT_DRIVE_ENCODER_CHANNEL_A = 3;
-    public static final int RIGHT_DRIVE_ENCODER_CHANNEL_B = 4;
+    public static final int LEFT_DRIVE_ENCODER_CHANNEL_A = 5;
+    public static final int LEFT_DRIVE_ENCODER_CHANNEL_B = 6;
+    public static final int RIGHT_DRIVE_ENCODER_CHANNEL_A = 7;
+    public static final int RIGHT_DRIVE_ENCODER_CHANNEL_B = 8;
 }
