@@ -9,8 +9,9 @@ import edu.wpi.first.wpilibj.*;
 
 public class Catapult {
 
-    private final DigitalInput camLimitStop = new DigitalInput(Addresses.CAM_LIMIT_STOP);
-    private final DigitalInput camLimitSlow = new DigitalInput(Addresses.CAM_LIMIT_SLOW);
+    public final DigitalInput camLimitStop = new DigitalInput(Addresses.CAM_LIMIT_STOP);
+    public final DigitalInput camLimitSlow = new DigitalInput(Addresses.CAM_LIMIT_SLOW);
+    public final DigitalInput intakeLimit = new DigitalInput(Addresses.INTAKE_LIMIT);
     
     private final Joystick _leftStick;
     private final Joystick _rightStick;
@@ -42,16 +43,22 @@ public class Catapult {
     }
     
     public void runCam(boolean fire) {
-       if (camLimitStop.get() && !fire) {
-            _leftCamMotor.set(0.0);
-            _rightCamMotor.set(0.0); 
-        } else if (camLimitSlow.get()) {
-            _leftCamMotor.set(k_CamMotorSpeedSlow);
-            _rightCamMotor.set(k_CamMotorSpeedSlow);
+        if (intakeLimit.get()) {
+            if (camLimitStop.get() && !fire) {
+                _leftCamMotor.set(0.0);
+                _rightCamMotor.set(0.0);
+            } else if (camLimitSlow.get()) {
+                _leftCamMotor.set(k_CamMotorSpeedSlow);
+                _rightCamMotor.set(k_CamMotorSpeedSlow);
+            } else {
+                _leftCamMotor.set(k_CamMotorSpeed);
+                _rightCamMotor.set(k_CamMotorSpeed);
+            }
         } else {
-            _leftCamMotor.set(k_CamMotorSpeed);
-            _rightCamMotor.set(k_CamMotorSpeed);
+           _leftCamMotor.set(0.0);
+           _rightCamMotor.set(0.0); 
         }
+
     }
     public void extendArm(){
         if(_rightStick.getRawButton(2)){
