@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.*;
 
 public class Catapult {
 
-    private final DigitalInput camLimitStop = new DigitalInput(Addresses.CAM_LIMITSWITCH1);
-    private final DigitalInput camLimitSlow = new DigitalInput(Addresses.CAM_LIMITSWITCH2);
+    private final DigitalInput camLimitStop = new DigitalInput(Addresses.CAM_LIMIT_STOP);
+    private final DigitalInput camLimitSlow = new DigitalInput(Addresses.CAM_LIMIT_SLOW);
     
     private final Joystick _leftStick;
     private final Joystick _rightStick;

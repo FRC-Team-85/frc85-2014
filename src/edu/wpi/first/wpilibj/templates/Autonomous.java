@@ -59,7 +59,7 @@ public class Autonomous {
     public void runProcess2(){
         switch(stage){
             case 0:
-                if(catapult.getLimit() && !willFire){//if ready to fire and done with first fire
+                if(catapult.camLimitStop.get() && !willFire){//if ready to fire and done with first fire
                     stage = 1;
                 }
                 camMotorControl();//drive
@@ -74,8 +74,9 @@ public class Autonomous {
     }
     public void camMotorControl(){//fire then set to false
             catapult.setMotors(willFire);
-            if(!catapult.getLimit() && willFire)
+            if(!catapult.camLimitStop.get() && willFire){
                 willFire = false;
+            }
     }
     public void haulIt(){
         if(currentDist<=dist1){
