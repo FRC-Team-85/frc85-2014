@@ -55,7 +55,7 @@ public class Drive {
     public void runTankDrive() {
         getJoystickY();
         setDeadband();
-        setHalfSpeed(_leftStick.getRawButton(1), _rightStick.getRawButton(1)); //Joystick Triggers
+        invertTheMotors(_leftStick.getRawButton(1), _rightStick.getRawButton(1)); //Joystick Triggers
         setAllMotors();
         //runDebug(false);
         runIntakeRollers(_leftStick.getRawButton(2), _leftStick.getRawButton(3));
@@ -132,14 +132,12 @@ public class Drive {
         }
         return x;
     }
-
-    private void setHalfSpeed(boolean button, boolean button2) {
-        if (button == true || button2 == true) {
-            leftDriveMotorOutput = (leftDriveMotorOutput / 2);
-            rightDriveMotorOutput = (rightDriveMotorOutput / 2);
+    private void invertTheMotors(boolean button1, boolean button2){
+        if(button1 && button2){
+            setLeftMotors(-rightDriveMotorOutput);
+            setRightMotors(-leftDriveMotorOutput);
         }
     }
-
     private void runIntakeRollers(boolean button1, boolean button2) {
         if(button1){
             setIntakeMotors(k_IntakeMotorSpeed);
