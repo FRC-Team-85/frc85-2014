@@ -11,33 +11,44 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 
+    private final Joystick _leftStick;
+    private final Joystick _rightStick;
+    private final double k_Deadband = 0.3;
+    
     private final SpeedController _leftDriveMotor1;
     private final SpeedController _leftDriveMotor2;
     private final SpeedController _leftDriveMotor3;
     private final SpeedController _rightDriveMotor1;
     private final SpeedController _rightDriveMotor2;
     private final SpeedController _rightDriveMotor3;
-    private final Encoder rightDriveEncoder;
-    private final Encoder leftDriveEncoder;
-    private final Joystick _leftStick;
-    private final Joystick _rightStick;
     private double leftDriveMotorOutput;
     private double rightDriveMotorOutput;
-    private final double k_Deadband = 0.2;
+    
+    private final SpeedController _leftIntakeMotor;
+    private final SpeedController _rightIntakeMotor;
+    private final double k_IntakeMotorSpeed = 1.0;
+    
+    //private final Encoder rightDriveEncoder;
+    //private final Encoder leftDriveEncoder;
+    private final int encoderCPR = 250;
+    
+    
 
     public Drive(Joystick leftStick, Joystick rightStick) {
 
         this._leftStick = leftStick;
         this._rightStick = rightStick;
         
-        rightDriveEncoder = new Encoder(Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_A, Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_B);
-        leftDriveEncoder = new Encoder(Addresses.LEFT_DRIVE_ENCODER_CHANNEL_A, Addresses.LEFT_DRIVE_ENCODER_CHANNEL_B);
+        //rightDriveEncoder = new Encoder(Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_A, Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_B);
+       // leftDriveEncoder = new Encoder(Addresses.LEFT_DRIVE_ENCODER_CHANNEL_A, Addresses.LEFT_DRIVE_ENCODER_CHANNEL_B);
         _rightDriveMotor1 = new Victor(Addresses.RIGHT_DRIVE_VICTOR1);
         _rightDriveMotor2 = new Victor(Addresses.RIGHT_DRIVE_VICTOR2);
         _rightDriveMotor3 = new Victor(Addresses.RIGHT_DRIVE_VICTOR3);
         _leftDriveMotor1 = new Victor(Addresses.LEFT_DRIVE_VICTOR1);
         _leftDriveMotor2 = new Victor(Addresses.LEFT_DRIVE_VICTOR2);
         _leftDriveMotor3 = new Victor(Addresses.LEFT_DRIVE_VICTOR3);
+        _leftIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_LEFT);
+        _rightIntakeMotor = new Victor(Addresses.INTAKE_MOTOR_RIGHT);
 
     }
 
@@ -46,7 +57,8 @@ public class Drive {
         setDeadband();
         setHalfSpeed(_leftStick.getRawButton(1), _rightStick.getRawButton(1)); //Joystick Triggers
         setAllMotors();
-        runDebug(false);
+        //runDebug(false);
+        runIntakeRollers(_leftStick.getRawButton(2), _leftStick.getRawButton(3));
     }
 
     private void getJoystickY() {
@@ -127,4 +139,21 @@ public class Drive {
             rightDriveMotorOutput = (rightDriveMotorOutput / 2);
         }
     }
+
+    private void runIntakeRollers(boolean button1, boolean button2) {
+        if(button1){
+            setIntakeMotors(k_IntakeMotorSpeed);
+        } else if (button2){
+            setIntakeMotors(-k_IntakeMotorSpeed);
+        } else {
+            setIntakeMotors(0);
+        }
+    }
+
+    private void setIntakeMotors(double speed) {
+        _leftIntakeMotor.set(speed);
+        _rightIntakeMotor.set(speed);
+    }
+    
+    
 }

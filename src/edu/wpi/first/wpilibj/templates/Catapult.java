@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.*;
 
 public class Catapult {
 
-    private final DigitalInput limitswitch = new DigitalInput(Addresses.CAM_LIMITSWITCH);
+    private final DigitalInput camLimitStop = new DigitalInput(Addresses.CAM_LIMITSWITCH1);
+    private final DigitalInput camLimitSlow = new DigitalInput(Addresses.CAM_LIMITSWITCH2);
     
     private final Joystick _leftStick;
     private final Joystick _rightStick;
@@ -19,9 +20,8 @@ public class Catapult {
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
-    private boolean isFiring = false;
-    
-    private final double k_CamMotorSpeed = .5;
+    private final double k_CamMotorSpeed = 0.65;
+    private final double k_CamMotorSpeedSlow = 0.3;
 
     
     public Catapult(Joystick leftStick, Joystick rightStick, Joystick opStick) {
@@ -34,35 +34,44 @@ public class Catapult {
         _armValve = new Solenoid(Addresses.LEFT_SOLENOID);
         _trussValve = new Solenoid(Addresses.RIGHT_SOLENOID);
     }
+
+    public void runCatapult(){
+        runCam(_rightStick.getRawButton(5));
+        extendArm();
+        setTruss();
+    }
+    
     public void runCam(boolean fire) {
-        if(limitswitch.get() && !fire)/**Button subject to change**/ {
+       if (camLimitStop.get() && !fire) {
             _leftCamMotor.set(0.0);
-            _rightCamMotor.set(0.0);
-            
+            _rightCamMotor.set(0.0); 
+        } else if (camLimitSlow.get()) {
+            _leftCamMotor.set(k_CamMotorSpeedSlow);
+            _rightCamMotor.set(k_CamMotorSpeedSlow);
         } else {
             _leftCamMotor.set(k_CamMotorSpeed);
             _rightCamMotor.set(k_CamMotorSpeed);
         }
     }
     public void extendArm(){
-        if(opStick.getRawButton(2)){
+        if(_rightStick.getRawButton(2)){
             _armValve.set(true);
         } else {
             _armValve.set(false);
         }
     }
     public void setTruss() {
-        if(opStick.getRawButton(3)) {
+        if(_rightStick.getRawButton(3)) {
             _trussValve.set(true);
         } else {
             _trussValve.set(false);
         }
     }
-    public boolean getLimit(){//ready to fire
-        return limitswitch.get();
+    public boolean getCamLimitStop(){//ready to fire
+        return camLimitStop.get();
     }
     public void setMotors(boolean willfire){
-        if(limitswitch.get() && !willfire){
+        if(camLimitStop.get() && !willfire){
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
         }else {
