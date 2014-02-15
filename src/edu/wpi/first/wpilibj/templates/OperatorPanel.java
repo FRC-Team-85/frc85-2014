@@ -10,9 +10,10 @@ import edu.wpi.first.wpilibj.*;
 
 public class OperatorPanel {
     
-    private final int k_Button = 2;
+    private final int k_FireButton = 2;
     private final int k_IntakeArmSwitch = 4;
     private final int k_TrussSwitch = 6;
+    private final int k_FireButtonLED = 1;
     
     
     DriverStation driverstation;
@@ -22,7 +23,7 @@ public class OperatorPanel {
 
     public boolean getCatapultButton() {
         DriverStation.getInstance();
-        return driverstation.getDigitalIn(k_Button);
+        return driverstation.getDigitalIn(k_FireButton);
     }
 
     public boolean getTrussSwitch() {

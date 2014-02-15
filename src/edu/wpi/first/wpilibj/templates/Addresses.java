@@ -12,7 +12,6 @@ public class Addresses {
     
     public static final int LEFT_STICK = 1;
     public static final int RIGHT_STICK = 2;
-    public static final int OP_STICK = 3;
     
     public static final int RIGHT_DRIVE_VICTOR1 = 1;
     public static final int RIGHT_DRIVE_VICTOR2 = 2;
@@ -22,7 +21,7 @@ public class Addresses {
     public static final int LEFT_DRIVE_VICTOR3 = 6;
     
     public static final int CAM_LIMIT_STOP = 3;
-    public static final int CAM_LIMIT_SLOW = 5;
+    public static final int CAM_LIMIT_SLOW = 4;
     public static final int INTAKE_LIMIT = 9;
     
     public static final int TRUSS_SOLENOID = 2;
@@ -49,7 +48,6 @@ public class Addresses {
     
     public static final int GYRO_CHANNEL = 3;
     
-    public static final int ENCODER_COUNT = 250;
+    public static final int ENCODER_COUNT = 360;
     
-
 }
