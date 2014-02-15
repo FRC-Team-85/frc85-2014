@@ -6,6 +6,8 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Catapult {
 
@@ -21,9 +23,8 @@ public class Catapult {
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
-    private final double k_CamMotorSpeed = 0.65;
-    private final double k_CamMotorSpeedSlow = 0.3;
-
+    private final double k_CamMotorSpeed = 0.75;
+    private final double k_CamMotorSpeedSlow = 0.6;
     
     public Catapult(Joystick leftStick, Joystick rightStick, Joystick opStick) {
         
@@ -32,14 +33,15 @@ public class Catapult {
         this._rightStick = rightStick;
         _leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
         _rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
-        _armValve = new Solenoid(Addresses.LEFT_SOLENOID);
-        _trussValve = new Solenoid(Addresses.RIGHT_SOLENOID);
+        _armValve = new Solenoid(Addresses.INTAKE_SOLENOID);
+        _trussValve = new Solenoid(Addresses.TRUSS_SOLENOID);
     }
 
     public void runCatapult(){
         runCam(_rightStick.getRawButton(5));
         extendArm();
         setTruss();
+        runDebug();
     }
     
     public void runCam(boolean fire) {
@@ -92,4 +94,10 @@ public class Catapult {
     public void setArmSolenoid(boolean bool){
         _armValve.set(bool);
     }
-}
+    public void runDebug(){
+        SmartDashboard.putBoolean("SlowLimit", camLimitSlow.get());
+        SmartDashboard.putBoolean("StopLimit", camLimitStop.get());
+        SmartDashboard.putBoolean("IntakeLimit", intakeLimit.get());
+    }
+    
+}   

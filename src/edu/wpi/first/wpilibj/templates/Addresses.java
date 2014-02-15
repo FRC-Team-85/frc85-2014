@@ -22,11 +22,11 @@ public class Addresses {
     public static final int LEFT_DRIVE_VICTOR3 = 6;
     
     public static final int CAM_LIMIT_STOP = 3;
-    public static final int CAM_LIMIT_SLOW = 4;
+    public static final int CAM_LIMIT_SLOW = 5;
     public static final int INTAKE_LIMIT = 9;
     
-    public static final int RIGHT_SOLENOID = 1;
-    public static final int LEFT_SOLENOID = 2;
+    public static final int TRUSS_SOLENOID = 2;
+    public static final int INTAKE_SOLENOID = 1;
     
     public static final int CAM_MOTOR_LEFT = 9;
     public static final int CAM_MOTOR_RIGHT = 10;
