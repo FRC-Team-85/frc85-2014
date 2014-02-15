@@ -33,9 +33,9 @@ public class Autonomous {
             leftDriveEncoder.reset();
             timer.reset();
             timer.start();
-            dist1 = 200;
-            dist2 = 550;
-            dist3 = 750;
+            dist1 = 288;
+            dist2 = 792;
+            dist3 = 1080;
             mSpeed = 0.6;
             angle1 = 60;
             angle2 = 120;
