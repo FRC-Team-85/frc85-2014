@@ -10,9 +10,10 @@ import edu.wpi.first.wpilibj.*;
 
 public class OperatorPanel {
     
-    private final int k_Button = 1;
-    private final int k_TrussSwitch = 2;
-    private final int k_IntakeArmSwitch = 3;
+    private final int k_Button = 2;
+    private final int k_IntakeArmSwitch = 4;
+    private final int k_TrussSwitch = 6;
+    
     
     DriverStation driverstation;
     

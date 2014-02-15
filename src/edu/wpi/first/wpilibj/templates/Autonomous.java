@@ -22,10 +22,10 @@ public class Autonomous {
     private double angle1, angle2, angle3;
     Gyro gyro;
     
-    public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFilter){
+    public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering){
             this.drive = drive;
             this.catapult = catapult;
-            this.imageFilter = imageFilter;
+            this.imageFilter = imageFiltering;
             rightDriveEncoder = new Encoder(Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_A, Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_B);
             leftDriveEncoder = new Encoder(Addresses.LEFT_DRIVE_ENCODER_CHANNEL_A, Addresses.LEFT_DRIVE_ENCODER_CHANNEL_B);
             stage = 0;
