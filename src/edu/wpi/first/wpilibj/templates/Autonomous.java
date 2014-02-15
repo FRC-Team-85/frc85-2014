@@ -31,6 +31,7 @@ public class Autonomous {
             stage = 0;
             rightDriveEncoder.reset();
             leftDriveEncoder.reset();
+            timer.reset();
             timer.start();
             dist1 = 200;
             dist2 = 550;
@@ -51,18 +52,16 @@ public class Autonomous {
         } else {
             if(imageFilter.getBlob()){//if the blob is there
                 if(timer.get() <= 5.0){//and 5 sec havent passed
-                    runProcess1();//0-5 process2 w/180
+                    timer.stop();
+                    runProcess1();//0-5 process2 w/180                    
                 } else {
+                    timer.stop();
                     runProcess2();//5-10
                 }
             }
         }
-        /**if(imageFilter.getBlob() && !hasFired){
-            runProcess1();
-        } else {
-            runProcess2();
-        }**/
     }
+    
     public void runProcess1(){
        switch(stage){
             case 0:
@@ -79,9 +78,8 @@ public class Autonomous {
             default:
                 break;
         }
-        //runProcess2();
-        //180
     }
+    
     public void runProcess2(){
         switch(stage){
             case 0:
