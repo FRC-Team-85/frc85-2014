@@ -28,7 +28,7 @@ public class Autonomous {
             this.imageFilter = imageFilter;
             rightDriveEncoder = new Encoder(Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_A, Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_B);
             leftDriveEncoder = new Encoder(Addresses.LEFT_DRIVE_ENCODER_CHANNEL_A, Addresses.LEFT_DRIVE_ENCODER_CHANNEL_B);
-            stage=0;
+            stage = 0;
             rightDriveEncoder.reset();
             leftDriveEncoder.reset();
             timer.start();

@@ -20,11 +20,10 @@ public class Robot extends IterativeRobot {
     
     Joystick leftStick = new Joystick(Addresses.LEFT_STICK);
     Joystick rightStick = new Joystick(Addresses.RIGHT_STICK);
-    Joystick opStick = new Joystick(Addresses.OP_STICK);
     
+    OperatorPanel operatorPanel = new OperatorPanel();
     Drive drive = new Drive(leftStick, rightStick);
-    Catapult catapult = new Catapult(leftStick, rightStick, opStick);
-    
+    Catapult catapult = new Catapult(leftStick, rightStick, operatorPanel);
     Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_PRESSURE_SWITCH, Addresses.AIR_COMPRESSOR_SPIKE);
     TylersCompressor tCompressor = new TylersCompressor(compressor);
     ImageFiltering imageFiltering = new ImageFiltering();

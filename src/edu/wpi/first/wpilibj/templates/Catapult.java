@@ -17,20 +17,22 @@ public class Catapult {
     
     private final Joystick _leftStick;
     private final Joystick _rightStick;
-    private final Joystick opStick;
+    OperatorPanel operatorPanel;
+    
     private final SpeedController _leftCamMotor;
     private final SpeedController _rightCamMotor;
+    
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
     private final double k_CamMotorSpeed = 0.75;
     private final double k_CamMotorSpeedSlow = 0.6;
     
-    public Catapult(Joystick leftStick, Joystick rightStick, Joystick opStick) {
+    public Catapult(Joystick leftStick, Joystick rightStick, OperatorPanel operatorPanel) {
         
-        this.opStick = opStick;
         this._leftStick = leftStick;
         this._rightStick = rightStick;
+        this.operatorPanel = operatorPanel;
         _leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
         _rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
         _armValve = new Solenoid(Addresses.INTAKE_SOLENOID);
@@ -38,7 +40,7 @@ public class Catapult {
     }
 
     public void runCatapult(){
-        runCam(_rightStick.getRawButton(5));
+        runCam(_rightStick.getRawButton(5)); //needs to be changed to operatorPanel.getCatapultButton() 
         extendArm();
         setTruss();
         runDebug();

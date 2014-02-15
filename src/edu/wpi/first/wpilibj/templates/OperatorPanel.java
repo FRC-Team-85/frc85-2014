@@ -16,47 +16,56 @@ public class OperatorPanel {
     
     DriverStation driverstation;
     
-    public OperatorPanel(){
-        driverstation.getInstance();
-        
-    }
-    
-    public void getCatapultButton() {
-        driverstation.getDigitalIn(k_Button);
+    public OperatorPanel() {
     }
 
-    public void getTrussSwitch() {
-        driverstation.getDigitalIn(k_TrussSwitch);
+    public boolean getCatapultButton() {
+        DriverStation.getInstance();
+        return driverstation.getDigitalIn(k_Button);
     }
 
-    public void getIntakeArmSwitch() {
-        driverstation.getDigitalIn(k_IntakeArmSwitch);
+    public boolean getTrussSwitch() {
+        DriverStation.getInstance();
+        return driverstation.getDigitalIn(k_TrussSwitch);
     }
 
-    /*
-     LEDSwitch for IntakeArmPosition at the home position
-     */
-    public void setIntakeLED(boolean toggle) {
-        if (toggle = true) {
+    public boolean getIntakeArmSwitch() {
+        DriverStation.getInstance();
+        return driverstation.getDigitalIn(k_IntakeArmSwitch);
+    }
+
+    public void setCamSlowLED(boolean toggle){
+        DriverStation.getInstance();
+        if (toggle) {
             driverstation.setDigitalOut(1, true);
         } else {
             driverstation.setDigitalOut(1, false);
         }
     }
-
-    public void setCamLED(boolean toggle) {
-        if (toggle = true) {
+    public void setCamStopLED(boolean toggle) {
+        DriverStation.getInstance();
+        if (toggle) {
             driverstation.setDigitalOut(3, true);
         } else {
             driverstation.setDigitalOut(3, false);
         }
     }
 
-    public void setTrussLED(boolean toggle) {
-        if (toggle = true) {
+    public void setIntakeLED(boolean toggle) {
+        DriverStation.getInstance();
+        if (toggle) {
             driverstation.setDigitalOut(5, true);
         } else {
             driverstation.setDigitalOut(5, false);
+        }
+    }
+
+    public void setTrussLED(boolean toggle) {
+        DriverStation.getInstance();
+        if (toggle) {
+            driverstation.setDigitalOut(7, true);
+        } else {
+            driverstation.setDigitalOut(7, false);
         }
     }
     
