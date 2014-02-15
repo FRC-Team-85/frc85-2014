@@ -18,7 +18,7 @@ public class Autonomous {
     Encoder leftDriveEncoder;
     private int stage;
     private int currentDist, dist1, dist2, dist3;
-    private double currentSpeed, mSpeed;
+    private double currentSpeed, mSpeed, intakeRollerSpeed;
     private double angle1, angle2, angle3;
     Gyro gyro;
     
@@ -35,16 +35,18 @@ public class Autonomous {
             dist1 = 200;
             dist2 = 550;
             dist3 = 750;
-            mSpeed = .6;
+            mSpeed = 0.6;
             angle1 = 60;
             angle2 = 120;
             angle3 = 180;
+            intakeRollerSpeed = -1.0;
             gyro = new Gyro(Addresses.GYRO_CHANNEL);
             gyro.reset();
     }
     public void selectState(){
         getEncoderValues();
         if(!catapult.getArmLimit()){
+            drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
         } else {
             if(imageFilter.getBlob()){//if the blob is there
@@ -115,9 +117,11 @@ public class Autonomous {
         }
         drive.setAllMotors(currentSpeed);
     }
+    
     public void getEncoderValues(){
         currentDist = (leftDriveEncoder.get() + rightDriveEncoder.get()) / 2;
     }
+    
     public void vivaLaRevolution(){
         double currentAngle = Math.abs(gyro.getAngle());
         if(currentAngle <= angle1){

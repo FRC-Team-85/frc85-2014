@@ -138,17 +138,17 @@ public class Drive {
             setRightMotors(-leftDriveMotorOutput);
         }
     }
-    private void runIntakeRollers(boolean button1, boolean button2) {
-        if(button1){
+    private void runIntakeRollers(boolean releaseButton, boolean intakeButton) {
+        if(releaseButton){
             setIntakeMotors(k_IntakeMotorSpeed);
-        } else if (button2){
+        } else if (intakeButton){
             setIntakeMotors(-k_IntakeMotorSpeed);
         } else {
             setIntakeMotors(0);
         }
     }
 
-    private void setIntakeMotors(double speed) {
+    public void setIntakeMotors(double speed) {
         _leftIntakeMotor.set(speed);
         _rightIntakeMotor.set(speed);
     }
