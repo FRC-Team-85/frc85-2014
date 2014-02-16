@@ -17,56 +17,43 @@ import edu.wpi.first.wpilibj.*;
  * directory.
  */
 public class Robot extends IterativeRobot {
-    
+
     Joystick leftStick = new Joystick(Addresses.LEFT_STICK);
     Joystick rightStick = new Joystick(Addresses.RIGHT_STICK);
-    Relay cameraRingLight = new Relay(Addresses.CAMERA_RINGLIGHT_SPIKE);
-        
     OperatorPanel operatorPanel = new OperatorPanel();
     Drive drive = new Drive(leftStick, rightStick);
-    Catapult catapult = new Catapult(leftStick, rightStick, operatorPanel);
+    Catapult catapult = new Catapult(operatorPanel);
     Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_PRESSURE_SWITCH, Addresses.AIR_COMPRESSOR_SPIKE);
     TylersCompressor tCompressor = new TylersCompressor(compressor);
     ImageFiltering imageFiltering = new ImageFiltering();
-    //Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering);
+    Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering);
 
-    public void autonomousInit(){
-        cameraRingLight.set(Relay.Value.kOn);
-        //autonomous.resetEncoders();
+    public void autonomousInit() {
+        imageFiltering.cameraRingLight.set(Relay.Value.kOn);
     }
-    
+
     public void autonomousPeriodic() {
         imageFiltering.runImageFiltering();
         tCompressor.runAirCompressor();
     }
-    
-    public void teleopInit(){
-        //autonomous.resetEncoders();
+
+    public void teleopInit() {
+        imageFiltering.cameraRingLight.set(Relay.Value.kOn);
+        drive.resetEncoders();
     }
+
     public void teleopPeriodic() {
         tCompressor.runAirCompressor();
-        setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));
+        imageFiltering.setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));
         drive.runTankDrive();
         catapult.runCatapult();
-        //autonomous.runAuton();
     }
-    
-    public void teleopDisable(){
+
+    public void teleopDisable() {
         compressor.stop();
-        cameraRingLight.set(Relay.Value.kOff);
+        imageFiltering.cameraRingLight.set(Relay.Value.kOff);
     }
-    
 
     public void testPeriodic() {
-    
-    }
-    
-    public void setCameraLED(boolean buttonOn, boolean buttonOff){
-        if (buttonOn) {
-            cameraRingLight.set(Relay.Value.kOn);
-        }
-        if (buttonOff) {
-            cameraRingLight.set(Relay.Value.kOff);
-        }
     }
 }

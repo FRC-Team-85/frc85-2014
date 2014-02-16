@@ -15,8 +15,6 @@ public class Catapult {
     public final DigitalInput camLimitSlow = new DigitalInput(Addresses.CAM_LIMIT_SLOW);
     public final DigitalInput intakeLimit = new DigitalInput(Addresses.INTAKE_LIMIT);
     
-    private final Joystick _leftStick;
-    private final Joystick _rightStick;
     OperatorPanel operatorPanel;
     
     private final SpeedController _leftCamMotor;
@@ -28,10 +26,8 @@ public class Catapult {
     private final double k_CamMotorSpeed = 0.75;
     private final double k_CamMotorSpeedSlow = 0.6;
     
-    public Catapult(Joystick leftStick, Joystick rightStick, OperatorPanel operatorPanel) {
-        
-        this._leftStick = leftStick;
-        this._rightStick = rightStick;
+    public Catapult(OperatorPanel operatorPanel) {
+
         this.operatorPanel = operatorPanel;
         _leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
         _rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
@@ -39,16 +35,14 @@ public class Catapult {
         _trussValve = new Solenoid(Addresses.TRUSS_SOLENOID);
     }
 
-    public void runCatapult(){
+    public void runCatapult() {
         runDebug();
         runCatapultLED();
         extendArm();
         setTruss();
         runCam(operatorPanel.getCatapultButton());
-        
-        
     }
-    
+
     public void runCam(boolean fire) {
         if (intakeLimit.get()) {
             if (camLimitStop.get() && !fire) {
@@ -62,56 +56,60 @@ public class Catapult {
                 _rightCamMotor.set(k_CamMotorSpeed);
             }
         } else {
-           _leftCamMotor.set(0.0);
-           _rightCamMotor.set(0.0); 
+            _leftCamMotor.set(0.0);
+            _rightCamMotor.set(0.0);
         }
-
     }
-    
+
     private void runCatapultLED() {
         operatorPanel.setFireButtonLED(operatorPanel.getCatapultButton());
         operatorPanel.setCamStopLED(camLimitStop.get());
         operatorPanel.setCamSlowLED(camLimitSlow.get());
         operatorPanel.setIntakeLED(intakeLimit.get());
         operatorPanel.setTrussLED(operatorPanel.getTrussSwitch());
-        
     }
-    public void extendArm(){
-        if(operatorPanel.getIntakeArmSwitch()){
+
+    public void extendArm() {
+        if (operatorPanel.getIntakeArmSwitch()) {
             _armValve.set(true);
         } else {
             _armValve.set(false);
         }
     }
+
     public void setTruss() {
-        if(operatorPanel.getTrussSwitch()) {
+        if (operatorPanel.getTrussSwitch()) {
             _trussValve.set(true);
         } else {
             _trussValve.set(false);
         }
     }
-    public boolean getCamLimitStop(){//ready to fire
+
+    public boolean getCamLimitStop() {//ready to fire
         return camLimitStop.get();
     }
-    public void setMotors(boolean willfire){
-        if(camLimitStop.get() && !willfire){
+
+    public void setMotors(boolean willfire) {
+        if (camLimitStop.get() && !willfire) {
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
-        }else {
+        } else {
             _leftCamMotor.set(k_CamMotorSpeed);
             _rightCamMotor.set(k_CamMotorSpeed);
         }
     }
-    public boolean getArmLimit(){
+
+    public boolean getArmLimit() {
         return intakeLimit.get();
     }
-    public void setArmSolenoid(boolean bool){
+
+    public void setArmSolenoid(boolean bool) {
         _armValve.set(bool);
     }
-    public void runDebug(){
+
+    private void runDebug() {
         SmartDashboard.putBoolean("SlowLimit", camLimitSlow.get());
         SmartDashboard.putBoolean("StopLimit", camLimitStop.get());
         SmartDashboard.putBoolean("IntakeLimit", intakeLimit.get());
     }
-    
-}   
+}

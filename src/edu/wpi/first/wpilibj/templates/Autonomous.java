@@ -17,44 +17,41 @@ public class Autonomous {
     Timer timer;
     Encoder rightDriveEncoder;
     Encoder leftDriveEncoder;
-    private int stage;
-    private int currentDist, dist1, dist2, dist3;
-    private double currentSpeed, mSpeed, intakeRollerSpeed;
-    private double angle1, angle2, angle3;
+    
+    private int stage = 0;
+    
+    private int currentDist;
+    private final int dist1 = 288;
+    private final int dist2 = 792;
+    private final int dist3 = 1080;
+    
+    private double currentSpeed = 0;
+    private final double maxDriveSpeed = 0.6;
+    
+    private final double intakeRollerSpeed = -1.0;
+    
+    private final double angle1 = 60;
+    private final double angle2 = 120;
+    private final double angle3 = 180;
+    private final double maxRotateSpeed = 0.5;
     Gyro gyro;
     
-    public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering){
-            this.drive = drive;
-            this.catapult = catapult;
-            this.imageFilter = imageFiltering;
-            rightDriveEncoder = new Encoder(Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_A, Addresses.RIGHT_DRIVE_ENCODER_CHANNEL_B);
-            leftDriveEncoder = new Encoder(Addresses.LEFT_DRIVE_ENCODER_CHANNEL_A, Addresses.LEFT_DRIVE_ENCODER_CHANNEL_B);
-            stage = 0;
-            rightDriveEncoder.reset();
-            leftDriveEncoder.reset();
-            timer.reset();
-            timer.start();
-            dist1 = 288;
-            dist2 = 792;
-            dist3 = 1080;
-            mSpeed = 0.6;
-            angle1 = 60;
-            angle2 = 120;
-            angle3 = 180;
-            intakeRollerSpeed = -1.0;
-            gyro = new Gyro(Addresses.GYRO_CHANNEL);
-            gyro.reset();
+    public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering) {
+        this.drive = drive;
+        this.catapult = catapult;
+        this.imageFilter = imageFiltering;
+        gyro = new Gyro(Addresses.GYRO_CHANNEL);
     }
-    public void selectState(){
-        getEncoderValues();
-        if(!catapult.getArmLimit()){
+
+    public void selectState() {
+        if (!catapult.getArmLimit()) {
             drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
         } else {
-            if(imageFilter.getBlob()){//if the blob is there
-                if(timer.get() <= 5.0){//and 5 sec havent passed
+            if (imageFilter.getBlob()) {//if the blob is there
+                if (timer.get() <= 5.0) {//and 5 sec havent passed
                     timer.stop();
-                    runProcess1();//0-5 process2 w/180                    
+                    runProcess1();//0-5 process2 w/180 
                 } else {
                     timer.stop();
                     runProcess2();//5-10
@@ -63,10 +60,10 @@ public class Autonomous {
         }
     }
     
-    public void runProcess1(){
-       switch(stage){
+    public void runProcess1() {
+        switch (stage) {
             case 0:
-                if(catapult.camLimitStop.get() && !willFire){//if ready to fire and done with first fire
+                if (catapult.camLimitStop.get() && !willFire) {//if ready to fire and done with first fire
                     stage = 1;
                 }
                 camMotorControl();//drive
@@ -81,13 +78,14 @@ public class Autonomous {
         }
     }
     
-    public void runProcess2(){
-        switch(stage){
+    public void runProcess2() {
+        switch (stage) {
             case 0:
-                if(catapult.camLimitStop.get() && !willFire){//if ready to fire and done with first fire
+                if (catapult.camLimitStop.get() && !willFire) {//if ready to fire and done with first fire
                     stage = 1;
+                } else {
+                    camMotorControl();//drive
                 }
-                camMotorControl();//drive
                 break;
             case 1:
                 haulIt();
@@ -95,63 +93,60 @@ public class Autonomous {
             default:
                 break;
         }
+    }
 
+    public void camMotorControl() {//fire then set to false
+        catapult.setMotors(willFire);
+        if (!catapult.camLimitStop.get() && willFire) {
+            willFire = false;
+        }
     }
-    public void camMotorControl(){//fire then set to false
-            catapult.setMotors(willFire);
-            if(!catapult.camLimitStop.get() && willFire){
-                willFire = false;
-            }
-    }
-    public void haulIt(){
-        if(currentDist<=dist1){
-            currentSpeed = mSpeed * currentDist / dist1;
-        } else if(currentDist <=dist2){
-            currentSpeed = mSpeed;
-        } else if(currentDist <= dist3){
-            currentSpeed = mSpeed*(1-(currentDist-dist2)/(dist3-dist2));
+
+    public void haulIt() {
+        if (currentDist <= dist1) {
+            currentSpeed = maxDriveSpeed * currentDist / dist1;
+        } else if (currentDist <= dist2) {
+            currentSpeed = maxDriveSpeed;
+        } else if (currentDist <= dist3) {
+            currentSpeed = maxDriveSpeed * (1 - (currentDist - dist2) / (dist3 - dist2));
         } else {
             currentSpeed = 0;
             stage++;
         }
-        drive.setAllMotors(currentSpeed);
+        drive.setAllMotors(currentSpeed, currentSpeed);
     }
     
-    public void getEncoderValues(){
-        currentDist = (leftDriveEncoder.get() + rightDriveEncoder.get()) / 2;
-    }
-    
-    public void vivaLaRevolution(){
+    public void vivaLaRevolution() {
         double currentAngle = Math.abs(gyro.getAngle());
-        if(currentAngle <= angle1){
-            currentSpeed = mSpeed * currentAngle / angle1;
-        } else if(currentAngle <= angle2){
-            currentSpeed = mSpeed;
-        } else if(currentAngle <= angle3){
-            currentSpeed = mSpeed * (1 - (currentAngle-angle2)/(angle3-angle2));
+        if (currentAngle <= angle1) {
+            currentSpeed = maxRotateSpeed * currentAngle / angle1;
+        } else if (currentAngle <= angle2) {
+            currentSpeed = maxRotateSpeed;
+        } else if (currentAngle <= angle3) {
+            currentSpeed = maxRotateSpeed * (1 - (currentAngle - angle2) / (angle3 - angle2));
         } else {
             currentSpeed = 0;
             stage++;
         }
+        drive.setAllMotors(currentSpeed, currentSpeed);
     }
     
     public void runAuton() {
         runDebug();
     }
     
-    public void startEncoders() {
-        leftDriveEncoder.start();
-        rightDriveEncoder.start();
+    public void runAutonInit() {
+        gyro.reset();
+        drive.resetEncoders();
+        drive.startEncoders();
+        timer.reset();
+        timer.start();
     }
     
-    public void resetEncoders(){
-        leftDriveEncoder.reset();
-        rightDriveEncoder.reset();
-    }
-    
-    public void runDebug(){
-        startEncoders();
-        SmartDashboard.putNumber("Encoders", leftDriveEncoder.get());
-        SmartDashboard.putNumber("RightEncoder", rightDriveEncoder.get());
+    public void runDebug() {
+        SmartDashboard.putNumber("AutonTimer", timer.get());
+        SmartDashboard.putNumber("AutoStage", stage);
+        SmartDashboard.putNumber("Gyro", gyro.getAngle());
+        SmartDashboard.putNumber("DriveSpeed", currentSpeed);
     }
 }
