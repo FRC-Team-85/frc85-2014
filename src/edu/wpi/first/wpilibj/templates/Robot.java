@@ -20,30 +20,31 @@ public class Robot extends IterativeRobot {
     
     Joystick leftStick = new Joystick(1);
     Joystick rightStick = new Joystick(2);
-    DriverStation operatorPanel;
+    DriverStation driverstation;
     Drive drive = new Drive(leftStick, rightStick);
     //Catapult catapult = new Catapult();
     ImageFiltering imageFiltering = new ImageFiltering();
     
+    private final int k_FireButton = 2;
+    private final int k_IntakeArmSwitch = 4;
+    private final int k_TrussSwitch = 6;
+    private final int k_FireButtonLED = 1;
     
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    imageFiltering.runImageFiltering();    
+    //imageFiltering.runImageFiltering();    
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    drive.runTankDrive();
-    testLED(rightStick.getRawButton(2), 1);
-    testLED(rightStick.getRawButton(3),3);
-    testLED(rightStick.getRawButton(4),5);
-    testLED(rightStick.getRawButton(5),7);
-    
+        setFireButtonLED(getCatapultButton());
+        setTrussLED(getTrussSwitch());
+        setIntakeLED(getIntakeArmSwitch());
     
     }
     
@@ -53,14 +54,65 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
         
     }
-    
-    private void testLED(boolean button, int inputChannel) {
-            operatorPanel = DriverStation.getInstance();
-            if (button) {
-                operatorPanel.setDigitalOut(inputChannel, true);
-            } else {
-                operatorPanel.setDigitalOut(inputChannel, false);
-            }
+   
+    public boolean getCatapultButton() {
+        driverstation = DriverStation.getInstance();
+        return driverstation.getDigitalIn(k_FireButton);
+    }
+
+    public boolean getTrussSwitch() {
+        driverstation = DriverStation.getInstance();
+        return driverstation.getDigitalIn(k_TrussSwitch);
+    }
+
+    public boolean getIntakeArmSwitch() {
+        driverstation = DriverStation.getInstance();
+        return driverstation.getDigitalIn(k_IntakeArmSwitch);
+    }
+
+    public void setCamSlowLED(boolean toggle){
+        driverstation = DriverStation.getInstance();
+        if (toggle) {
+            driverstation.setDigitalOut(1, true);
+        } else {
+            driverstation.setDigitalOut(1, false);
+        }
+    }
+    public void setCamStopLED(boolean toggle) {
+        driverstation = DriverStation.getInstance();
+        if (toggle) {
+            driverstation.setDigitalOut(3, true);
+        } else {
+            driverstation.setDigitalOut(3, false);
+        }
+    }
+
+    public void setIntakeLED(boolean toggle) {
+        driverstation = DriverStation.getInstance();
+        if (toggle) {
+            driverstation.setDigitalOut(5, true);
+        } else {
+            driverstation.setDigitalOut(5, false);
+        }
+    }
+
+    public void setTrussLED(boolean toggle) {
+        driverstation = DriverStation.getInstance();
+        if (toggle) {
+            driverstation.setDigitalOut(7, true);
+        } else {
+            driverstation.setDigitalOut(7, false);
+        }
     }
     
+    public void setFireButtonLED(boolean activationToggle) {
+        driverstation = DriverStation.getInstance();
+        if (activationToggle){
+            driverstation.setDigitalOut(2, true);
+        } else {
+            driverstation.setDigitalOut(2, false);
+        }
+    }    
 }
+    
+
