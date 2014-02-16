@@ -10,11 +10,17 @@ import edu.wpi.first.wpilibj.*;
 
 public class OperatorPanel {
     
+    
+    private final int k_CamSlowLED = 1;
+    private final int k_CamStopLED = 3;
+    private final int k_IntakeLED = 5;
+    private final int k_TrussLED = 7;
+    
+    private final int k_FireButtonLED = 1;
     private final int k_FireButton = 2;
+    
     private final int k_IntakeArmSwitch = 4;
     private final int k_TrussSwitch = 6;
-    private final int k_FireButtonLED = 1;
-    
     
     DriverStation driverstation;
     
@@ -22,52 +28,61 @@ public class OperatorPanel {
     }
 
     public boolean getCatapultButton() {
-        DriverStation.getInstance();
+        driverstation = DriverStation.getInstance();
         return driverstation.getDigitalIn(k_FireButton);
     }
 
     public boolean getTrussSwitch() {
-        DriverStation.getInstance();
+        driverstation = DriverStation.getInstance();
         return driverstation.getDigitalIn(k_TrussSwitch);
     }
 
     public boolean getIntakeArmSwitch() {
-        DriverStation.getInstance();
+        driverstation = DriverStation.getInstance();
         return driverstation.getDigitalIn(k_IntakeArmSwitch);
     }
 
     public void setCamSlowLED(boolean toggle){
-        DriverStation.getInstance();
+        driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(1, true);
+            driverstation.setDigitalOut(k_CamSlowLED, true);
         } else {
-            driverstation.setDigitalOut(1, false);
+            driverstation.setDigitalOut(k_CamSlowLED, false);
         }
     }
     public void setCamStopLED(boolean toggle) {
-        DriverStation.getInstance();
+        driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(3, true);
+            driverstation.setDigitalOut(k_CamStopLED, true);
         } else {
-            driverstation.setDigitalOut(3, false);
+            driverstation.setDigitalOut(k_CamStopLED, false);
         }
     }
 
     public void setIntakeLED(boolean toggle) {
-        DriverStation.getInstance();
+        driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(5, true);
+            driverstation.setDigitalOut(k_IntakeLED, true);
         } else {
-            driverstation.setDigitalOut(5, false);
+            driverstation.setDigitalOut(k_IntakeLED, false);
         }
     }
 
     public void setTrussLED(boolean toggle) {
-        DriverStation.getInstance();
+        driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(7, true);
+            driverstation.setDigitalOut(k_TrussLED, true);
         } else {
-            driverstation.setDigitalOut(7, false);
+            driverstation.setDigitalOut(k_TrussLED, false);
+        }
+    }
+    
+    public void setFireButtonLED(boolean toggle) {
+        driverstation = DriverStation.getInstance();
+        if (toggle) {
+            driverstation.setDigitalOut(k_FireButtonLED, true);
+        } else {
+            driverstation.setDigitalOut(k_FireButtonLED, false);
         }
     }
     
