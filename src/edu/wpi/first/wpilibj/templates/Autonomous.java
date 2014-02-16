@@ -4,6 +4,7 @@
  */
 package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  * @author Tyler
@@ -132,5 +133,25 @@ public class Autonomous {
             currentSpeed = 0;
             stage++;
         }
+    }
+    
+    public void runAuton() {
+        runDebug();
+    }
+    
+    public void startEncoders() {
+        leftDriveEncoder.start();
+        rightDriveEncoder.start();
+    }
+    
+    public void resetEncoders(){
+        leftDriveEncoder.reset();
+        rightDriveEncoder.reset();
+    }
+    
+    public void runDebug(){
+        startEncoders();
+        SmartDashboard.putNumber("Encoders", leftDriveEncoder.get());
+        SmartDashboard.putNumber("RightEncoder", rightDriveEncoder.get());
     }
 }

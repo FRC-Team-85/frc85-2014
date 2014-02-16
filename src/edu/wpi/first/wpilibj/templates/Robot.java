@@ -28,10 +28,11 @@ public class Robot extends IterativeRobot {
     Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_PRESSURE_SWITCH, Addresses.AIR_COMPRESSOR_SPIKE);
     TylersCompressor tCompressor = new TylersCompressor(compressor);
     ImageFiltering imageFiltering = new ImageFiltering();
-    Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering);
+    //Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering);
 
     public void autonomousInit(){
         cameraRingLight.set(Relay.Value.kOn);
+        //autonomous.resetEncoders();
     }
     
     public void autonomousPeriodic() {
@@ -39,11 +40,15 @@ public class Robot extends IterativeRobot {
         tCompressor.runAirCompressor();
     }
     
+    public void teleopInit(){
+        //autonomous.resetEncoders();
+    }
     public void teleopPeriodic() {
         tCompressor.runAirCompressor();
         setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));
         drive.runTankDrive();
         catapult.runCatapult();
+        //autonomous.runAuton();
     }
     
     public void teleopDisable(){

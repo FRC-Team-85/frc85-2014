@@ -40,10 +40,13 @@ public class Catapult {
     }
 
     public void runCatapult(){
-        runCam(_rightStick.getRawButton(5)); //needs to be changed to operatorPanel.getCatapultButton() 
+        runDebug();
+        runCatapultLED();
         extendArm();
         setTruss();
-        runDebug();
+        runCam(operatorPanel.getCatapultButton());
+        
+        
     }
     
     public void runCam(boolean fire) {
@@ -64,15 +67,24 @@ public class Catapult {
         }
 
     }
+    
+    private void runCatapultLED() {
+        operatorPanel.setFireButtonLED(operatorPanel.getCatapultButton());
+        operatorPanel.setCamStopLED(camLimitStop.get());
+        operatorPanel.setCamSlowLED(camLimitSlow.get());
+        operatorPanel.setIntakeLED(intakeLimit.get());
+        operatorPanel.setTrussLED(operatorPanel.getTrussSwitch());
+        
+    }
     public void extendArm(){
-        if(_rightStick.getRawButton(2)){
+        if(operatorPanel.getIntakeArmSwitch()){
             _armValve.set(true);
         } else {
             _armValve.set(false);
         }
     }
     public void setTruss() {
-        if(_rightStick.getRawButton(3)) {
+        if(operatorPanel.getTrussSwitch()) {
             _trussValve.set(true);
         } else {
             _trussValve.set(false);

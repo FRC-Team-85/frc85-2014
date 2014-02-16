@@ -29,17 +29,17 @@ public class OperatorPanel {
 
     public boolean getCatapultButton() {
         driverstation = DriverStation.getInstance();
-        return driverstation.getDigitalIn(k_FireButton);
+        return !driverstation.getDigitalIn(k_FireButton);
     }
 
     public boolean getTrussSwitch() {
         driverstation = DriverStation.getInstance();
-        return driverstation.getDigitalIn(k_TrussSwitch);
+        return !driverstation.getDigitalIn(k_TrussSwitch);
     }
 
     public boolean getIntakeArmSwitch() {
         driverstation = DriverStation.getInstance();
-        return driverstation.getDigitalIn(k_IntakeArmSwitch);
+        return !driverstation.getDigitalIn(k_IntakeArmSwitch);
     }
 
     public void setCamSlowLED(boolean toggle){

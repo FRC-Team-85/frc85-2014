@@ -13,7 +13,7 @@ public class Drive {
 
     private final Joystick _leftStick;
     private final Joystick _rightStick;
-    private final double k_Deadband = 0.3;
+    private final double k_Deadband = 0.35;
     
     private final SpeedController _leftDriveMotor1;
     private final SpeedController _leftDriveMotor2;
@@ -55,15 +55,16 @@ public class Drive {
     public void runTankDrive() {
         getJoystickY();
         setDeadband();
-        invertTheMotors(_leftStick.getRawButton(1), _rightStick.getRawButton(1)); //Joystick Triggers
+        halfSpeedMotors(_leftStick.getRawButton(2));
+        invertTheMotors(_leftStick.getTrigger(), _rightStick.getTrigger()); //Joystick Triggers
         setAllMotors();
         //runDebug(false);
-        runIntakeRollers(_leftStick.getRawButton(2), _leftStick.getRawButton(3));
+        runIntakeRollers(_rightStick.getRawButton(2), _rightStick.getRawButton(3));
     }
 
     private void getJoystickY() {
-        rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
         leftDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
+        rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
     }
 
     private void setDeadband() {
@@ -104,8 +105,7 @@ public class Drive {
         _rightDriveMotor3.set(rightDriveMotorOutput);
     }
 
-    private void runDebug(boolean toggle) {
-        if (toggle = true) {
+    private void runDebug() {
             SmartDashboard.putNumber("LeftJoystickInput", _leftStick.getY());
             SmartDashboard.putNumber("RightJoystickInput", _rightStick.getY());
             SmartDashboard.putNumber("LeftOutput", leftDriveMotorOutput);
@@ -116,7 +116,6 @@ public class Drive {
             SmartDashboard.putNumber("leftMotor1", _leftDriveMotor1.get());
             SmartDashboard.putNumber("leftMotor2", _leftDriveMotor2.get());
             SmartDashboard.putNumber("leftMotor3", _leftDriveMotor3.get());
-        }
     }
 
     public double calculateLinearOutput(double output) {
@@ -133,10 +132,17 @@ public class Drive {
         return x;
     }
     private void invertTheMotors(boolean button1, boolean button2){
-        if(button1 && button2){
-            setLeftMotors(-rightDriveMotorOutput);
-            setRightMotors(-leftDriveMotorOutput);
+        if (button1 && button2) {
+            leftDriveMotorOutput = (-rightDriveMotorOutput);
+            rightDriveMotorOutput = (-leftDriveMotorOutput);
         }
+    }
+    
+    private void halfSpeedMotors(boolean halfSpeedButton){
+        if (halfSpeedButton) {
+            leftDriveMotorOutput = (leftDriveMotorOutput / 2);
+            rightDriveMotorOutput = (rightDriveMotorOutput /2);
+        } 
     }
     private void runIntakeRollers(boolean releaseButton, boolean intakeButton) {
         if(releaseButton){
