@@ -46,7 +46,7 @@ public class Addresses {
     
     public static final int EXTEND_ARM_LIMITSWITCH = 9;
     
-    public static final int GYRO_CHANNEL = 3;
+    public static final int GYRO_CHANNEL = 1;
     
     public static final int ENCODER_COUNT = 360;
     

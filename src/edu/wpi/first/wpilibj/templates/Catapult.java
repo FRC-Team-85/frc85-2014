@@ -24,7 +24,8 @@ public class Catapult {
     private final Solenoid _trussValve;
     
     private final double k_CamMotorSpeed = 0.75;
-    private final double k_CamMotorSpeedSlow = 0.6;
+    private final double k_CamMotorSpeedSlow = 0.55;
+    private boolean slowSpeedCheck = false;
     
     public Catapult(OperatorPanel operatorPanel) {
 
@@ -44,16 +45,22 @@ public class Catapult {
     }
 
     public void runCam(boolean fire) {
+        if (camLimitSlow.get()) {
+            slowSpeedCheck = true;
+        }
+
         if (intakeLimit.get()) {
             if (camLimitStop.get() && !fire) {
+                slowSpeedCheck = false;
                 _leftCamMotor.set(0.0);
                 _rightCamMotor.set(0.0);
-            } else if (camLimitSlow.get()) {
+            } else if (slowSpeedCheck) {
                 _leftCamMotor.set(k_CamMotorSpeedSlow);
                 _rightCamMotor.set(k_CamMotorSpeedSlow);
             } else {
                 _leftCamMotor.set(k_CamMotorSpeed);
                 _rightCamMotor.set(k_CamMotorSpeed);
+
             }
         } else {
             _leftCamMotor.set(0.0);

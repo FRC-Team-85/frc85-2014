@@ -16,7 +16,7 @@ public class OperatorPanel {
     private final int k_IntakeLED = 5;
     private final int k_TrussLED = 7;
     
-    private final int k_FireButtonLED = 1;
+    private final int k_FireButtonLED = 2;
     private final int k_FireButton = 2;
     
     private final int k_IntakeArmSwitch = 4;

@@ -20,7 +20,7 @@ public class TylersCompressor {
     }
 
     public void runAirCompressor() {
-        if (!compressor.getPressureSwitchValue()) {
+        if (compressor.getPressureSwitchValue()) {
             compressor.stop();
         } else {
             compressor.start();

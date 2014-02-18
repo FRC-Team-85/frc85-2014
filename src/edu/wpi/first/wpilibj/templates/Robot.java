@@ -26,8 +26,13 @@ public class Robot extends IterativeRobot {
     Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_PRESSURE_SWITCH, Addresses.AIR_COMPRESSOR_SPIKE);
     TylersCompressor tCompressor = new TylersCompressor(compressor);
     ImageFiltering imageFiltering = new ImageFiltering();
-    Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering);
+    //Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering);
 
+    public void robotInit(){
+        imageFiltering.cameraRingLight.setDirection(Relay.Direction.kForward);
+        tCompressor.compressor.setRelayValue(Relay.Value.kForward);
+        drive.resetEncoders();
+    }
     public void autonomousInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
     }
@@ -43,6 +48,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopPeriodic() {
+        tCompressor.compressorDebug();
         tCompressor.runAirCompressor();
         imageFiltering.setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));
         drive.runTankDrive();
