@@ -16,7 +16,7 @@ public class OperatorPanel {
     private final int k_IntakeLED = 5;
     private final int k_TrussLED = 7;
     
-    private final int k_FireButtonLED = 2;
+    private final int k_FireButtonLEDSignal = 2;
     private final int k_FireButton = 2;
     
     private final int k_IntakeArmSwitch = 4;
@@ -80,9 +80,10 @@ public class OperatorPanel {
     public void setFireButtonLED(boolean toggle) {
         driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(k_FireButtonLED, true);
+            driverstation.setDigitalOut(k_FireButtonLEDSignal, true);
         } else {
-            driverstation.setDigitalOut(k_FireButtonLED, false);
+            driverstation.setDigitalOut(k_FireButtonLEDSignal, false);
+
         }
     }
     
