@@ -66,7 +66,8 @@ public class Autonomous {
                 if (catapult.camLimitStop.get() && !willFire) {//if ready to fire and done with first fire
                     stage = 1;
                 }
-                camMotorControl();//drive
+                //camMotorControl();//drive
+                catapult.runCam(willFire);
                 break;
             case 1:
                 haulIt();
@@ -84,7 +85,8 @@ public class Autonomous {
                 if (catapult.camLimitStop.get() && !willFire) {//if ready to fire and done with first fire
                     stage = 1;
                 } else {
-                    camMotorControl();//drive
+                    //camMotorControl();//drive
+                    catapult.runCam(willFire);
                 }
                 break;
             case 1:

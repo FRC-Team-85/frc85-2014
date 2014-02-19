@@ -28,7 +28,7 @@ public class OperatorPanel {
     }
 
     public boolean getCatapultButton() {
-        driverstation = DriverStation.getInstance();
+           driverstation = DriverStation.getInstance();
         return !driverstation.getDigitalIn(k_FireButton);
     }
 

@@ -5,30 +5,35 @@
  */
 
 package edu.wpi.first.wpilibj.templates;
-import edu.wpi.first.wpilibj.Compressor; 
+import edu.wpi.first.wpilibj.*; 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-/**
- *
- * @author Ashley
- */
+
+
+
 public class TylersCompressor {
 
-    Compressor compressor;
-
-    public TylersCompressor(Compressor compressor) {
-        this.compressor = compressor;
+    Relay compressor;
+    DigitalInput pressureSwitch;
+    
+    public TylersCompressor() {
+        compressor = new Relay(Addresses.AIR_COMPRESSOR_SPIKE);
+        pressureSwitch = new DigitalInput(Addresses.AIR_COMPRESSOR_PRESSURE_SWITCH); 
     }
 
+    public void airCompressorInit(){
+        compressor.setDirection(Relay.Direction.kForward);
+    }
+    
     public void runAirCompressor() {
-        if (compressor.getPressureSwitchValue()) {
-            compressor.stop();
+        if (pressureSwitch.get()) {
+            compressor.set(Relay.Value.kOff);
         } else {
-            compressor.start();
+            compressor.set(Relay.Value.kOn);
         }
     }
     
     public void compressorDebug(){
-        SmartDashboard.putBoolean("pressureSwitch", compressor.getPressureSwitchValue());
+        SmartDashboard.putBoolean("pressureSwitch", pressureSwitch.get());
         
     }
 }
