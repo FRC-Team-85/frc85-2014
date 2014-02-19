@@ -62,11 +62,11 @@ public class Drive {
 
     private void getJoystickY(boolean halfSpeedLeft, boolean halfSpeedRight) {
         if (halfSpeedLeft && halfSpeedRight){
-        rightDriveMotorOutput = (calculateLinearOutput(_leftStick.getY()));
-        leftDriveMotorOutput = -calculateLinearOutput(_rightStick.getY());    
+            rightDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
+            leftDriveMotorOutput = calculateLinearOutput(_rightStick.getY());    
         } else {
-        leftDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
-        rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
+            leftDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
+            rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
         }
     }
 
