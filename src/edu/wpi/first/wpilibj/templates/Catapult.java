@@ -8,7 +8,6 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class Catapult {
 
     public final DigitalInput camLimitStop = new DigitalInput(Addresses.CAM_LIMIT_STOP);
@@ -26,7 +25,8 @@ public class Catapult {
     private final double k_CamMotorSpeed = 1.0;
     private final double k_CamMotorSpeedSlow = 0.55;
     private boolean slowSpeedCheck = false;
-    private boolean stopSpeedCheck = false;
+    
+    private boolean _firing = false;
     
     public Catapult(OperatorPanel operatorPanel) {
 
@@ -46,27 +46,24 @@ public class Catapult {
     }
 
     public void runCam(boolean fire) {
+        if (fire) {
+            _firing = true;
+            slowSpeedCheck = false;
+        } else if (camLimitStop.get()) {
+            _firing = false;
+        }        
+        
         if (camLimitSlow.get()) {
             slowSpeedCheck = true;
         }
         
-        if (camLimitStop.get()){
-            stopSpeedCheck = true;
-        }
-
-        if (intakeLimit.get()) {
-            if (stopSpeedCheck && !fire) {
-                slowSpeedCheck = false;
-                _leftCamMotor.set(0.0);
-                _rightCamMotor.set(0.0);
-            } else if (slowSpeedCheck) {
-                stopSpeedCheck = false;
+        if (_firing && intakeLimit.get()) {
+            if (slowSpeedCheck) {
                 _leftCamMotor.set(k_CamMotorSpeedSlow);
                 _rightCamMotor.set(k_CamMotorSpeedSlow);
             } else {
                 _leftCamMotor.set(k_CamMotorSpeed);
                 _rightCamMotor.set(k_CamMotorSpeed);
-
             }
         } else {
             _leftCamMotor.set(0.0);
