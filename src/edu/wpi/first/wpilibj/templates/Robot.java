@@ -17,7 +17,8 @@ import edu.wpi.first.wpilibj.*;
  * directory.
  */
 public class Robot extends IterativeRobot {
-
+    
+    boolean mode = false;
     Joystick leftStick = new Joystick(Addresses.LEFT_STICK);
     Joystick rightStick = new Joystick(Addresses.RIGHT_STICK);
     OperatorPanel operatorPanel = new OperatorPanel();
@@ -30,11 +31,17 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
+        autonomous.runAutonInit();
     }
 
     public void autonomousPeriodic() {
         imageFiltering.runImageFiltering();
         tCompressor.runAirCompressor();
+        if(mode){
+            autonomous.selectState();
+        } else {
+            autonomous.AshleyTimerAuto();
+        }
     }
 
     public void teleopInit() {

@@ -35,6 +35,7 @@ public class Autonomous {
     private final double angle3 = 180;
     private final double maxRotateSpeed = 0.5;
     Gyro gyro;
+    private double time0, time1, time2, time3;
     
     public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering) {
         this.drive = drive;
@@ -128,7 +129,7 @@ public class Autonomous {
             currentSpeed = 0;
             stage++;
         }
-        drive.setAllMotors(currentSpeed, currentSpeed);
+        drive.setAllMotors(-currentSpeed, currentSpeed);
     }
     
     public void runAuton() {
@@ -148,5 +149,20 @@ public class Autonomous {
         SmartDashboard.putNumber("AutoStage", stage);
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
         SmartDashboard.putNumber("DriveSpeed", currentSpeed);
+    }
+    public void AshleyTimerAuto(){
+        double thisTime = timer.get();
+        if(thisTime<=time1){
+            currentSpeed=maxDriveSpeed*(thisTime/time1);
+        } else if(thisTime<=time2){
+            currentSpeed=maxDriveSpeed;
+        } else if(thisTime<=time3){
+            currentSpeed=maxDriveSpeed*(1-(thisTime-time2)/(time3-time2));
+        } else if(thisTime>time3){
+            vivaLaRevolution();
+        }
+        if(thisTime<time3){
+            drive.setAllMotors(currentSpeed, currentSpeed);
+        } 
     }
 }
