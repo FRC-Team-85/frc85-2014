@@ -42,6 +42,7 @@ public class Autonomous {
         this.catapult = catapult;
         this.imageFilter = imageFiltering;
         gyro = new Gyro(Addresses.GYRO_CHANNEL);
+        time1=1; time2 =2; time3 = 3;
     }
 
     public void selectState() {
