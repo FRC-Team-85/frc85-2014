@@ -37,13 +37,12 @@ public class Robot extends IterativeRobot {
     }
     public void autonomousInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
-<<<<<<< HEAD
+
         autonomous.runAutonInit();
-=======
+
         tCompressor.runAirCompressor();
         drive.resetEncoders();
         drive.startEncoders();
->>>>>>> e2b1bd25fb4600aed9cf254d9f4079ac0b8e5b4f
     }
 
     public void autonomousPeriodic() {
