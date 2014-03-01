@@ -13,7 +13,7 @@ public class Drive {
 
     private final Joystick _leftStick;
     private final Joystick _rightStick;
-    private final double k_Deadband = 0.35;
+    private final double k_Deadband = 0.1;
     
     private final SpeedController _leftDriveMotor1;
     private final SpeedController _leftDriveMotor2;
@@ -51,20 +51,38 @@ public class Drive {
     }
 
     public void runTankDrive() {
-        //runDebug();
-        getJoystickY();
+        runDebug();
+        getJoystickY(_leftStick.getTrigger(), _rightStick.getTrigger());
         setDeadband();
         halfSpeedMotors(_leftStick.getRawButton(2));
-        invertTheMotors(_leftStick.getTrigger(), _rightStick.getTrigger()); //Joystick Triggers
-        setAllMotors(leftDriveMotorOutput, rightDriveMotorOutput);
+        setAllMotors(setRandysDeadBand(leftDriveMotorOutput), setRandysDeadBand(rightDriveMotorOutput));
+        //setAllMotors(leftDriveMotorOutput, rightDriveMotorOutput);
         runIntakeRollers(_rightStick.getRawButton(2), _rightStick.getRawButton(3));
     }
 
-    private void getJoystickY() {
-        leftDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
-        rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
+    private void getJoystickY(boolean halfSpeedLeft, boolean halfSpeedRight) {
+        if (halfSpeedLeft && halfSpeedRight){
+            rightDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
+            leftDriveMotorOutput = calculateLinearOutput(_rightStick.getY());    
+        } else {
+            leftDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
+            rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
+        }
     }
 
+    private double setRandysDeadBand(double input) {
+        if (input > 0){
+            input = ((input - k_Deadband) / (1 - k_Deadband));
+            return input;
+        } else if (input < 0) {
+            input = ((input + k_Deadband) / (1 - k_Deadband));
+            return input;
+        } else {
+            input = 0;
+            return input;
+        }
+            }
+    
     private void setDeadband() {
         if (Math.abs(rightDriveMotorOutput) < k_Deadband) {
             rightDriveMotorOutput = 0.0;
@@ -94,6 +112,9 @@ public class Drive {
     private void runDebug() {
         SmartDashboard.putNumber("LeftDriveOutput", leftDriveMotorOutput);
         SmartDashboard.putNumber("rightDriveOutput", rightDriveMotorOutput);
+        SmartDashboard.putNumber("leftDriveEncoder", -leftDriveEncoder.get());
+        SmartDashboard.putNumber("rightDriveEncoder", rightDriveEncoder.get());
+        
     }
 
     public double calculateLinearOutput(double output) {
@@ -110,13 +131,6 @@ public class Drive {
         return x;
     }
 
-    private void invertTheMotors(boolean button1, boolean button2) {
-        if (button1 && button2) {
-            leftDriveMotorOutput = (-rightDriveMotorOutput);
-            rightDriveMotorOutput = (-leftDriveMotorOutput);
-        }
-    }
-
     private void halfSpeedMotors(boolean halfSpeedButton) {
         if (halfSpeedButton) {
             leftDriveMotorOutput = (leftDriveMotorOutput / 2);
@@ -129,7 +143,7 @@ public class Drive {
             setIntakeMotors(k_IntakeMotorSpeed);
         } else if (intakeButton) {
             setIntakeMotors(-k_IntakeMotorSpeed);
-        } else {
+        } else {    
             setIntakeMotors(0);
         }
     }
@@ -141,7 +155,7 @@ public class Drive {
 
     public double getEncoderValues() {
         double avgEncoderCount;
-        avgEncoderCount = (leftDriveEncoder.get() + rightDriveEncoder.get()) / 2;
+        avgEncoderCount = (-leftDriveEncoder.get() + rightDriveEncoder.get()) / 2;
         return avgEncoderCount;
     }
 

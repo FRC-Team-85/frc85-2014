@@ -8,7 +8,6 @@ package edu.wpi.first.wpilibj.templates;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class Catapult {
 
     public final DigitalInput camLimitStop = new DigitalInput(Addresses.CAM_LIMIT_STOP);
@@ -23,8 +22,17 @@ public class Catapult {
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
-    private final double k_CamMotorSpeed = 0.75;
-    private final double k_CamMotorSpeedSlow = 0.6;
+    private final double k_CamMotorSpeed = 1.0;
+    private final double k_CamMotorSpeedSlow = 0.55;
+    private boolean slowSpeedCheck = false;
+    private boolean _firing = false;
+    
+    public final Encoder camEncoder;
+    private int encoderCPR = 250;
+    private int camSlowCount = 100;
+    private int camStopCount = 200;
+    private double scalingSpeed;
+    private double camReleaseSpeed = 0.45;
     
     public Catapult(OperatorPanel operatorPanel) {
 
@@ -33,6 +41,7 @@ public class Catapult {
         _rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
         _armValve = new Solenoid(Addresses.INTAKE_SOLENOID);
         _trussValve = new Solenoid(Addresses.TRUSS_SOLENOID);
+        camEncoder = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
     }
 
     public void runCatapult() {
@@ -42,13 +51,26 @@ public class Catapult {
         setTruss();
         runCam(operatorPanel.getCatapultButton());
     }
+    
+    public void catapultInit() {
+        camEncoder.reset();
+        camEncoder.start();
+    }
 
     public void runCam(boolean fire) {
-        if (intakeLimit.get()) {
-            if (camLimitStop.get() && !fire) {
-                _leftCamMotor.set(0.0);
-                _rightCamMotor.set(0.0);
-            } else if (camLimitSlow.get()) {
+        if (fire) {
+            _firing = true;
+            slowSpeedCheck = false;
+        } else if (camLimitStop.get()) {
+            _firing = false;
+        }        
+        
+        if (camLimitSlow.get()) {
+            slowSpeedCheck = true;
+        }
+        
+        if (_firing && intakeLimit.get()) {
+            if (slowSpeedCheck) {
                 _leftCamMotor.set(k_CamMotorSpeedSlow);
                 _rightCamMotor.set(k_CamMotorSpeedSlow);
             } else {
@@ -61,8 +83,46 @@ public class Catapult {
         }
     }
 
+    public void runEncoderBasedCatapult(boolean fire) {
+        resetCamEncoder();
+        if (intakeLimit.get()) {
+            if (fire) {
+                _leftCamMotor.set(camReleaseSpeed);
+                _rightCamMotor.set(camReleaseSpeed);
+            } else {
+                if (camEncoder.get() >= camStopCount) {
+                    _leftCamMotor.set(0.0);
+                    _rightCamMotor.set(0.0);
+                } else if (camEncoder.get() <= camSlowCount) {
+                    _leftCamMotor.set(1.0);
+                    _rightCamMotor.set(1.0);
+                } else if (camSlowCount < camEncoder.get() && camEncoder.get() > camStopCount) {
+                    _leftCamMotor.set(scalingCamSpeed());
+                    _rightCamMotor.set(scalingCamSpeed());
+                } else {
+                    _leftCamMotor.set(0.0);
+                    _rightCamMotor.set(0.0);
+                }
+            }
+        } else {
+            _leftCamMotor.set(0.0);
+            _rightCamMotor.set(0.0);
+        }
+    }
+    
+    private double scalingCamSpeed() {    
+            scalingSpeed = ((1 - 0.45 * (camStopCount - camSlowCount)) / (camEncoder.get() / camStopCount));
+            return scalingSpeed;
+    }
+    
+    public void resetCamEncoder() {
+        if (camLimitStop.get() || camEncoder.get() >= encoderCPR + 20) {// Offset to prevent encoder resets by overshooting
+            camEncoder.reset();
+        }
+    }
+
     private void runCatapultLED() {
-        operatorPanel.setFireButtonLED(operatorPanel.getCatapultButton());
+        operatorPanel.setFireButtonLED(camEncoder.get() >= camStopCount);
         operatorPanel.setCamStopLED(camLimitStop.get());
         operatorPanel.setCamSlowLED(camLimitSlow.get());
         operatorPanel.setIntakeLED(intakeLimit.get());

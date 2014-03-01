@@ -8,6 +8,7 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,14 +25,25 @@ public class Robot extends IterativeRobot {
     OperatorPanel operatorPanel = new OperatorPanel();
     Drive drive = new Drive(leftStick, rightStick);
     Catapult catapult = new Catapult(operatorPanel);
-    Compressor compressor = new Compressor(Addresses.AIR_COMPRESSOR_PRESSURE_SWITCH, Addresses.AIR_COMPRESSOR_SPIKE);
-    TylersCompressor tCompressor = new TylersCompressor(compressor);
+    TylersCompressor tCompressor = new TylersCompressor();
     ImageFiltering imageFiltering = new ImageFiltering();
     Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering);
 
+    public void robotInit(){
+        imageFiltering.cameraRingLight.setDirection(Relay.Direction.kForward);
+        tCompressor.airCompressorInit();
+        drive.resetEncoders();
+        autonomous.gyro.reset();
+    }
     public void autonomousInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
+<<<<<<< HEAD
         autonomous.runAutonInit();
+=======
+        tCompressor.runAirCompressor();
+        drive.resetEncoders();
+        drive.startEncoders();
+>>>>>>> e2b1bd25fb4600aed9cf254d9f4079ac0b8e5b4f
     }
 
     public void autonomousPeriodic() {
@@ -47,17 +59,22 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
         drive.resetEncoders();
+        drive.startEncoders();
+        autonomous.gyro.reset();
+        catapult.catapultInit();
     }
 
     public void teleopPeriodic() {
+        SmartDashboard.putNumber("Gyro", autonomous.gyro.getAngle());
+        drive.runTankDrive();
+        tCompressor.compressorDebug();
         tCompressor.runAirCompressor();
         imageFiltering.setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));
-        drive.runTankDrive();
         catapult.runCatapult();
     }
 
     public void teleopDisable() {
-        compressor.stop();
+        tCompressor.compressor.set(Relay.Value.kOff);
         imageFiltering.cameraRingLight.set(Relay.Value.kOff);
     }
 

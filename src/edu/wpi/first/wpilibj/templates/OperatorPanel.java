@@ -16,7 +16,7 @@ public class OperatorPanel {
     private final int k_IntakeLED = 5;
     private final int k_TrussLED = 7;
     
-    private final int k_FireButtonLED = 1;
+    private final int k_FireButtonLEDSignal = 2;
     private final int k_FireButton = 2;
     
     private final int k_IntakeArmSwitch = 4;
@@ -28,7 +28,7 @@ public class OperatorPanel {
     }
 
     public boolean getCatapultButton() {
-        driverstation = DriverStation.getInstance();
+           driverstation = DriverStation.getInstance();
         return !driverstation.getDigitalIn(k_FireButton);
     }
 
@@ -77,12 +77,13 @@ public class OperatorPanel {
         }
     }
     
-    public void setFireButtonLED(boolean toggle) {
+    public void setFireButtonLED(boolean toggle) { // Spike is normally on
         driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(k_FireButtonLED, true);
+            driverstation.setDigitalOut(k_FireButtonLEDSignal, false);
         } else {
-            driverstation.setDigitalOut(k_FireButtonLED, false);
+            driverstation.setDigitalOut(k_FireButtonLEDSignal, true);
+
         }
     }
     
