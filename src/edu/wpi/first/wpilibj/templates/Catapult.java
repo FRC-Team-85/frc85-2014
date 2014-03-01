@@ -28,6 +28,12 @@ public class Catapult {
     
     private boolean _firing = false;
     
+    public final Encoder camEncoder;
+    private int encoderCPR = 250;
+    private int camSlowCount = 100;
+    private int camStopCount = 200;
+    private double scalingSpeed;
+    
     public Catapult(OperatorPanel operatorPanel) {
 
         this.operatorPanel = operatorPanel;
@@ -35,6 +41,7 @@ public class Catapult {
         _rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
         _armValve = new Solenoid(Addresses.INTAKE_SOLENOID);
         _trussValve = new Solenoid(Addresses.TRUSS_SOLENOID);
+        camEncoder = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
     }
 
     public void runCatapult() {
@@ -68,6 +75,35 @@ public class Catapult {
         } else {
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
+        }
+    }
+    
+    public void runEncoderBasedCatapult() {
+         resetCamEncoder();
+         if (camEncoder.get() >= camStopCount) {
+             _leftCamMotor.set(0.0);
+             _rightCamMotor.set(0.0);
+         } else
+         if (camEncoder.get() <= camSlowCount) {
+             _leftCamMotor.set(1.0);
+             _rightCamMotor.set(1.0);
+         } else if (camSlowCount < camEncoder.get() && camEncoder.get() > camStopCount) {
+             _leftCamMotor.set(scalingCamSpeed());
+             _rightCamMotor.set(scalingCamSpeed());
+         } else {
+             _leftCamMotor.set(0.0);
+             _rightCamMotor.set(0.0);
+         }
+    }
+    
+    private double scalingCamSpeed() {    
+            scalingSpeed = ((1 - 0.45 * (camStopCount - camSlowCount)) / (camEncoder.get() / camStopCount));
+            return scalingSpeed;
+    }
+    
+    public void resetCamEncoder() {
+        if (camLimitStop.get() || camEncoder.get() == encoderCPR) {
+            camEncoder.reset();
         }
     }
 

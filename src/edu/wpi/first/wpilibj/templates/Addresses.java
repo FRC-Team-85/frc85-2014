@@ -43,6 +43,8 @@ public class Addresses {
     public static final int LEFT_DRIVE_ENCODER_CHANNEL_B = 6;
     public static final int RIGHT_DRIVE_ENCODER_CHANNEL_A = 7;
     public static final int RIGHT_DRIVE_ENCODER_CHANNEL_B = 8;
+    public static final int CAM_ENCODER_CHANNEL_A = 9;
+    public static final int CAM_ENCODER_CHANNEL_B = 10;
     
     public static final int EXTEND_ARM_LIMITSWITCH = 9;
     
