@@ -51,6 +51,11 @@ public class Catapult {
         setTruss();
         runCam(operatorPanel.getCatapultButton());
     }
+    
+    public void catapultInit() {
+        camEncoder.reset();
+        camEncoder.start();
+    }
 
     public void runCam(boolean fire) {
         if (fire) {
@@ -80,23 +85,28 @@ public class Catapult {
 
     public void runEncoderBasedCatapult(boolean fire) {
         resetCamEncoder();
-        if (fire) {
-            _leftCamMotor.set(camReleaseSpeed);
-            _rightCamMotor.set(camReleaseSpeed);
-        } else {
-            if (camEncoder.get() >= camStopCount) {
-                _leftCamMotor.set(0.0);
-                _rightCamMotor.set(0.0);
-            } else if (camEncoder.get() <= camSlowCount) {
-                _leftCamMotor.set(1.0);
-                _rightCamMotor.set(1.0);
-            } else if (camSlowCount < camEncoder.get() && camEncoder.get() > camStopCount) {
-                _leftCamMotor.set(scalingCamSpeed());
-                _rightCamMotor.set(scalingCamSpeed());
+        if (intakeLimit.get()) {
+            if (fire) {
+                _leftCamMotor.set(camReleaseSpeed);
+                _rightCamMotor.set(camReleaseSpeed);
             } else {
-                _leftCamMotor.set(0.0);
-                _rightCamMotor.set(0.0);
+                if (camEncoder.get() >= camStopCount) {
+                    _leftCamMotor.set(0.0);
+                    _rightCamMotor.set(0.0);
+                } else if (camEncoder.get() <= camSlowCount) {
+                    _leftCamMotor.set(1.0);
+                    _rightCamMotor.set(1.0);
+                } else if (camSlowCount < camEncoder.get() && camEncoder.get() > camStopCount) {
+                    _leftCamMotor.set(scalingCamSpeed());
+                    _rightCamMotor.set(scalingCamSpeed());
+                } else {
+                    _leftCamMotor.set(0.0);
+                    _rightCamMotor.set(0.0);
+                }
             }
+        } else {
+            _leftCamMotor.set(0.0);
+            _rightCamMotor.set(0.0);
         }
     }
     
@@ -106,13 +116,13 @@ public class Catapult {
     }
     
     public void resetCamEncoder() {
-        if (camLimitStop.get() || camEncoder.get() >= encoderCPR + 10) {// Offset of 10 to prevent encoder home postition offsets
+        if (camLimitStop.get() || camEncoder.get() >= encoderCPR + 20) {// Offset to prevent encoder resets by overshooting
             camEncoder.reset();
         }
     }
 
     private void runCatapultLED() {
-        operatorPanel.setFireButtonLED(!camLimitStop.get());
+        operatorPanel.setFireButtonLED(camEncoder.get() >= camStopCount);
         operatorPanel.setCamStopLED(camLimitStop.get());
         operatorPanel.setCamSlowLED(camLimitSlow.get());
         operatorPanel.setIntakeLED(intakeLimit.get());

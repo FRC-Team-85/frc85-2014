@@ -77,12 +77,12 @@ public class OperatorPanel {
         }
     }
     
-    public void setFireButtonLED(boolean toggle) {
+    public void setFireButtonLED(boolean toggle) { // Spike is normally on
         driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(k_FireButtonLEDSignal, true);
-        } else {
             driverstation.setDigitalOut(k_FireButtonLEDSignal, false);
+        } else {
+            driverstation.setDigitalOut(k_FireButtonLEDSignal, true);
 
         }
     }

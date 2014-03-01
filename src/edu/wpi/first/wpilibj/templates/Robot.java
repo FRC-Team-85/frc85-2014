@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
         drive.resetEncoders();
         drive.startEncoders();
         autonomous.gyro.reset();
-        
+        catapult.catapultInit();
     }
 
     public void teleopPeriodic() {
