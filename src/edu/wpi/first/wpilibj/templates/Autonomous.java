@@ -36,6 +36,7 @@ public class Autonomous {
     private final double angle3 = 180;
     private final double maxRotateSpeed = 0.5;
     private double time0, time1, time2, time3;
+    private final int autoSwitichCount = 300;// needs to be found by testing, needs to be changed
     
     public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering) {
         this.drive = drive;
@@ -69,7 +70,7 @@ public class Autonomous {
                     stage = 1;
                 }
                 //camMotorControl();//drive
-                catapult.runCam(willFire);
+                runAutoCamControl(willFire);
                 break;
             case 1:
                 haulIt();
@@ -88,7 +89,7 @@ public class Autonomous {
                     stage = 1;
                 } else {
                     //camMotorControl();//drive
-                    catapult.runCam(willFire);
+                    runAutoCamControl(willFire);
                 }
                 break;
             case 1:
@@ -98,6 +99,16 @@ public class Autonomous {
                 break;
         }
     }
+    
+        public void runAutoCamControl(boolean fire) {
+            if(catapult.camEncoder.get() <= autoSwitichCount) {
+                catapult.runEncoderBasedCatapult(fire);
+            } else {
+                catapult._leftCamMotor.set(0);
+                catapult._rightCamMotor.set(0);
+                willFire = false;
+            }
+        }
 
     public void camMotorControl() {//fire then set to false
         catapult.setMotors(willFire);

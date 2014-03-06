@@ -16,8 +16,8 @@ public class Catapult {
     
     OperatorPanel operatorPanel;
     
-    private final SpeedController _leftCamMotor;
-    private final SpeedController _rightCamMotor;
+    public final SpeedController _leftCamMotor;
+    public final SpeedController _rightCamMotor;
     
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
@@ -107,17 +107,6 @@ public class Catapult {
         } else {
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
-        }
-    }
-    
-    public void runAutoCamControl(boolean willFire) {
-        if (willFire) {
-            if(camEncoder <= autoSwitich) {
-                runEncoderBasedCatapult(willFire);
-            } else {
-                _leftCamMotor.set(0);
-                _rightCamMotor.set(0);
-            }
         }
     }
        
