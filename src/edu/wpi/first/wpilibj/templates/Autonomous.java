@@ -77,6 +77,7 @@ public class Autonomous {
                 break;
             case 2:
                 vivaLaRevolution();
+                break;
             default:
                 break;
         }
