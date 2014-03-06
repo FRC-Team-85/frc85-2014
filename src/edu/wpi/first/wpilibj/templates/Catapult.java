@@ -110,6 +110,17 @@ public class Catapult {
         }
     }
     
+    public void runAutoCamControl(boolean willFire) {
+        if (willFire) {
+            if(camEncoder <= autoSwitich) {
+                runEncoderBasedCatapult(willFire);
+            } else {
+                _leftCamMotor.set(0);
+                _rightCamMotor.set(0);
+            }
+        }
+    }
+       
     private double scalingCamSpeed() {    
             scalingSpeed = ((1 - 0.45 * (camStopCount - camSlowCount)) / (camEncoder.get() / camStopCount));
             return scalingSpeed;
