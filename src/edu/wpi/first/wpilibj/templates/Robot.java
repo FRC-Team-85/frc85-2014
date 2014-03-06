@@ -42,9 +42,10 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        setFireButtonLED(getCatapultButton());
-        setTrussLED(getTrussSwitch());
-        setIntakeLED(getIntakeArmSwitch());
+        //setFireButtonLED(getCatapultButton());
+        //setTrussLED(getTrussSwitch());
+        //setIntakeLED(getIntakeArmSwitch());
+        drive.runTankDrive();
     
     }
     
