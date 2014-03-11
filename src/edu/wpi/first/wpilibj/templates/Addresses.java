@@ -36,6 +36,7 @@ public class Addresses {
     
     public static final int AIR_COMPRESSOR_PRESSURE_SWITCH = 1;
     public static final int AIR_COMPRESSOR_SPIKE = 2;
+    public static final int AIR_COMPRESSOR_SPIKE2 = 3;
     
     public static final int CAMERA_RINGLIGHT_SPIKE = 1;
     

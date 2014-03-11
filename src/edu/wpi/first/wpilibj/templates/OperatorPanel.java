@@ -21,6 +21,7 @@ public class OperatorPanel {
     
     private final int k_IntakeArmSwitch = 4;
     private final int k_TrussSwitch = 6;
+    private final int k_IntakeOverrideSwitch = 8;
     
     DriverStation driverstation;
     
@@ -30,6 +31,11 @@ public class OperatorPanel {
     public boolean getCatapultButton() {
            driverstation = DriverStation.getInstance();
         return !driverstation.getDigitalIn(k_FireButton);
+    }
+    
+    public boolean getIntakeOverrideSwitch() {
+        driverstation = DriverStation.getInstance();
+        return driverstation.getDigitalIn(k_IntakeOverrideSwitch);
     }
 
     public boolean getTrussSwitch() {

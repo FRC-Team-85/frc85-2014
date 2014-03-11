@@ -49,7 +49,12 @@ public class Catapult {
         runCatapultLED();
         extendArm();
         setTruss();
-        runCam(operatorPanel.getCatapultButton());
+        if(operatorPanel.getIntakeOverrideSwitch()){
+            runEncoderBasedCatapult(operatorPanel.getIntakeOverrideSwitch(), operatorPanel.getCatapultButton());
+        } else {
+            runEncoderBasedCatapult(operatorPanel.getCatapultButton(), true);
+        }
+        
     }
     
     public void catapultInit() {
@@ -83,10 +88,10 @@ public class Catapult {
         }
     }
 
-    public void runEncoderBasedCatapult(boolean fire) {
+    public void runEncoderBasedCatapult(boolean fire, boolean override) {
         resetCamEncoder();
         if (intakeLimit.get()) {
-            if (fire) {
+            if (fire && override) {
                 _leftCamMotor.set(camReleaseSpeed);
                 _rightCamMotor.set(camReleaseSpeed);
             } else {
@@ -116,7 +121,7 @@ public class Catapult {
     }
     
     public void resetCamEncoder() {
-        if (camLimitStop.get() || camEncoder.get() >= encoderCPR + 20) {// Offset to prevent encoder resets by overshooting
+        if (camLimitStop.get()) {// Offset to prevent encoder resets from overshooting
             camEncoder.reset();
         }
     }
