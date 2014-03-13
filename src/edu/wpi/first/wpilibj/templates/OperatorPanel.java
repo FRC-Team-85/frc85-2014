@@ -22,6 +22,7 @@ public class OperatorPanel {
     private final int k_IntakeArmSwitch = 4;
     private final int k_TrussSwitch = 6;
     private final int k_IntakeOverrideSwitch = 8;
+    private final int k_CamEmergencyStopSwitch = 10;//need to be adjusted when switch is added
     
     DriverStation driverstation;
     
@@ -36,6 +37,11 @@ public class OperatorPanel {
     public boolean getIntakeOverrideSwitch() {
         driverstation = DriverStation.getInstance();
         return driverstation.getDigitalIn(k_IntakeOverrideSwitch);
+    }
+    
+    public boolean getCamEmergencyStopSwitch() {
+        driverstation = DriverStation.getInstance();
+        return driverstation.getDigitalIn(k_CamEmergencyStopSwitch);
     }
 
     public boolean getTrussSwitch() {
