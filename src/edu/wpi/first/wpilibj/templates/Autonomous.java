@@ -47,11 +47,12 @@ public class Autonomous {
     }
 
     public void selectState() {
+        imageFilter.setBlobVariable(imageFilter.getBlob());
         if (!catapult.getArmLimit()) {
             drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
         } else {
-            if (imageFilter.getBlob()) {//if the blob is there
+            if (imageFilter.blob) {//if the blob is there
                 if (timer.get() <= 5.0) {//and 5 sec havent passed
                     timer.stop();
                     runProcess1();//0-5 process2 w/180 
@@ -103,7 +104,7 @@ public class Autonomous {
     
         public void runAutoCamControl(boolean fire) {
             if(catapult.camEncoder.get() <= autoSwitichCount) {
-                catapult.runEncoderBasedCatapult(fire);
+                catapult.runEncoderBasedCatapult(fire, true);
             } else {
                 catapult._leftCamMotor.set(0);
                 catapult._rightCamMotor.set(0);
@@ -148,6 +149,7 @@ public class Autonomous {
     }
     
     public void runAuton() {
+        selectState();
         runDebug();
     }
     

@@ -35,6 +35,13 @@ public class ImageFiltering {
         SmartDashboard.putBoolean("Blob", blob);
         return false;
     }
+    
+    public boolean setBlobVariable(boolean getBlob){
+        if (getBlob) {
+            blob = true;
+        }
+        return blob;
+    }
 
     public void setCameraLED(boolean buttonOn, boolean buttonOff) {
         if (buttonOn) {

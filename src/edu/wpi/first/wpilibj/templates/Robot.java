@@ -35,11 +35,10 @@ public class Robot extends IterativeRobot {
         drive.resetEncoders();
         autonomous.gyro.reset();
     }
+    
     public void autonomousInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
-
         autonomous.runAutonInit();
-
         tCompressor.runAirCompressor();
         drive.resetEncoders();
         drive.startEncoders();
@@ -48,11 +47,7 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
         imageFiltering.runImageFiltering();
         tCompressor.runAirCompressor();
-        if(mode){
-            autonomous.selectState();
-        } else {
-            autonomous.AshleyTimerAuto();
-        }
+        autonomous.runAuton();
     }
 
     public void teleopInit() {
@@ -60,7 +55,6 @@ public class Robot extends IterativeRobot {
         drive.resetEncoders();
         drive.startEncoders();
         autonomous.gyro.reset();
-        catapult.catapultInit();
     }
 
     public void teleopPeriodic() {
