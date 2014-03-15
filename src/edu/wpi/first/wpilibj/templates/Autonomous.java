@@ -37,6 +37,7 @@ public class Autonomous {
     private final double angle3 = 180;
     private final double maxRotateSpeed = 0.5;
     private double time1, time2, time3;
+    
     private final int autoSwitichCount = 300;// needs to be found by testing, needs to be changed
     
     public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering) {
@@ -105,7 +106,7 @@ public class Autonomous {
     
         public void runAutoCamControl(boolean fire) {
             if(catapult.camEncoder.get() <= autoSwitichCount) {
-                catapult.runEncoderBasedCatapult(fire, true, true);
+                catapult.runEncoderBasedCatapult(fire, true, false);
             } else {
                 catapult._leftCamMotor.set(0);
                 catapult._rightCamMotor.set(0);
