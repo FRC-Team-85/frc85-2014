@@ -8,6 +8,7 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,6 +21,7 @@ public class Robot extends IterativeRobot {
     
     Joystick leftStick = new Joystick(1);
     Joystick rightStick = new Joystick(2);
+    Encoder testEncoder = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
     DriverStation driverstation;
     Drive drive = new Drive(leftStick, rightStick);
     //Catapult catapult = new Catapult();
@@ -38,6 +40,10 @@ public class Robot extends IterativeRobot {
     //imageFiltering.runImageFiltering();    
     }
 
+    public void teleopInit(){
+        testEncoder.reset();
+        testEncoder.start();
+    }
     /**
      * This function is called periodically during operator control
      */
@@ -46,7 +52,7 @@ public class Robot extends IterativeRobot {
         //setTrussLED(getTrussSwitch());
         //setIntakeLED(getIntakeArmSwitch());
         drive.runTankDrive();
-    
+        SmartDashboard.putNumber("Encoder", testEncoder.get());
     }
     
     /**
