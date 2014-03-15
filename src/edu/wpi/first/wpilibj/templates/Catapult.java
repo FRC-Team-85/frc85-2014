@@ -85,24 +85,29 @@ public class Catapult {
 
     public void runEncoderBasedCatapult(boolean fire, boolean intakeOverride, boolean emergencyStopOverride) {
         resetCamEncoder();
-        if (intakeLimit.get() || intakeOverride) {
-            if (fire && emergencyStopOverride) {
-                _leftCamMotor.set(camReleaseSpeed);
-                _rightCamMotor.set(camReleaseSpeed);
-            } else {
-                if (camEncoder.get() >= camStopCount) {
-                    _leftCamMotor.set(0.0);
-                    _rightCamMotor.set(0.0);
-                } else if (camEncoder.get() <= camSlowCount) {
-                    _leftCamMotor.set(1.0);
-                    _rightCamMotor.set(1.0);
-                } else if (camSlowCount < camEncoder.get() && camEncoder.get() > camStopCount) {
-                    _leftCamMotor.set(scalingCamSpeed());
-                    _rightCamMotor.set(scalingCamSpeed());
+        if (!emergencyStopOverride) {
+            if (intakeLimit.get() || intakeOverride) {
+                if (fire) {
+                    _leftCamMotor.set(camReleaseSpeed);
+                    _rightCamMotor.set(camReleaseSpeed);
                 } else {
-                    _leftCamMotor.set(0.0);
-                    _rightCamMotor.set(0.0);
+                    if (camEncoder.get() >= camStopCount) {
+                        _leftCamMotor.set(0.0);
+                        _rightCamMotor.set(0.0);
+                    } else if (camEncoder.get() <= camSlowCount) {
+                        _leftCamMotor.set(1.0);
+                        _rightCamMotor.set(1.0);
+                    } else if (camSlowCount < camEncoder.get() && camEncoder.get() > camStopCount) {
+                        _leftCamMotor.set(scalingCamSpeed());
+                        _rightCamMotor.set(scalingCamSpeed());
+                    } else {
+                        _leftCamMotor.set(0.0);
+                        _rightCamMotor.set(0.0);
+                    }
                 }
+            } else {
+                _leftCamMotor.set(0.0);
+                _rightCamMotor.set(0.0);
             }
         } else {
             _leftCamMotor.set(0.0);
@@ -171,5 +176,6 @@ public class Catapult {
         SmartDashboard.putBoolean("SlowLimit", camLimitSlow.get());
         SmartDashboard.putBoolean("StopLimit", camLimitStop.get());
         SmartDashboard.putBoolean("IntakeLimit", intakeLimit.get());
+        SmartDashboard.putNumber("CamEncoder", camEncoder.get());
     }
 }

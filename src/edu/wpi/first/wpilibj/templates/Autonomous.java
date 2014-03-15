@@ -22,9 +22,10 @@ public class Autonomous {
     private int stage = 0;
     
     private int currentDist;
-    private final int dist1 = 288;
-    private final int dist2 = 792;
-    private final int dist3 = 1080;
+    private final int dist1 = 573;
+    private final int dist2 = 1147;
+    private final int dist3 = 1720; // calculated value for 5' distance drive
+    private final int driveEncoderCPR = 360;
     
     private double currentSpeed = 0;
     private final double maxDriveSpeed = 0.6;
@@ -35,7 +36,7 @@ public class Autonomous {
     private final double angle2 = 120;
     private final double angle3 = 180;
     private final double maxRotateSpeed = 0.5;
-    private double time0, time1, time2, time3;
+    private double time1, time2, time3;
     private final int autoSwitichCount = 300;// needs to be found by testing, needs to be changed
     
     public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering) {
@@ -44,6 +45,7 @@ public class Autonomous {
         this.imageFilter = imageFiltering;
         gyro = new Gyro(Addresses.GYRO_CHANNEL);
         time1 = 1; time2 = 2; time3 = 3;
+        
     }
 
     public void selectState() {

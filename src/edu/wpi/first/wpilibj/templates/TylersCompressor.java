@@ -24,7 +24,7 @@ public class TylersCompressor {
     public void airCompressorInit(){
         compressor.setDirection(Relay.Direction.kForward);
         compressor2.setDirection(Relay.Direction.kForward);
-        compressor2.set(Relay.Value.kOff);
+        compressor2.set(Relay.Value.kOn);
     }
     
     public void runAirCompressor() {

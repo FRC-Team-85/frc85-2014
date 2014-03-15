@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
         imageFiltering.cameraRingLight.setDirection(Relay.Direction.kForward);
         tCompressor.airCompressorInit();
         drive.resetEncoders();
+        catapult.camEncoder.reset();
         autonomous.gyro.reset();
     }
     
