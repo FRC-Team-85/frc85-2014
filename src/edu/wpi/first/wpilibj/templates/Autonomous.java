@@ -18,32 +18,34 @@ public class Autonomous {
     Encoder rightDriveEncoder;
     Encoder leftDriveEncoder;
     Gyro gyro;
+    AutoPreferences autoPreferences;
     
     private int stage = 0;
     
-    private int currentDist;
-    private final int dist1 = 573;
-    private final int dist2 = 1147;
-    private final int dist3 = 1720; // calculated value for 5' distance drive
     private final int driveEncoderCPR = 360;
+    private int totalDistance = (int)Math.ceil(((12 * autoPreferences.getDriveDistance()) / (4 * Math.PI)) / driveEncoderCPR);
+    private int currentDist;
+    private int increaseSpeedDistance = (int)(totalDistance * (1/3));
+    private int decreaseSpeedDistance = (int)(totalDistance * (2/3));
     
     private double currentSpeed = 0;
     private final double maxDriveSpeed = 0.6;
     
     private final double intakeRollerSpeed = -1.0;
     
-    private final double angle1 = 60;
-    private final double angle2 = 120;
-    private final double angle3 = 180;
+    private double completeAngle = autoPreferences.getRotationAngle();
+    private double increaseSpeedAngle = completeAngle * (1/3);
+    private double decreaseSpeedAngle = completeAngle * (2/3);
     private final double maxRotateSpeed = 0.5;
     private double time1, time2, time3;
     
     private final int autoSwitichCount = 300;// needs to be found by testing, needs to be changed
     
-    public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering) {
+    public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering, AutoPreferences autoPreferences) {
         this.drive = drive;
         this.catapult = catapult;
         this.imageFilter = imageFiltering;
+        this.autoPreferences = autoPreferences;
         gyro = new Gyro(Addresses.GYRO_CHANNEL);
         time1 = 1; time2 = 2; time3 = 3;
         
@@ -69,7 +71,7 @@ public class Autonomous {
     public void runProcess1() {
         switch (stage) {
             case 0:
-                if (catapult.camLimitStop.get() && !willFire) {//if ready to fire and done with first fire
+                if (catapult.camLimitStopLeft.get() && !willFire) {//if ready to fire and done with first fire
                     stage = 1;
                 }
                 //camMotorControl();//drive
@@ -89,7 +91,7 @@ public class Autonomous {
     public void runProcess2() {
         switch (stage) {
             case 0:
-                if (catapult.camLimitStop.get() && !willFire) {//if ready to fire and done with first fire
+                if (catapult.camLimitStopLeft.get() && !willFire) {//if ready to fire and done with first fire
                     stage = 1;
                 } else {
                     //camMotorControl();//drive
@@ -116,18 +118,18 @@ public class Autonomous {
 
     public void camMotorControl() {//fire then set to false
         catapult.setMotors(willFire);
-        if (!catapult.camLimitStop.get() && willFire) {
+        if (!catapult.camLimitStopLeft.get() && willFire) {
             willFire = false;
         }
     }
 
     public void haulIt() {
-        if (currentDist <= dist1) {
-            currentSpeed = maxDriveSpeed * currentDist / dist1;
-        } else if (currentDist <= dist2) {
+        if (currentDist <= increaseSpeedDistance) {
+            currentSpeed = maxDriveSpeed * currentDist / increaseSpeedDistance;
+        } else if (currentDist <= decreaseSpeedDistance) {
             currentSpeed = maxDriveSpeed;
-        } else if (currentDist <= dist3) {
-            currentSpeed = maxDriveSpeed * (1 - (currentDist - dist2) / (dist3 - dist2));
+        } else if (currentDist <= totalDistance) {
+            currentSpeed = maxDriveSpeed * (1 - (currentDist - decreaseSpeedDistance) / (totalDistance - decreaseSpeedDistance));
         } else {
             currentSpeed = 0;
             stage++;
@@ -137,12 +139,12 @@ public class Autonomous {
     
     public void vivaLaRevolution() {
         double currentAngle = Math.abs(gyro.getAngle());
-        if (currentAngle <= angle1) {
-            currentSpeed = maxRotateSpeed * currentAngle / angle1;
-        } else if (currentAngle <= angle2) {
+        if (currentAngle <= increaseSpeedAngle) {
+            currentSpeed = maxRotateSpeed * currentAngle / increaseSpeedAngle;
+        } else if (currentAngle <= decreaseSpeedAngle) {
             currentSpeed = maxRotateSpeed;
-        } else if (currentAngle <= angle3) {
-            currentSpeed = maxRotateSpeed * (1 - (currentAngle - angle2) / (angle3 - angle2));
+        } else if (currentAngle <= completeAngle) {
+            currentSpeed = maxRotateSpeed * (1 - (currentAngle - decreaseSpeedAngle) / (completeAngle - decreaseSpeedAngle));
         } else {
             currentSpeed = 0;
             stage++;

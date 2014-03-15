@@ -27,11 +27,14 @@ public class Robot extends IterativeRobot {
     Catapult catapult = new Catapult(operatorPanel);
     TylersCompressor tCompressor = new TylersCompressor();
     ImageFiltering imageFiltering = new ImageFiltering();
-    Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering);
+    AutoPreferences autoPreferences = new AutoPreferences();
+    Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering, autoPreferences);
+    
 
     public void robotInit(){
         imageFiltering.cameraRingLight.setDirection(Relay.Direction.kForward);
         tCompressor.airCompressorInit();
+        autoPreferences.initAutoPrefs();
         drive.resetEncoders();
         catapult.camEncoder.reset();
         autonomous.gyro.reset();
@@ -39,6 +42,7 @@ public class Robot extends IterativeRobot {
     
     public void autonomousInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
+        autoPreferences.getAutoSettings();
         autonomous.runAutonInit();
         tCompressor.runAirCompressor();
         drive.resetEncoders();

@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Catapult {
 
-    public final DigitalInput camLimitStop = new DigitalInput(Addresses.CAM_LIMIT_STOP);
-    public final DigitalInput camLimitSlow = new DigitalInput(Addresses.CAM_LIMIT_SLOW);
+    public final DigitalInput camLimitStopLeft = new DigitalInput(Addresses.CAM_LIMIT_STOP_LEFT);
+    public final DigitalInput camLimitStopRight = new DigitalInput(Addresses.CAM_LIMIT_STOP_RIGHT);
     public final DigitalInput intakeLimit = new DigitalInput(Addresses.INTAKE_LIMIT);
     
     OperatorPanel operatorPanel;
@@ -28,9 +28,9 @@ public class Catapult {
     private boolean _firing = false;
     
     public final Encoder camEncoder;
-    private int encoderCPR = 250;
-    private int camSlowCount = 100;
-    private int camStopCount = 200;
+    private int encoderCPR = 215;// the encoder is not acurate, but consistant at 215 per rotation
+    private int camSlowCount = 70;
+    private int camStopCount = 208;
     private double scalingSpeed;
     private double camReleaseSpeed = 0.45;
     
@@ -57,15 +57,15 @@ public class Catapult {
         camEncoder.start();
     }
 
-    public void runCam(boolean fire) {
+    /*public void runCam(boolean fire) {
         if (fire) {
             _firing = true;
             slowSpeedCheck = false;
-        } else if (camLimitStop.get()) {
+        } else if (camLimitStopLeft.get()) {
             _firing = false;
         }        
         
-        if (camLimitSlow.get()) {
+        if (camLimitStopRight.get()) {
             slowSpeedCheck = true;
         }
         
@@ -81,7 +81,7 @@ public class Catapult {
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
         }
-    }
+    } */
 
     public void runEncoderBasedCatapult(boolean fire, boolean intakeOverride, boolean emergencyStopOverride) {
         resetCamEncoder();
@@ -121,15 +121,15 @@ public class Catapult {
     }
     
     public void resetCamEncoder() {
-        if (camLimitStop.get()) {// Offset to prevent encoder resets from overshooting
+        if (camLimitStopLeft.get() || camLimitStopRight.get()) {
             camEncoder.reset();
         }
     }
 
     private void runCatapultLED() {
         operatorPanel.setFireButtonLED(camEncoder.get() >= camStopCount);
-        operatorPanel.setCamStopLED(camLimitStop.get());
-        operatorPanel.setCamSlowLED(camLimitSlow.get());
+        operatorPanel.setCamStopLED(camLimitStopLeft.get());
+        operatorPanel.setCamSlowLED(camLimitStopRight.get());
         operatorPanel.setIntakeLED(intakeLimit.get());
         operatorPanel.setTrussLED(operatorPanel.getTrussSwitch());
     }
@@ -151,11 +151,11 @@ public class Catapult {
     }
 
     public boolean getCamLimitStop() {//ready to fire
-        return camLimitStop.get();
+        return camLimitStopLeft.get();
     }
 
     public void setMotors(boolean willfire) {
-        if (camLimitStop.get() && !willfire) {
+        if (camLimitStopLeft.get() && !willfire) {
             _leftCamMotor.set(0.0);
             _rightCamMotor.set(0.0);
         } else {
@@ -173,8 +173,8 @@ public class Catapult {
     }
 
     private void runDebug() {
-        SmartDashboard.putBoolean("SlowLimit", camLimitSlow.get());
-        SmartDashboard.putBoolean("StopLimit", camLimitStop.get());
+        SmartDashboard.putBoolean("SlowLimit", camLimitStopRight.get());
+        SmartDashboard.putBoolean("StopLimit", camLimitStopLeft.get());
         SmartDashboard.putBoolean("IntakeLimit", intakeLimit.get());
         SmartDashboard.putNumber("CamEncoder", camEncoder.get());
     }

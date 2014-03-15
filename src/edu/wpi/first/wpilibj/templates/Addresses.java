@@ -20,8 +20,8 @@ public class Addresses {
     public static final int LEFT_DRIVE_VICTOR2 = 5;
     public static final int LEFT_DRIVE_VICTOR3 = 6;
     
-    public static final int CAM_LIMIT_STOP = 3;
-    public static final int CAM_LIMIT_SLOW = 4;
+    public static final int CAM_LIMIT_STOP_LEFT = 3;
+    public static final int CAM_LIMIT_STOP_RIGHT = 4;
     public static final int INTAKE_LIMIT = 9;
     
     public static final int TRUSS_SOLENOID = 2;
