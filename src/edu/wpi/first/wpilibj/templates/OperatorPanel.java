@@ -22,7 +22,7 @@ public class OperatorPanel {
     private final int k_IntakeArmSwitch = 4;
     private final int k_TrussSwitch = 6;
     private final int k_IntakeOverrideSwitch = 8;
-    private final int k_CamEmergencyStopSwitch = 10;//need to be adjusted when switch is added
+    private final int k_CamEmergencyStopSwitch = 1;
     
     DriverStation driverstation;
     

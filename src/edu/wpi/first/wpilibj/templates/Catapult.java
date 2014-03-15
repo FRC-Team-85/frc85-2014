@@ -28,9 +28,9 @@ public class Catapult {
     private boolean _firing = false;
     
     public final Encoder camEncoder;
-    private int encoderCPR = 215;// the encoder is not acurate, but consistant at 215 per rotation
-    private int camSlowCount = 70;
-    private int camStopCount = 208;
+    private int encoderCPR = 360;// needs to be tested
+    private int camSlowCount = 120;
+    private int camStopCount = 340;
     private double scalingSpeed;
     private double camReleaseSpeed = 0.45;
     
