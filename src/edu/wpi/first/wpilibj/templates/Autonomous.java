@@ -54,17 +54,16 @@ public class Autonomous {
             drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
         } else {
-            if (imageFilter.blob) {//if the blob is there
-                if (timer.get() <= 5.0) {//and 5 sec havent passed
-                    timer.stop();
-                    runProcess1();//0-5 process2 w/180 
-                } else {
-                    timer.stop();
-                    runProcess2();//5-10
-                }
+            if (imageFilter.blob && timer.get() <= 5.0) {
+                timer.stop();
+                runProcess1();
+            } else if (timer.get() > 5.0) {
+                timer.stop();
+                runProcess2();
             }
         }
     }
+    
     
     public void runProcess1() {
         switch (stage) {
