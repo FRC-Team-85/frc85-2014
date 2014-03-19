@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
     TylersCompressor tCompressor = new TylersCompressor();
     ImageFiltering imageFiltering = new ImageFiltering();
     AutoPreferences autoPreferences = new AutoPreferences();
-    //Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering, autoPreferences);
+    Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering, autoPreferences);
     
 
     public void robotInit(){
@@ -37,13 +37,14 @@ public class Robot extends IterativeRobot {
         autoPreferences.initAutoPrefs();
         drive.resetEncoders();
         catapult.catapultInit();
-       // autonomous.gyro.reset();
+       autonomous.gyro.reset();
     }
     
     public void autonomousInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
         autoPreferences.getAutoSettings();
-       // autonomous.runAutonInit();
+        autonomous.getAutonomousPreferencesData();
+       autonomous.runAutonInit();
         tCompressor.runAirCompressor();
         drive.resetEncoders();
         drive.startEncoders();
@@ -52,18 +53,18 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
         imageFiltering.runImageFiltering();
         tCompressor.runAirCompressor();
-        //autonomous.runAuton();
+        autonomous.runAuton();
     }
 
     public void teleopInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
         drive.resetEncoders();
         drive.startEncoders();
-        //autonomous.gyro.reset();
+        autonomous.gyro.reset();
     }
 
     public void teleopPeriodic() {
-       // SmartDashboard.putNumber("Gyro", autonomous.gyro.getAngle());
+       SmartDashboard.putNumber("Gyro", autonomous.gyro.getAngle());
         drive.runTankDrive();
         tCompressor.compressorDebug();
         tCompressor.runAirCompressor();

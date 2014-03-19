@@ -23,19 +23,19 @@ public class Autonomous {
     private int stage = 0;
     
     private final int driveEncoderCPR = 360;
-    private int totalDistance = (int)Math.ceil(((12 * autoPreferences.getDriveDistance()) / (4 * Math.PI)) / driveEncoderCPR);
+    private int totalDistance;
     private int currentDist;
-    private int increaseSpeedDistance = (int)(totalDistance * (1/3));
-    private int decreaseSpeedDistance = (int)(totalDistance * (2/3));
+    private int increaseSpeedDistance;
+    private int decreaseSpeedDistance;
     
     private double currentSpeed = 0;
     private final double maxDriveSpeed = 0.6;
     
     private final double intakeRollerSpeed = -1.0;
     
-    private double completeAngle = autoPreferences.getRotationAngle();
-    private double increaseSpeedAngle = completeAngle * (1/3);
-    private double decreaseSpeedAngle = completeAngle * (2/3);
+    private double completeAngle;
+    private double increaseSpeedAngle;
+    private double decreaseSpeedAngle;
     private final double maxRotateSpeed = 0.5;
     private double time1, time2, time3;
     
@@ -51,6 +51,15 @@ public class Autonomous {
         
     }
 
+    public void getAutonomousPreferencesData() {
+        totalDistance = (int)Math.ceil(((12 * autoPreferences.getDriveDistance()) / (4 * Math.PI)) / driveEncoderCPR);
+        increaseSpeedDistance = (int)(totalDistance * (1/3));
+        decreaseSpeedDistance = (int)(totalDistance * (2/3));
+        completeAngle = autoPreferences.getRotationAngle();
+        increaseSpeedAngle = completeAngle * (1/3);
+        decreaseSpeedAngle = completeAngle * (2/3);
+    }
+    
     public void selectState() {
         imageFilter.setBlobVariable(imageFilter.getBlob());
         if (!catapult.getArmLimit()) {
