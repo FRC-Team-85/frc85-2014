@@ -53,8 +53,8 @@ public class Catapult {
     }
     
     public void catapultInit() {
-        camEncoder.reset();
         camEncoder.start();
+        camEncoder.reset();
     }
 
     /*public void runCam(boolean fire) {

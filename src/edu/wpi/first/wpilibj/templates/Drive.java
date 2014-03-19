@@ -110,7 +110,7 @@ public class Drive {
     }
 
     private void runDebug() {
-        SmartDashboard.putNumber("LeftDriveOutput", leftDriveMotorOutput);
+        SmartDashboard.putNumber("leftDriveOutput", leftDriveMotorOutput);
         SmartDashboard.putNumber("rightDriveOutput", rightDriveMotorOutput);
         SmartDashboard.putNumber("leftDriveEncoder", -leftDriveEncoder.get());
         SmartDashboard.putNumber("rightDriveEncoder", rightDriveEncoder.get());
