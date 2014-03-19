@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
         tCompressor.airCompressorInit();
         autoPreferences.initAutoPrefs();
         drive.resetEncoders();
-        catapult.camEncoder.reset();
+        catapult.catapultInit();
        // autonomous.gyro.reset();
     }
     
