@@ -52,7 +52,7 @@ public class Autonomous {
     }
 
     public void getAutonomousPreferencesData() {
-        totalDistance = (int)Math.ceil(((12 * autoPreferences.getDriveDistance()) / (4 * Math.PI)) / driveEncoderCPR);
+        totalDistance = (int)Math.ceil(((12 * autoPreferences.getDriveDistance()) / (4 * Math.PI)) * driveEncoderCPR);
         increaseSpeedDistance = (int)(totalDistance * (1/3));
         decreaseSpeedDistance = (int)(totalDistance * (2/3));
         completeAngle = autoPreferences.getRotationAngle();
