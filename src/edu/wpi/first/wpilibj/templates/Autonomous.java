@@ -40,6 +40,7 @@ public class Autonomous {
     private double decreaseSpeedAngle;
     private final double maxRotateSpeed = 0.5;
     private double time1, time2, time3;
+    private boolean timerStarted;
     
     private final int autoSwitichCount = 300;// needs to be found by testing, needs to be changed
     
@@ -73,9 +74,14 @@ public class Autonomous {
             //drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
         } else {
-            if (haulIt()) {
-                if (imageFilter.blob || timer.get() > 5) {
-                    //runAutoCatapult();
+            if (!timerStarted) {
+                timer.start();
+                timerStarted = true;
+            }
+            if (timer.get() > 1) {
+                //runAutoCatapult();
+                if (!catapult.getIsFiring()) {
+                    haulIt();
                 }
             }
         }
@@ -83,10 +89,12 @@ public class Autonomous {
     
     
     private void runAutoCatapult() {
-        if (catapult.camLimitStopRight.get()){
-            hasFired = true;
-        } 
+        
         runAutoCamControl(!hasFired);
+        hasFired = true;
+        if (catapult.camEncoderCount > 20){
+            runAutoCamControl(false);
+        }
     }
     
         public void runAutoCamControl(boolean fire) {
@@ -146,7 +154,6 @@ public class Autonomous {
         drive.resetEncoders();
         drive.startEncoders();
         timer.reset();
-        timer.start();
     }
     
     public void runDebug() {

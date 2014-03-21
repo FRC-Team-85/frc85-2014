@@ -60,12 +60,12 @@ public class Drive {
         runIntakeRollers(_rightStick.getRawButton(2), _rightStick.getRawButton(3));
     }
 
-    private void getJoystickY(boolean halfSpeedLeft, boolean halfSpeedRight) {
-        if (halfSpeedLeft && halfSpeedRight){
+    private void getJoystickY(boolean reverseLeftButton, boolean reverseRightButton) {
+        if (reverseLeftButton && reverseRightButton){
             rightDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
-            leftDriveMotorOutput = calculateLinearOutput(_rightStick.getY());    
+            leftDriveMotorOutput = -calculateLinearOutput(_rightStick.getY());    
         } else {
-            leftDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
+            leftDriveMotorOutput = (calculateLinearOutput(_leftStick.getY()));
             rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
         }
     }
@@ -93,7 +93,7 @@ public class Drive {
     }
 
     public void setAllMotors(double leftDriveSpeed, double rightDriveSpeed) {
-        setLeftMotors(leftDriveSpeed);
+        setLeftMotors(-leftDriveSpeed);
         setRightMotors(rightDriveSpeed);
     }
 

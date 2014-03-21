@@ -92,6 +92,9 @@ public class Catapult {
         }
     }
        
+    public boolean getIsFiring() {
+        return _firing;
+    }
     private double scalingCamSpeed() {    
             scalingSpeed = ((1 - 0.45 * (camStopCount - camSlowCount)) / (camEncoderCount / camStopCount));
             return scalingSpeed;
