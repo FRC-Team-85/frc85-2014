@@ -55,6 +55,10 @@ public class Robot extends IterativeRobot {
         tCompressor.runAirCompressor();
         autonomous.runAuton();
     }
+    
+    public void autonomousDisable() {
+        drive.resetEncoders();
+    }
 
     public void teleopInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);

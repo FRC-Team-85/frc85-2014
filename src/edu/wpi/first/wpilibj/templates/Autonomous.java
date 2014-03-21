@@ -75,7 +75,7 @@ public class Autonomous {
         } else {
             if (haulIt()) {
                 if (imageFilter.blob || timer.get() > 5) {
-                    runAutoCatapult();
+                    //runAutoCatapult();
                 }
             }
         }
@@ -101,7 +101,7 @@ public class Autonomous {
     }
 
     public boolean haulIt() {
-        if (currentDist <= increaseSpeedDistance && increaseSpeedDistance > 0) {
+        if (currentDist <= increaseSpeedDistance && increaseSpeedDistance > 0&& false) {
             currentSpeed = Math.abs(maxDriveSpeed * currentDist / increaseSpeedDistance);
         } else if (currentDist <= decreaseSpeedDistance) {
             currentSpeed = maxDriveSpeed;

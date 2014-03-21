@@ -23,7 +23,7 @@ public class AutoPreferences {
     }
     
     public void getAutoSettings() {
-        autoSettings[0] = autoPreferences.getDouble(driveDistanceKey + prefKey, 3);
+        autoSettings[0] = autoPreferences.getDouble(driveDistanceKey + prefKey, 5);
         autoSettings[1] = autoPreferences.getDouble(rotationAngleKey + prefKey, 180);
     }
     
