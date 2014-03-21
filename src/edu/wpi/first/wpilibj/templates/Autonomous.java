@@ -40,7 +40,7 @@ public class Autonomous {
     private double decreaseSpeedAngle;
     private final double maxRotateSpeed = 0.5;
     private double time1, time2, time3;
-    private boolean timerStarted;
+    private boolean timerStarted = false;
     private double timerStatus;
     
     private final int autoSwitichCount = 300;// needs to be found by testing, needs to be changed
