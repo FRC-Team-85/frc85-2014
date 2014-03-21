@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
-        imageFiltering.runImageFiltering();
+        //imageFiltering.runImageFiltering();
         tCompressor.runAirCompressor();
         autonomous.runAuton();
     }

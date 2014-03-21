@@ -68,33 +68,34 @@ public class Autonomous {
     }
     
     public void selectState() {
-        imageFilter.setBlobVariable(imageFilter.getBlob());
+        //imageFilter.setBlobVariable(imageFilter.getBlob());
         currentDist = drive.getEncoderValues();
         if (!catapult.getArmLimit()) {
             //drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
+            catapult._leftCamMotor.set(0);
+            catapult._rightCamMotor.set(0);
         } else {
             if (!timerStarted) {
                 timer.start();
                 timerStarted = true;
             }
-            haulIt();
-            /*if (timer.get() > 1) {
-                //runAutoCatapult();
-                if (!catapult.getIsFiring()) {
+            //haulIt();
+            if (timer.get() > 2) {
+                runAutoCatapult();
+                if (timer.get() > 4) {
                     haulIt();
                 }
-            } */
+            } 
         }
     }
     
     
     private void runAutoCatapult() {
-        if (catapult.getCamLimitStop()){
+        if (catapult.camEncoderCount > 300){
            hasFired = true;
-        runAutoCamControl(!hasFired);
-        
         }
+        runAutoCamControl(!hasFired);
     }
     
         public void runAutoCamControl(boolean fire) {
@@ -121,7 +122,7 @@ public class Autonomous {
             currentSpeed = 0;   
         }
         
-        drive.setAllMotors(currentSpeed, currentSpeed);
+        drive.setAllMotors(-currentSpeed, -currentSpeed);
         if (currentSpeed == 0){
             return true;
         } else {
@@ -154,6 +155,7 @@ public class Autonomous {
         drive.resetEncoders();
         drive.startEncoders();
         timer.reset();
+        hasFired = false;
     }
     
     public void runDebug() {
@@ -163,6 +165,9 @@ public class Autonomous {
         SmartDashboard.putNumber("DriveSpeed", currentSpeed);
         System.out.println("CurrentSpeed = " + currentSpeed);
         System.out.println("CurrentDistance = " + currentDist);
+        System.out.println("AutonTImer = " + timer.get());
+        System.out.println("IsFiring = " + catapult.getIsFiring());
+        System.out.println("Total distance = " + totalDistance);
         
     }
     public void AshleyTimerAuto() {
