@@ -155,7 +155,7 @@ public class Drive {
 
     public double getEncoderValues() {
         double avgEncoderCount;
-        avgEncoderCount = (Math.abs(leftDriveEncoder.get()) + Math.abs(rightDriveEncoder.get()) / 2);
+        avgEncoderCount = (Math.abs(leftDriveEncoder.get() ) + Math.abs(rightDriveEncoder.get() ) ) / 2;
         return avgEncoderCount;
     }
 

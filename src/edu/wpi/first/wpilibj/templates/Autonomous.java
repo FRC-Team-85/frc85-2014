@@ -42,6 +42,7 @@ public class Autonomous {
     private double time1, time2, time3;
     private boolean timerStarted = false;
     private double timerStatus;
+    private int delayCounter = 0;
     
     private final int autoSwitichCount = 300;// needs to be found by testing, needs to be changed
     
@@ -81,12 +82,13 @@ public class Autonomous {
                 timer.start();
                 timerStarted = true;
             }
-            //haulIt();
-           
-                if (haulIt()) {
-                   // runAutoCatapult();
+            if (haulIt()) {
+                if (delayCounter > 50) { // 1 sec delay by cycle time, assuming cycle time is 20 millsecs
+                    runAutoCatapult();
+                } else {
+                    delayCounter++;
                 }
-            
+            }
         }
     }
     
@@ -121,7 +123,6 @@ public class Autonomous {
         } else {
             currentSpeed = 0;   
         }
-        
         drive.setAllMotors(-currentSpeed, -currentSpeed);
         if (currentSpeed == 0 && currentDist >= totalDistance){
             return true;
@@ -157,6 +158,7 @@ public class Autonomous {
         drive.startEncoders();
         timer.reset();
         hasFired = false;
+        delayCounter = 0;
     }
     
     public void runDebug() {
