@@ -24,7 +24,6 @@ public class Catapult {
     
     private final double k_CamMotorSpeed = 1.0;
     private final double k_CamMotorSpeedSlow = 0.60;
-    private boolean slowSpeedCheck = false;
     private boolean _firing = false;
     
     public final Encoder camEncoder;
@@ -32,10 +31,8 @@ public class Catapult {
     private int camSlowCount = 100;
     private int camStopCount = 215;
     private double scalingSpeed;
-    private double camReleaseSpeed = 0.45;
+    private double camReleaseSpeed = 0.6;
     public int camEncoderCount;
-    
-    private boolean startup = true;
     
     public Catapult(OperatorPanel operatorPanel) {
 
@@ -61,32 +58,6 @@ public class Catapult {
         camEncoder.reset();
     }
 
-    /*public void runCam(boolean fire) {
-        if (fire) {
-            _firing = true;
-            slowSpeedCheck = false;
-        } else if (camLimitStopLeft.get()) {
-            _firing = false;
-        }        
-        
-        if (camLimitStopRight.get()) {
-            slowSpeedCheck = true;
-        }
-        
-        if (_firing && intakeLimit.get()) {
-            if (slowSpeedCheck) {
-                _leftCamMotor.set(k_CamMotorSpeedSlow);
-                _rightCamMotor.set(k_CamMotorSpeedSlow);
-            } else {
-                _leftCamMotor.set(k_CamMotorSpeed);
-                _rightCamMotor.set(k_CamMotorSpeed);
-            }
-        } else {
-            _leftCamMotor.set(0.0);
-            _rightCamMotor.set(0.0);
-        }
-    } */
-
     public void runEncoderBasedCatapult(boolean fire, boolean intakeOverride, boolean emergencyStopOverride) {
         resetCamEncoder();
         if (!emergencyStopOverride) {
@@ -94,16 +65,12 @@ public class Catapult {
                 if (fire) {
                     _leftCamMotor.set(camReleaseSpeed);
                     _rightCamMotor.set(camReleaseSpeed);
-                    //startup = false;
                     _firing = true;
                 } else if (_firing) {
                     if (camEncoderCount >= 50 && camEncoderCount <= 210) {
                         _leftCamMotor.set(k_CamMotorSpeedSlow);
                         _rightCamMotor.set(k_CamMotorSpeedSlow);
-                    } /*else if (camEncoderCount >= camSlowCount) {
-                     _leftCamMotor.set(k_CamMotorSpeedSlow);
-                     _rightCamMotor.set(k_CamMotorSpeedSlow);
-                     }*/ else if (camEncoderCount > 270 || camEncoderCount < 50) {
+                    } else if (camEncoderCount > 260 || camEncoderCount < 50) {
                         _leftCamMotor.set(1);
                         _rightCamMotor.set(1);
                     } else {

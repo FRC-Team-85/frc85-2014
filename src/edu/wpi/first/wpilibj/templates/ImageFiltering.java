@@ -53,7 +53,13 @@ public class ImageFiltering {
     }
 
     private void runDebug() {
-        SmartDashboard.putBoolean("RoboRealm Blob", networkTable.getBoolean("Blob"));
+        try {
+            SmartDashboard.putBoolean("RoboRealm Blob", networkTable.getBoolean("Blob"));
+            
+        } catch(Exception ex) {
+            
+        }
+        
     }
 
     public void runImageFiltering() {

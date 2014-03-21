@@ -26,11 +26,11 @@ public class Autonomous {
     
     private final int driveEncoderCPR = 360;
     private int totalDistance;
-    private int currentDist;
+    private double currentDist = 0;
     private int increaseSpeedDistance;
     private int decreaseSpeedDistance;
     
-    private double currentSpeed = 0;
+    private double currentSpeed;
     private final double maxDriveSpeed = 0.6;
     
     private final double intakeRollerSpeed = -1.0;
@@ -49,12 +49,16 @@ public class Autonomous {
         this.imageFilter = imageFiltering;
         this.autoPreferences = autoPreferences;
         gyro = new Gyro(Addresses.GYRO_CHANNEL);
+        timer = new Timer();
         time1 = 1; time2 = 2; time3 = 3;
         
     }
 
     public void getAutonomousPreferencesData() {
         totalDistance = (int)Math.ceil(((12 * autoPreferences.getDriveDistance()) / (4 * Math.PI)) * driveEncoderCPR);
+        if (totalDistance == 0) {
+            totalDistance = 600;
+        }
         increaseSpeedDistance = (int)(totalDistance * (1/3));
         decreaseSpeedDistance = (int)(totalDistance * (2/3));
         completeAngle = autoPreferences.getRotationAngle();
@@ -64,8 +68,9 @@ public class Autonomous {
     
     public void selectState() {
         imageFilter.setBlobVariable(imageFilter.getBlob());
+        currentDist = drive.getEncoderValues();
         if (!catapult.getArmLimit()) {
-            drive.setIntakeMotors(intakeRollerSpeed);
+            //drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
         } else {
             if (haulIt()) {
@@ -84,30 +89,6 @@ public class Autonomous {
         runAutoCamControl(!hasFired);
     }
     
-    
-    public void runProcess1() {
-        switch (stage) {
-            case 1:
-                haulIt();
-                break;
-            case 2:
-                vivaLaRevolution();
-                break;
-            default:
-                break;
-        }
-    }
-    
-    public void runProcess2() {
-        switch (stage) {
-            case 1:
-                haulIt();
-                break;
-            default:
-                break;
-        }
-    }
-    
         public void runAutoCamControl(boolean fire) {
                 catapult.runEncoderBasedCatapult(fire, false, false);
         }
@@ -120,15 +101,18 @@ public class Autonomous {
     }
 
     public boolean haulIt() {
-        if (currentDist <= increaseSpeedDistance) {
-            currentSpeed = maxDriveSpeed * currentDist / increaseSpeedDistance;
+        if (currentDist <= increaseSpeedDistance && increaseSpeedDistance > 0) {
+            currentSpeed = Math.abs(maxDriveSpeed * currentDist / increaseSpeedDistance);
         } else if (currentDist <= decreaseSpeedDistance) {
             currentSpeed = maxDriveSpeed;
+        } else if (currentSpeed < 0.15) {
+            currentSpeed = 0;
         } else if (currentDist <= totalDistance) {
             currentSpeed = maxDriveSpeed * (1 - (currentDist - decreaseSpeedDistance) / (totalDistance - decreaseSpeedDistance));
         } else {
             currentSpeed = 0;   
         }
+        
         drive.setAllMotors(currentSpeed, currentSpeed);
         if (currentSpeed == 0){
             return true;
@@ -158,7 +142,7 @@ public class Autonomous {
     }
     
     public void runAutonInit() {
-        gyro.reset();
+        //gyro.reset();
         drive.resetEncoders();
         drive.startEncoders();
         timer.reset();
@@ -170,6 +154,9 @@ public class Autonomous {
         SmartDashboard.putNumber("AutoStage", stage);
         SmartDashboard.putNumber("Gyro", gyro.getAngle());
         SmartDashboard.putNumber("DriveSpeed", currentSpeed);
+        System.out.println("CurrentSpeed = " + currentSpeed);
+        System.out.println("CurrentDistance = " + currentDist);
+        
     }
     public void AshleyTimerAuto() {
         double thisTime = timer.get();
