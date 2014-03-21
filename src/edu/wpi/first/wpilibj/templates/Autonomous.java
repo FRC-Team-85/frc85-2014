@@ -78,22 +78,22 @@ public class Autonomous {
                 timer.start();
                 timerStarted = true;
             }
-            if (timer.get() > 1) {
+            haulIt();
+            /*if (timer.get() > 1) {
                 //runAutoCatapult();
                 if (!catapult.getIsFiring()) {
                     haulIt();
                 }
-            }
+            } */
         }
     }
     
     
     private void runAutoCatapult() {
-        
+        if (catapult.getCamLimitStop()){
+           hasFired = true;
         runAutoCamControl(!hasFired);
-        hasFired = true;
-        if (catapult.camEncoderCount > 20){
-            runAutoCamControl(false);
+        
         }
     }
     
