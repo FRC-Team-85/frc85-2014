@@ -29,10 +29,13 @@ public class Catapult {
     
     public final Encoder camEncoder;
     private int encoderCPR = 360;// needs to be tested
-    private int camSlowCount = 120;
-    private int camStopCount = 340;
+    private int camSlowCount = 100;
+    private int camStopCount = 215;
     private double scalingSpeed;
     private double camReleaseSpeed = 0.45;
+    public int camEncoderCount;
+    
+    private boolean startup = true;
     
     public Catapult(OperatorPanel operatorPanel) {
 
@@ -49,6 +52,7 @@ public class Catapult {
         runCatapultLED();
         extendArm();
         setTruss();
+        setEncoderDirection();
         runEncoderBasedCatapult(operatorPanel.getCatapultButton(), operatorPanel.getIntakeOverrideSwitch(), operatorPanel.getCamEmergencyStopSwitch());
     }
     
@@ -90,20 +94,26 @@ public class Catapult {
                 if (fire) {
                     _leftCamMotor.set(camReleaseSpeed);
                     _rightCamMotor.set(camReleaseSpeed);
-                } else {
-                    if (camEncoder.get() >= camStopCount) {
-                        _leftCamMotor.set(0.0);
-                        _rightCamMotor.set(0.0);
-                    } else if (camEncoder.get() <= camSlowCount) {
-                        _leftCamMotor.set(1.0);
-                        _rightCamMotor.set(1.0);
-                    } else if (camSlowCount < camEncoder.get() && camEncoder.get() > camStopCount) {
-                        _leftCamMotor.set(scalingCamSpeed());
-                        _rightCamMotor.set(scalingCamSpeed());
+                    //startup = false;
+                    _firing = true;
+                } else if (_firing) {
+                    if (camEncoderCount >= 50 && camEncoderCount <= 210) {
+                        _leftCamMotor.set(k_CamMotorSpeedSlow);
+                        _rightCamMotor.set(k_CamMotorSpeedSlow);
+                    } /*else if (camEncoderCount >= camSlowCount) {
+                     _leftCamMotor.set(k_CamMotorSpeedSlow);
+                     _rightCamMotor.set(k_CamMotorSpeedSlow);
+                     }*/ else if (camEncoderCount > 270 || camEncoderCount < 50) {
+                        _leftCamMotor.set(1);
+                        _rightCamMotor.set(1);
                     } else {
+                        _firing = false;
                         _leftCamMotor.set(0.0);
                         _rightCamMotor.set(0.0);
                     }
+                } else {
+                    _leftCamMotor.set(0.0);
+                    _rightCamMotor.set(0.0);
                 }
             } else {
                 _leftCamMotor.set(0.0);
@@ -116,18 +126,23 @@ public class Catapult {
     }
        
     private double scalingCamSpeed() {    
-            scalingSpeed = ((1 - 0.45 * (camStopCount - camSlowCount)) / (camEncoder.get() / camStopCount));
+            scalingSpeed = ((1 - 0.45 * (camStopCount - camSlowCount)) / (camEncoderCount / camStopCount));
             return scalingSpeed;
     }
     
     public void resetCamEncoder() {
-        if (camLimitStopLeft.get() || camLimitStopRight.get()) {
+        if (camLimitStopRight.get()) {
             camEncoder.reset();
         }
     }
+    
+    public int setEncoderDirection() {
+        camEncoderCount = -camEncoder.get();
+        return camEncoderCount;
+    }
 
     private void runCatapultLED() {
-        operatorPanel.setFireButtonLED(camEncoder.get() >= camStopCount);
+        operatorPanel.setFireButtonLED(camEncoderCount >= camStopCount);
         operatorPanel.setCamStopLED(camLimitStopLeft.get());
         operatorPanel.setCamSlowLED(camLimitStopRight.get());
         operatorPanel.setIntakeLED(intakeLimit.get());
@@ -176,6 +191,6 @@ public class Catapult {
         SmartDashboard.putBoolean("SlowLimit", camLimitStopRight.get());
         SmartDashboard.putBoolean("StopLimit", camLimitStopLeft.get());
         SmartDashboard.putBoolean("IntakeLimit", intakeLimit.get());
-        SmartDashboard.putNumber("CamEncoder", camEncoder.get());
+        SmartDashboard.putNumber("CamEncoder", camEncoderCount);
     }
 }

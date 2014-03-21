@@ -116,7 +116,7 @@ public class Autonomous {
     }
     
         public void runAutoCamControl(boolean fire) {
-            if(catapult.camEncoder.get() <= autoSwitichCount) {
+            if(catapult.camEncoderCount <= autoSwitichCount) {
                 catapult.runEncoderBasedCatapult(fire, true, false);
             } else {
                 catapult._leftCamMotor.set(0);

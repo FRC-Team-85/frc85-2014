@@ -37,14 +37,14 @@ public class Robot extends IterativeRobot {
         autoPreferences.initAutoPrefs();
         drive.resetEncoders();
         catapult.catapultInit();
-       autonomous.gyro.reset();
+        autonomous.gyro.reset();
     }
     
     public void autonomousInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
         autoPreferences.getAutoSettings();
         autonomous.getAutonomousPreferencesData();
-       autonomous.runAutonInit();
+        autonomous.runAutonInit();
         tCompressor.runAirCompressor();
         drive.resetEncoders();
         drive.startEncoders();
