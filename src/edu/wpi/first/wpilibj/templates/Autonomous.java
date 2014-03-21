@@ -68,11 +68,10 @@ public class Autonomous {
             drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
         } else {
-            if (imageFilter.blob || timer.get() > 5) {
-                runAutoCatapult();
-                //runProcess1();
-            } else {
-               
+            if (haulIt()) {
+                if (imageFilter.blob || timer.get() > 5) {
+                    runAutoCatapult();
+                }
             }
         }
     }
@@ -120,7 +119,7 @@ public class Autonomous {
         }
     }
 
-    public void haulIt() {
+    public boolean haulIt() {
         if (currentDist <= increaseSpeedDistance) {
             currentSpeed = maxDriveSpeed * currentDist / increaseSpeedDistance;
         } else if (currentDist <= decreaseSpeedDistance) {
@@ -128,10 +127,14 @@ public class Autonomous {
         } else if (currentDist <= totalDistance) {
             currentSpeed = maxDriveSpeed * (1 - (currentDist - decreaseSpeedDistance) / (totalDistance - decreaseSpeedDistance));
         } else {
-            currentSpeed = 0;
-            stage++;
+            currentSpeed = 0;   
         }
         drive.setAllMotors(currentSpeed, currentSpeed);
+        if (currentSpeed == 0){
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public void vivaLaRevolution() {
