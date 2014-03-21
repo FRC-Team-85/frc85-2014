@@ -41,6 +41,7 @@ public class Autonomous {
     private final double maxRotateSpeed = 0.5;
     private double time1, time2, time3;
     private boolean timerStarted;
+    private double timerStatus;
     
     private final int autoSwitichCount = 300;// needs to be found by testing, needs to be changed
     
@@ -66,7 +67,7 @@ public class Autonomous {
         increaseSpeedAngle = completeAngle * (1/3);
         decreaseSpeedAngle = completeAngle * (2/3);
     }
-    
+   
     public void selectState() {
         //imageFilter.setBlobVariable(imageFilter.getBlob());
         currentDist = drive.getEncoderValues();
@@ -81,12 +82,11 @@ public class Autonomous {
                 timerStarted = true;
             }
             //haulIt();
-            if (timer.get() > 2) {
-                runAutoCatapult();
-                if (timer.get() > 4) {
-                    haulIt();
+           
+                if (haulIt()) {
+                   // runAutoCatapult();
                 }
-            } 
+            
         }
     }
     
@@ -110,7 +110,7 @@ public class Autonomous {
     }
 
     public boolean haulIt() {
-        if (currentDist <= increaseSpeedDistance && increaseSpeedDistance > 0&& false) {
+        if (currentDist <= increaseSpeedDistance && increaseSpeedDistance > 0 && false) {
             currentSpeed = Math.abs(maxDriveSpeed * currentDist / increaseSpeedDistance);
         } else if (currentDist <= decreaseSpeedDistance) {
             currentSpeed = maxDriveSpeed;
@@ -123,7 +123,7 @@ public class Autonomous {
         }
         
         drive.setAllMotors(-currentSpeed, -currentSpeed);
-        if (currentSpeed == 0){
+        if (currentSpeed == 0 && currentDist >= totalDistance){
             return true;
         } else {
             return false;
@@ -146,8 +146,9 @@ public class Autonomous {
     }
     
     public void runAuton() {
+        timerStatus = timer.get();
         selectState();
-        runDebug();
+        //runDebug();
     }
     
     public void runAutonInit() {

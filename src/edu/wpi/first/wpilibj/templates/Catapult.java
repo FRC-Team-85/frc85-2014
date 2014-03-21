@@ -45,7 +45,7 @@ public class Catapult {
     }
 
     public void runCatapult() {
-        runDebug();
+        //runDebug();
         runCatapultLED();
         extendArm();
         setTruss();

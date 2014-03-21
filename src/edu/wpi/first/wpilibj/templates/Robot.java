@@ -68,9 +68,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopPeriodic() {
-       SmartDashboard.putNumber("Gyro", autonomous.gyro.getAngle());
         drive.runTankDrive();
-        tCompressor.compressorDebug();
         tCompressor.runAirCompressor();
         imageFiltering.setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));
         catapult.runCatapult();
