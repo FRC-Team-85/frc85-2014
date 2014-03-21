@@ -23,7 +23,7 @@ public class Catapult {
     private final Solenoid _trussValve;
     
     private final double k_CamMotorSpeed = 1.0;
-    private final double k_CamMotorSpeedSlow = 0.55;
+    private final double k_CamMotorSpeedSlow = 0.60;
     private boolean slowSpeedCheck = false;
     private boolean _firing = false;
     
@@ -152,7 +152,7 @@ public class Catapult {
     public void extendArm() {
         if (operatorPanel.getIntakeArmSwitch()) {
             _armValve.set(true);
-        } else {
+        } else if (!_firing){
             _armValve.set(false);
         }
     }

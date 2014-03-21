@@ -20,7 +20,9 @@ public class Autonomous {
     Gyro gyro;
     AutoPreferences autoPreferences;
     
-    private int stage = 0;
+    private int stage = 1;
+    
+    private boolean hasFired = false;
     
     private final int driveEncoderCPR = 360;
     private int totalDistance;
@@ -66,26 +68,26 @@ public class Autonomous {
             drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);
         } else {
-            if (imageFilter.blob && timer.get() <= 5.0) {
-                timer.stop();
-                runProcess1();
-            } else if (timer.get() > 5.0) {
-                timer.stop();
-                runProcess2();
+            if (imageFilter.blob || timer.get() > 5) {
+                runAutoCatapult();
+                //runProcess1();
+            } else {
+               
             }
         }
     }
     
     
+    private void runAutoCatapult() {
+        if (catapult.camLimitStopRight.get()){
+            hasFired = true;
+        } 
+        runAutoCamControl(!hasFired);
+    }
+    
+    
     public void runProcess1() {
         switch (stage) {
-            case 0:
-                if (catapult.camLimitStopLeft.get() && !willFire) {//if ready to fire and done with first fire
-                    stage = 1;
-                }
-                //camMotorControl();//drive
-                runAutoCamControl(willFire);
-                break;
             case 1:
                 haulIt();
                 break;
@@ -99,14 +101,6 @@ public class Autonomous {
     
     public void runProcess2() {
         switch (stage) {
-            case 0:
-                if (catapult.camLimitStopLeft.get() && !willFire) {//if ready to fire and done with first fire
-                    stage = 1;
-                } else {
-                    //camMotorControl();//drive
-                    runAutoCamControl(willFire);
-                }
-                break;
             case 1:
                 haulIt();
                 break;
@@ -116,13 +110,7 @@ public class Autonomous {
     }
     
         public void runAutoCamControl(boolean fire) {
-            if(catapult.camEncoderCount <= autoSwitichCount) {
-                catapult.runEncoderBasedCatapult(fire, true, false);
-            } else {
-                catapult._leftCamMotor.set(0);
-                catapult._rightCamMotor.set(0);
-                willFire = false;
-            }
+                catapult.runEncoderBasedCatapult(fire, false, false);
         }
 
     public void camMotorControl() {//fire then set to false
