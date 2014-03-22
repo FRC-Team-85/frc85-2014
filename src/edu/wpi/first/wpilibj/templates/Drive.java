@@ -55,22 +55,27 @@ public class Drive {
         getJoystickY(_leftStick.getTrigger(), _rightStick.getTrigger());
         setDeadband();
         halfSpeedMotors(_leftStick.getRawButton(2));
-        setAllMotors(setRandysDeadBand(leftDriveMotorOutput), setRandysDeadBand(rightDriveMotorOutput));
-        //setAllMotors(leftDriveMotorOutput, rightDriveMotorOutput);
+        setAllMotors(setDriveOutputScaling(leftDriveMotorOutput), setDriveOutputScaling(rightDriveMotorOutput));
         runIntakeRollers(_rightStick.getRawButton(2), _rightStick.getRawButton(3));
     }
 
+    /**
+     * Joysticks are reversed for Driver's preference and adjusting for the Intake Side to be the front
+     * 
+     * @param reverseLeftButton
+     * @param reverseRightButton 
+     */
     private void getJoystickY(boolean reverseLeftButton, boolean reverseRightButton) {
         if (reverseLeftButton && reverseRightButton){
-            rightDriveMotorOutput = -(calculateLinearOutput(_leftStick.getY()));
-            leftDriveMotorOutput = -calculateLinearOutput(_rightStick.getY());    
+            rightDriveMotorOutput = -calculateJoystickLinearOutput(_rightStick.getY());
+            leftDriveMotorOutput = -calculateJoystickLinearOutput(_leftStick.getY());    
         } else {
-            leftDriveMotorOutput = (calculateLinearOutput(_leftStick.getY()));
-            rightDriveMotorOutput = calculateLinearOutput(_rightStick.getY());
+            leftDriveMotorOutput = calculateJoystickLinearOutput(_rightStick.getY());
+            rightDriveMotorOutput = calculateJoystickLinearOutput(_leftStick.getY());
         }
     }
 
-    private double setRandysDeadBand(double input) {
+    private double setDriveOutputScaling(double input) {
         if (input > 0){
             input = ((input - k_Deadband) / (1 - k_Deadband));
             return input;
@@ -93,8 +98,8 @@ public class Drive {
     }
 
     public void setAllMotors(double leftDriveSpeed, double rightDriveSpeed) {
-        setLeftMotors(-leftDriveSpeed);
-        setRightMotors(rightDriveSpeed);
+        setLeftMotors(leftDriveSpeed);
+        setRightMotors(-rightDriveSpeed);
     }
 
     private void setLeftMotors(double speed) {
@@ -117,7 +122,7 @@ public class Drive {
         
     }
 
-    public double calculateLinearOutput(double output) {
+    public double calculateJoystickLinearOutput(double output) {
         double x = output;
 
         if (x < 0) {
@@ -153,7 +158,7 @@ public class Drive {
         _rightIntakeMotor.set(speed);
     }
 
-    public double getEncoderValues() {
+    public double getAvgDriveEncValue() {
         double avgEncoderCount;
         avgEncoderCount = (Math.abs(leftDriveEncoder.get() ) + Math.abs(rightDriveEncoder.get() ) ) / 2;
         return avgEncoderCount;
