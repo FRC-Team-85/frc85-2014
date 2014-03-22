@@ -10,45 +10,45 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Catapult {
 
-    public final DigitalInput camLimitStopLeft = new DigitalInput(Addresses.CAM_LIMIT_STOP_LEFT);
-    public final DigitalInput camLimitStopRight = new DigitalInput(Addresses.CAM_LIMIT_STOP_RIGHT);
-    public final DigitalInput intakeLimit = new DigitalInput(Addresses.INTAKE_LIMIT);
-    
     OperatorPanel operatorPanel;
+    
+    public final DigitalInput camLimitStopLeft;
+    public final DigitalInput camLimitReset;
+    public final DigitalInput intakeLimit;
     
     public final SpeedController _leftCamMotor;
     public final SpeedController _rightCamMotor;
     
+    public final Encoder camEncoder;
+    public int camEncoderCount;
+    
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
-    private final double k_CamMotorSpeed = 1.0;
-    private final double k_CamMotorSpeedSlow = 0.60;
-    private boolean _firing = false;
+    private final double CAM_RELEASE_SPEED = 0.6;
+    private final double CAM_FAST_SPEED = 1.0;
+    private final double CAM_SLOW_SPEED = 0.60;
+    private boolean firing = false;
     
-    public final Encoder camEncoder;
-    private int encoderCPR = 360;// needs to be tested
-    private int camSlowCount = 100;
-    private int camStopCount = 215;
-    private double scalingSpeed;
-    private double camReleaseSpeed = 0.6;
-    public int camEncoderCount;
     
     public Catapult(OperatorPanel operatorPanel) {
-
         this.operatorPanel = operatorPanel;
         _leftCamMotor = new Victor(Addresses.CAM_MOTOR_LEFT);
         _rightCamMotor = new Victor(Addresses.CAM_MOTOR_RIGHT);
+        camLimitStopLeft = new DigitalInput(Addresses.CAM_LIMIT_STOP_LEFT);
+        camLimitReset = new DigitalInput(Addresses.CAM_LIMIT_STOP_RIGHT);
+        intakeLimit = new DigitalInput(Addresses.INTAKE_LIMITSWITCH);
         _armValve = new Solenoid(Addresses.INTAKE_SOLENOID);
         _trussValve = new Solenoid(Addresses.TRUSS_SOLENOID);
         camEncoder = new Encoder(Addresses.CAM_ENCODER_CHANNEL_A, Addresses.CAM_ENCODER_CHANNEL_B);
     }
 
+    
     public void runCatapult() {
         //runDebug();
         runCatapultLED();
-        extendArm();
-        setTruss();
+        runIntakeArm();
+        runTruss();
         runEncoderBasedCatapult(operatorPanel.getCatapultButton(), operatorPanel.getIntakeOverrideSwitch(), operatorPanel.getCamEmergencyStopSwitch());
     }
     
@@ -63,45 +63,39 @@ public class Catapult {
         if (!emergencyStopOverride) {
             if (intakeLimit.get() || intakeOverride) {
                 if (fire) {
-                    _leftCamMotor.set(camReleaseSpeed);
-                    _rightCamMotor.set(camReleaseSpeed);
-                    _firing = true;
-                } else if (_firing) {
+                    setCamMotors(CAM_RELEASE_SPEED);
+                    firing = true;
+                } else if (firing) {
                     if (camEncoderCount >= 50 && camEncoderCount <= 210) {
-                        _leftCamMotor.set(k_CamMotorSpeedSlow);
-                        _rightCamMotor.set(k_CamMotorSpeedSlow);
+                        setCamMotors(CAM_SLOW_SPEED);
                     } else if (camEncoderCount > 260 || camEncoderCount < 50) {
-                        _leftCamMotor.set(1);
-                        _rightCamMotor.set(1);
+                        setCamMotors(CAM_FAST_SPEED);
                     } else {
-                        _firing = false;
-                        _leftCamMotor.set(0.0);
-                        _rightCamMotor.set(0.0);
+                        firing = false;
+                        setCamMotors(0);
                     }
                 } else {
-                    _leftCamMotor.set(0.0);
-                    _rightCamMotor.set(0.0);
+                    setCamMotors(0);
                 }
             } else {
-                _leftCamMotor.set(0.0);
-                _rightCamMotor.set(0.0);
+                setCamMotors(0);
             }
         } else {
-            _leftCamMotor.set(0.0);
-            _rightCamMotor.set(0.0);
+            setCamMotors(0);
         }
     }
        
-    public boolean getIsFiring() {
-        return _firing;
-    }
-    private double scalingCamSpeed() {    
-            scalingSpeed = ((1 - 0.45 * (camStopCount - camSlowCount)) / (camEncoderCount / camStopCount));
-            return scalingSpeed;
+    public boolean isFiring() {
+        return firing;
     }
     
+    public void setCamMotors(double speed) {
+        _leftCamMotor.set(speed);
+        _rightCamMotor.set(speed);
+    }
+        
     public void resetCamEncoder() {
-        if (camLimitStopRight.get()) {
+        if (camLimitReset.get()) {
             camEncoder.reset();
         }
     }
@@ -111,54 +105,40 @@ public class Catapult {
         return camEncoderCount;
     }
 
-    private void runCatapultLED() {
-        operatorPanel.setFireButtonLED(camEncoderCount >= camStopCount);
-        operatorPanel.setCamStopLED(camLimitStopLeft.get());
-        operatorPanel.setCamSlowLED(camLimitStopRight.get());
-        operatorPanel.setIntakeLED(intakeLimit.get());
-        operatorPanel.setTrussLED(operatorPanel.getTrussSwitch());
-    }
-
-    public void extendArm() {
+    public void runIntakeArm() {
         if (operatorPanel.getIntakeArmSwitch()) {
             _armValve.set(true);
-        } else if (!_firing){
+        } else if (!firing){
             _armValve.set(false);
         }
     }
+    
+    public boolean getArmLimit() {
+        return intakeLimit.get();
+    }
 
-    public void setTruss() {
+    public void setArmSolenoid(boolean toggle) {
+        _armValve.set(toggle);
+    }
+
+    public void runTruss() {
         if (operatorPanel.getTrussSwitch()) {
             _trussValve.set(true);
         } else {
             _trussValve.set(false);
         }
     }
-
-    public boolean getCamLimitStop() {//ready to fire
-        return camLimitStopLeft.get();
-    }
-
-    public void setMotors(boolean willfire) {
-        if (camLimitStopLeft.get() && !willfire) {
-            _leftCamMotor.set(0.0);
-            _rightCamMotor.set(0.0);
-        } else {
-            _leftCamMotor.set(k_CamMotorSpeed);
-            _rightCamMotor.set(k_CamMotorSpeed);
-        }
-    }
-
-    public boolean getArmLimit() {
-        return intakeLimit.get();
-    }
-
-    public void setArmSolenoid(boolean bool) {
-        _armValve.set(bool);
+    
+    private void runCatapultLED() {
+        operatorPanel.setFireButtonLED(!firing);
+        //operatorPanel.setCamStopLED(camLimitStopLeft.get());
+        //operatorPanel.setCamSlowLED(camLimitReset.get());
+        //operatorPanel.setIntakeLED(intakeLimit.get());
+        //operatorPanel.setTrussLED(operatorPanel.getTrussSwitch());
     }
 
     private void runDebug() {
-        SmartDashboard.putBoolean("SlowLimit", camLimitStopRight.get());
+        SmartDashboard.putBoolean("SlowLimit", camLimitReset.get());
         SmartDashboard.putBoolean("StopLimit", camLimitStopLeft.get());
         SmartDashboard.putBoolean("IntakeLimit", intakeLimit.get());
         SmartDashboard.putNumber("CamEncoder", camEncoderCount);

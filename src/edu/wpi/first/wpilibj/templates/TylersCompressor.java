@@ -35,7 +35,7 @@ public class TylersCompressor {
         }
     }
     
-    public void compressorDebug(){
+    public void runCompressorDebug(){
         SmartDashboard.putBoolean("pressureSwitch", pressureSwitch.get());
         
     }

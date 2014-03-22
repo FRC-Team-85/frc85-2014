@@ -8,7 +8,6 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,9 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
     
-    boolean mode = false;
-    Joystick leftStick = new Joystick(Addresses.LEFT_STICK);
-    Joystick rightStick = new Joystick(Addresses.RIGHT_STICK);
+    Joystick leftStick = new Joystick(Addresses.LEFT_JOYSTICK);
+    Joystick rightStick = new Joystick(Addresses.RIGHT_JOYSTICK);
     OperatorPanel operatorPanel = new OperatorPanel();
     Drive drive = new Drive(leftStick, rightStick);
     Catapult catapult = new Catapult(operatorPanel);
@@ -35,9 +33,8 @@ public class Robot extends IterativeRobot {
         imageFiltering.cameraRingLight.setDirection(Relay.Direction.kForward);
         tCompressor.airCompressorInit();
         autoPreferences.initAutoPrefs();
-        drive.resetEncoders();
+        drive.resetDriveEncoders();
         catapult.catapultInit();
-        autonomous.gyro.reset();
     }
     
     public void autonomousInit() {
@@ -46,8 +43,7 @@ public class Robot extends IterativeRobot {
         autonomous.getAutonomousPreferencesData();
         autonomous.runAutonInit();
         tCompressor.runAirCompressor();
-        drive.resetEncoders();
-        drive.startEncoders();
+        drive.runDriveInit();
     }
 
     public void autonomousPeriodic() {
@@ -57,14 +53,12 @@ public class Robot extends IterativeRobot {
     }
     
     public void autonomousDisable() {
-        drive.resetEncoders();
+        drive.resetDriveEncoders();
     }
 
     public void teleopInit() {
         imageFiltering.cameraRingLight.set(Relay.Value.kOn);
-        drive.resetEncoders();
-        drive.startEncoders();
-        autonomous.gyro.reset();
+        drive.runDriveInit();
     }
 
     public void teleopPeriodic() {

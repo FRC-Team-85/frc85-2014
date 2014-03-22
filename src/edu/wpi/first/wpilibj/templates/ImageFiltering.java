@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class ImageFiltering {
 
     Relay cameraRingLight;
@@ -18,7 +17,11 @@ public class ImageFiltering {
     public ImageFiltering() {
         cameraRingLight = new Relay(Addresses.CAMERA_RINGLIGHT_SPIKE);
     }
-    
+
+    public void runImageFiltering() {
+        runDebug();
+    }
+
     /*
      * Gets Blobs from Roborealm and checks for hot goal and switches the variable "blob" if true
      */
@@ -35,8 +38,8 @@ public class ImageFiltering {
         SmartDashboard.putBoolean("Blob", blob);
         return false;
     }
-    
-    public boolean setBlobVariable(boolean getBlob){
+
+    public boolean setBlobVariable(boolean getBlob) {
         if (getBlob) {
             blob = true;
         }
@@ -55,14 +58,7 @@ public class ImageFiltering {
     private void runDebug() {
         try {
             SmartDashboard.putBoolean("RoboRealm Blob", networkTable.getBoolean("Blob"));
-            
-        } catch(Exception ex) {
-            
+        } catch (Exception ex) {
         }
-        
-    }
-
-    public void runImageFiltering() {
-        runDebug();
     }
 }

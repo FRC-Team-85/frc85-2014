@@ -11,18 +11,18 @@ import edu.wpi.first.wpilibj.*;
 public class OperatorPanel {
     
     
-    private final int k_CamSlowLED = 1;
-    private final int k_CamStopLED = 3;
-    private final int k_IntakeLED = 5;
-    private final int k_TrussLED = 7;
+    private final int CAM_SLOW_LED = 1;
+    private final int CAM_STOP_LED = 3;
+    private final int INTAKE_LED = 5;
+    private final int TRUSS_LED = 7;
     
-    private final int k_FireButtonLEDSignal = 2;
-    private final int k_FireButton = 2;
+    private final int FIRE_BUTTON_LED = 2;
+    private final int FIRE_BUTTON = 2;
     
-    private final int k_IntakeArmSwitch = 4;
-    private final int k_TrussSwitch = 6;
-    private final int k_IntakeOverrideSwitch = 3    ;
-    private final int k_CamEmergencyStopSwitch = 1;
+    private final int INTAKE_TOGGLE_SWITCH = 4;
+    private final int TRUSS_TOGGLE_SWITCH = 6;
+    private final int INTAKE_OVERRIDE_TOGGLE_SWITCH = 3;
+    private final int CAM_EMERGENCY_STOP_TOGGLE_SWITCH = 1;
     
     DriverStation driverstation;
     
@@ -31,70 +31,70 @@ public class OperatorPanel {
 
     public boolean getCatapultButton() {
            driverstation = DriverStation.getInstance();
-        return !driverstation.getDigitalIn(k_FireButton);
+        return !driverstation.getDigitalIn(FIRE_BUTTON);
     }
     
     public boolean getIntakeOverrideSwitch() {
         driverstation = DriverStation.getInstance();
-        return driverstation.getDigitalIn(k_IntakeOverrideSwitch);
+        return driverstation.getDigitalIn(INTAKE_OVERRIDE_TOGGLE_SWITCH);
     }
     
     public boolean getCamEmergencyStopSwitch() {
         driverstation = DriverStation.getInstance();
-        return driverstation.getDigitalIn(k_CamEmergencyStopSwitch);
+        return driverstation.getDigitalIn(CAM_EMERGENCY_STOP_TOGGLE_SWITCH);
     }
 
     public boolean getTrussSwitch() {
         driverstation = DriverStation.getInstance();
-        return !driverstation.getDigitalIn(k_TrussSwitch);
+        return !driverstation.getDigitalIn(TRUSS_TOGGLE_SWITCH);
     }
 
     public boolean getIntakeArmSwitch() {
         driverstation = DriverStation.getInstance();
-        return !driverstation.getDigitalIn(k_IntakeArmSwitch);
+        return !driverstation.getDigitalIn(INTAKE_TOGGLE_SWITCH);
     }
 
     public void setCamSlowLED(boolean toggle){
         driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(k_CamSlowLED, true);
+            driverstation.setDigitalOut(CAM_SLOW_LED, true);
         } else {
-            driverstation.setDigitalOut(k_CamSlowLED, false);
+            driverstation.setDigitalOut(CAM_SLOW_LED, false);
         }
     }
     public void setCamStopLED(boolean toggle) {
         driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(k_CamStopLED, true);
+            driverstation.setDigitalOut(CAM_STOP_LED, true);
         } else {
-            driverstation.setDigitalOut(k_CamStopLED, false);
+            driverstation.setDigitalOut(CAM_STOP_LED, false);
         }
     }
 
     public void setIntakeLED(boolean toggle) {
         driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(k_IntakeLED, true);
+            driverstation.setDigitalOut(INTAKE_LED, true);
         } else {
-            driverstation.setDigitalOut(k_IntakeLED, false);
+            driverstation.setDigitalOut(INTAKE_LED, false);
         }
     }
 
     public void setTrussLED(boolean toggle) {
         driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(k_TrussLED, true);
+            driverstation.setDigitalOut(TRUSS_LED, true);
         } else {
-            driverstation.setDigitalOut(k_TrussLED, false);
+            driverstation.setDigitalOut(TRUSS_LED, false);
         }
     }
     
     public void setFireButtonLED(boolean toggle) { // Spike is normally on
         driverstation = DriverStation.getInstance();
         if (toggle) {
-            driverstation.setDigitalOut(k_FireButtonLEDSignal, false);
+            driverstation.setDigitalOut(FIRE_BUTTON_LED, false);
         } else {
-            driverstation.setDigitalOut(k_FireButtonLEDSignal, true);
+            driverstation.setDigitalOut(FIRE_BUTTON_LED, true);
 
         }
     }
