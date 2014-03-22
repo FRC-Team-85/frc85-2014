@@ -14,6 +14,7 @@ public class AutoPreferences {
     public static final String enableShooterKey = "Enable_Shooter";
     public static final String enableIntakeKey = "Enable_Intake_Arm";
     public static final String shootFirstKey = "Shoot_First";
+    public static final String enableTrussKey = "Enable_Truss";
     public static final String prefKey = "_Pref";
     
     double driveDistanceSetting;
@@ -21,6 +22,7 @@ public class AutoPreferences {
     boolean enableShooterSetting;
     boolean enableIntakeSetting;
     boolean shootFirstSetting;
+    boolean enableTrussSetting;
     
     Preferences autoPreferences;
     
@@ -34,6 +36,7 @@ public class AutoPreferences {
         enableShooterSetting = autoPreferences.getBoolean(enableShooterKey + prefKey, false);
         enableIntakeSetting = autoPreferences.getBoolean(enableIntakeKey + prefKey, false);
         shootFirstSetting = autoPreferences.getBoolean(shootFirstKey + prefKey, true);
+        enableTrussSetting = autoPreferences.getBoolean(enableTrussKey + prefKey, false);
     }
     
     public void initAutoPrefs() {
@@ -58,5 +61,9 @@ public class AutoPreferences {
     
     public boolean getShootFirstSetting() {
         return shootFirstSetting;
+    }
+    
+    public boolean getTrussSetting() {
+        return enableTrussSetting;
     }
 }

@@ -71,6 +71,11 @@ public class Autonomous {
     public void selectState() {
         //imageFilter.setBlobVariable(imageFilter.getBlob());
         currentDistance = drive.getAvgDriveEncValue();
+        if (autoPreferences.getTrussSetting()) {
+            catapult.setTrussPostition(true);
+        } else {
+            catapult.setTrussPostition(false);
+        }
         if (!catapult.getArmLimit() && autoPreferences.enableIntakeSetting) {
             //drive.setIntakeMotors(intakeRollerSpeed);
             catapult.setArmSolenoid(true);

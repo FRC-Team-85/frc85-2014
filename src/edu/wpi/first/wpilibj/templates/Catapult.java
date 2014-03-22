@@ -129,6 +129,10 @@ public class Catapult {
         }
     }
     
+    public void setTrussPostition(boolean toggle) {
+        _trussValve.set(toggle);
+    }
+    
     private void runCatapultLED() {
         operatorPanel.setFireButtonLED(!firing);
         //operatorPanel.setCamStopLED(camLimitStopLeft.get());
