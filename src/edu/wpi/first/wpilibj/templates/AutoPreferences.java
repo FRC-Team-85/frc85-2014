@@ -25,7 +25,6 @@ public class AutoPreferences {
     public void getAutoSettings() {
         driveDistanceSetting = autoPreferences.getDouble(driveDistanceKey + prefKey, 3);
         mode = autoPreferences.getInt(modeKey + prefKey, 0);
-        
     }
     
     public void initAutoPrefs() {

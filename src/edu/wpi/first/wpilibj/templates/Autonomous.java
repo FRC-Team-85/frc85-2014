@@ -74,38 +74,7 @@ public class Autonomous {
 
     public void selectState() {
         //imageFilter.setBlobVariable(imageFilter.getBlob());
-        currentDistance = drive.getAvgDriveEncValue();
-        /*if (!catapult.getArmLimit() && autoPreferences.enableIntakeSetting) {
-            //drive.setIntakeMotors(intakeRollerSpeed);
-            catapult.setArmSolenoid(true);
-            catapult.setCamMotors(0);
-        } else if (autoPreferences.getShootFirstSetting()) {
-            if (shotDelayCounter > 150) { // 3 sec delay by cycle time, assuming cycle time is 20 millsecs
-                runAutoCatapult();
-                if (driveDelayCounter > 100) { // 2 sec delay, assuming cycle time is 20 millsecs
-                    runAutoDrive();
-                } else {
-                    driveDelayCounter++;
-                }
-            } else {
-                shotDelayCounter++;
-            }
-        } else {
-            if (driveDelayCounter > 100) { // 2 sec delay, assuming cycle time is 20 millsecs
-                if (runAutoDrive() && autoPreferences.getShooterSetting() && catapult.getArmLimit()) {
-                    if (shotDelayCounter > 50) { // 1 sec delay by cycle time, assuming cycle time is 20 millsecs
-                        runAutoCatapult();
-                    } else {
-                        shotDelayCounter++;
-                    }
-                }
-            } else {
-                driveDelayCounter++;
-            }
-        }*/
-        
-        
-        
+        currentDistance = drive.getAvgDriveEncValue();        
         switch(autoState){
             case 1://Drive only
                 runAutoDrive();
