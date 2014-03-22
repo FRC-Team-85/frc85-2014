@@ -76,7 +76,7 @@ public class Autonomous {
             catapult.setArmSolenoid(true);
             catapult.setCamMotors(0);
         } else if (autoPreferences.getShootFirstSetting()) {
-            if (shotDelayCounter > 100) { // 2 sec delay by cycle time, assuming cycle time is 20 millsecs
+            if (shotDelayCounter > 150) { // 3 sec delay by cycle time, assuming cycle time is 20 millsecs
                 runAutoCatapult();
                 if (driveDelayCounter > 100) { // 2 sec delay, assuming cycle time is 20 millsecs
                     runAutoDrive();
