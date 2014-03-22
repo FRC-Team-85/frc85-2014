@@ -25,7 +25,7 @@ public class Catapult {
     private final Solenoid _armValve;
     private final Solenoid _trussValve;
     
-    private final double CAM_RELEASE_SPEED = 0.6;
+    private final double CAM_RELEASE_SPEED = 0.48;
     private final double CAM_FAST_SPEED = 1.0;
     private final double CAM_SLOW_SPEED = 0.60;
     private boolean firing = false;
@@ -66,9 +66,9 @@ public class Catapult {
                     setCamMotors(CAM_RELEASE_SPEED);
                     firing = true;
                 } else if (firing) {
-                    if (camEncoderCount >= 50 && camEncoderCount <= 210) {
+                    if (camEncoderCount >= 50 && camEncoderCount <= 200) {
                         setCamMotors(CAM_SLOW_SPEED);
-                    } else if (camEncoderCount > 260 || camEncoderCount < 50) {
+                    } else if (camEncoderCount > 250 || camEncoderCount < 50) {
                         setCamMotors(CAM_FAST_SPEED);
                     } else {
                         firing = false;

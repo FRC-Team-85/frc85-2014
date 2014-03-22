@@ -13,12 +13,14 @@ public class AutoPreferences {
     public static final String rotationAngleKey = "Rotation_Angle";
     public static final String enableShooterKey = "Enable_Shooter";
     public static final String enableIntakeKey = "Enable_Intake_Arm";
+    public static final String shootFirstKey = "Shoot_First";
     public static final String prefKey = "_Pref";
     
     double driveDistanceSetting;
     double rotationSetting;
     boolean enableShooterSetting;
     boolean enableIntakeSetting;
+    boolean shootFirstSetting;
     
     Preferences autoPreferences;
     
@@ -31,6 +33,7 @@ public class AutoPreferences {
         rotationSetting = autoPreferences.getDouble(rotationAngleKey + prefKey, 180);
         enableShooterSetting = autoPreferences.getBoolean(enableShooterKey + prefKey, false);
         enableIntakeSetting = autoPreferences.getBoolean(enableIntakeKey + prefKey, false);
+        shootFirstSetting = autoPreferences.getBoolean(shootFirstKey + prefKey, true);
     }
     
     public void initAutoPrefs() {
@@ -51,5 +54,9 @@ public class AutoPreferences {
     
     public boolean getIntakeSetting() {
         return enableIntakeSetting;
+    }
+    
+    public boolean getShootFirstSetting() {
+        return shootFirstSetting;
     }
 }
