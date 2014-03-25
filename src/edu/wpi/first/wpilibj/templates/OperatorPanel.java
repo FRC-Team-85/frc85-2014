@@ -95,8 +95,6 @@ public class OperatorPanel {
             driverstation.setDigitalOut(FIRE_BUTTON_LED, false);
         } else {
             driverstation.setDigitalOut(FIRE_BUTTON_LED, true);
-
         }
     }
-    
 }

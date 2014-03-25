@@ -4,11 +4,14 @@
  */
 package edu.wpi.first.wpilibj.templates;
 
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.Preferences;
 
 
-public class AutoPreferences {
 
+public class AutoPreferences {
+    
+    DriverStationLCD driverStationLCD;
     public static final String driveDistanceKey = "Drive_Dist";
     public static final String prefKey = "_Pref";
     public static final String modeKey = "_Mode";
@@ -20,6 +23,7 @@ public class AutoPreferences {
     
     public AutoPreferences() {
         autoPreferences = Preferences.getInstance();
+        driverStationLCD = DriverStationLCD.getInstance();
     }
     
     public void getAutoSettings() {
@@ -33,5 +37,13 @@ public class AutoPreferences {
     
     public double getDriveDistance() {
         return driveDistanceSetting;
+    }
+    
+    public void displayAutoModes() {
+        driverStationLCD.println(DriverStationLCD.Line.kUser1, 1, "Mode 1: Drive Only");
+        driverStationLCD.println(DriverStationLCD.Line.kUser2, 1, "Mode 2: Drive then Shoot");
+        driverStationLCD.println(DriverStationLCD.Line.kUser3, 1, "Mode 3: Shoot then Drive");
+        driverStationLCD.println(DriverStationLCD.Line.kUser4, 1, "Mode 4: Double Ball Auton then Drive");
+        driverStationLCD.updateLCD();
     }
 }

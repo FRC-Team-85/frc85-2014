@@ -79,6 +79,7 @@ public class Autonomous {
             case 1://Drive only
                 runAutoDrive();
                 break;
+                
             case 2://Drive then shoot
                 if(!catapult.getArmLimit()){
                     catapult.setArmSolenoid(true);
@@ -97,6 +98,7 @@ public class Autonomous {
                     }
                 }
                 break;
+                
             case 3://Shoot then drive
                 if(!catapult.getArmLimit()){
                     catapult.setArmSolenoid(true);
@@ -112,11 +114,10 @@ public class Autonomous {
                     } else {
                         shotDelayCounter++;
                     }
-                    
                 }
                 break;
-            case 4://Double shoot then drive
                 
+            case 4://Double shoot then drive
                 if(!catapult.getArmLimit()){
                     catapult.setArmSolenoid(true);
                     catapult.setCamMotors(0);
@@ -148,6 +149,7 @@ public class Autonomous {
                     }
                 }
                 break;
+                
             default:
                 break;
         }
