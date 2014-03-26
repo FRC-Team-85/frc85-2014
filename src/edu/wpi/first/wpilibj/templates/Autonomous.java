@@ -29,7 +29,7 @@ public class Autonomous {
     private double currentDistance = 0;
     private double currentSpeed;
     private final int DRIVE_ENCODER_CPR = 360;
-    private final double MAX_DRIVE_SPEED = 0.25;
+    private final double MAX_DRIVE_SPEED = 0.30;
     
     private double completeAngle;
     private double increaseSpeedAngle;
@@ -53,10 +53,13 @@ public class Autonomous {
         //gyro.reset();
         drive.resetDriveEncoders();
         drive.startDriveEncoders();
+        catapult.resetFiring();
         hasFired = false;
         shotDelayCounter = 0;
         driveDelayCounter = 0;
+        rollerDelay = 0;
         shotCount = 0;
+        
     }
     
     public void runAuton() {
@@ -66,6 +69,7 @@ public class Autonomous {
     }
 
     public void getAutonomousPreferencesData() {
+        autoState = autoPreferences.getAutoMode();
         totalDistance = (int) Math.ceil(((12 * autoPreferences.getDriveDistance()) / (4 * Math.PI)) * DRIVE_ENCODER_CPR);
         if (totalDistance == 0) {
             totalDistance = 1000;
@@ -122,14 +126,14 @@ public class Autonomous {
                     catapult.setArmSolenoid(true);
                     catapult.setCamMotors(0);
                 } else {
-                    if (shotDelayCounter > 100) { // 2 sec delay, assuming cycle time is 20 millsecs
+                    if (shotDelayCounter > 65) { // 2 sec delay, assuming cycle time is 20 millsecs
                         runAutoCatapult();
                         if(!catapult.isFiring()){
                             if(shotCount == 0){
-                                if(rollerDelay <= 100){
-                                    drive.setIntakeMotors(1);
+                                if(rollerDelay <= 60){
+                                    drive.setIntakeMotors(-1);
                                 } else {
-                                    drive.setIntakeMotors(0);
+                                    //drive.setIntakeMotors(0);
                                     catapult.camEncoder.reset();
                                     hasFired = false;
                                     shotDelayCounter = 0;
@@ -137,7 +141,7 @@ public class Autonomous {
                                 }
                                 rollerDelay++;
                             } else {
-                                if(driveDelayCounter > 100){
+                                if(driveDelayCounter > 1){
                             runAutoDrive();
                         } else {
                             driveDelayCounter++;

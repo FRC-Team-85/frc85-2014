@@ -39,11 +39,16 @@ public class AutoPreferences {
         return driveDistanceSetting;
     }
     
+    public int getAutoMode() {
+        return mode;
+    }
+    
     public void displayAutoModes() {
-        driverStationLCD.println(DriverStationLCD.Line.kUser1, 1, "Mode 1: Drive Only");
-        driverStationLCD.println(DriverStationLCD.Line.kUser2, 1, "Mode 2: Drive then Shoot");
-        driverStationLCD.println(DriverStationLCD.Line.kUser3, 1, "Mode 3: Shoot then Drive");
-        driverStationLCD.println(DriverStationLCD.Line.kUser4, 1, "Mode 4: Double Ball Auton then Drive");
+        driverStationLCD.println(DriverStationLCD.Line.kUser1, 1, "Auto Modes:");
+        driverStationLCD.println(DriverStationLCD.Line.kUser2, 1, "1: Drive Only");
+        driverStationLCD.println(DriverStationLCD.Line.kUser3, 1, "2: Drive then Shoot");
+        driverStationLCD.println(DriverStationLCD.Line.kUser4, 1, "3: Shoot then Drive");
+        driverStationLCD.println(DriverStationLCD.Line.kUser5, 1, "4: Two Ball Auto");
         driverStationLCD.updateLCD();
     }
 }
