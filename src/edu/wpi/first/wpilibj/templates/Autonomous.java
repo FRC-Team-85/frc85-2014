@@ -78,14 +78,14 @@ public class Autonomous {
 
     public void selectState() {
         //imageFilter.setBlobVariable(imageFilter.getBlob());
-        currentDistance = drive.getAvgDriveEncValue();        
-        switch(autoState){
+        currentDistance = drive.getAvgDriveEncValue();
+        switch (autoState) {
             case 1://Drive only
                 runAutoDrive();
                 break;
-                
+
             case 2://Drive then shoot
-                if(!catapult.getArmLimit()){
+                if (!catapult.getArmLimit()) {
                     catapult.setArmSolenoid(true);
                     catapult.setCamMotors(0);
                 } else {
@@ -102,15 +102,15 @@ public class Autonomous {
                     }
                 }
                 break;
-                
+
             case 3://Shoot then drive
-                if(!catapult.getArmLimit()){
+                if (!catapult.getArmLimit()) {
                     catapult.setArmSolenoid(true);
                     catapult.setCamMotors(0);
                 } else {
                     if (shotDelayCounter > 100) { // 2 sec delay, assuming cycle time is 20 millsecs
                         runAutoCatapult();
-                        if(driveDelayCounter > 100){
+                        if (driveDelayCounter > 100) {
                             runAutoDrive();
                         } else {
                             driveDelayCounter++;
@@ -120,17 +120,17 @@ public class Autonomous {
                     }
                 }
                 break;
-                
+
             case 4://Double shoot then drive
-                if(!catapult.getArmLimit()){
+                if (!catapult.getArmLimit()) {
                     catapult.setArmSolenoid(true);
                     catapult.setCamMotors(0);
                 } else {
-                    if (shotDelayCounter > 65) { // 2 sec delay, assuming cycle time is 20 millsecs
+                    if ((shotCount == 0 && shotDelayCounter > 65) || (shotCount > 0 && shotDelayCounter > 45)) { // 2 sec delay, assuming cycle time is 20 millsecs
                         runAutoCatapult();
-                        if(!catapult.isFiring()){
-                            if(shotCount == 0){
-                                if(rollerDelay <= 60){
+                        if (!catapult.isFiring()) {
+                            if (shotCount == 0) {
+                                if (rollerDelay <= 60) {
                                     drive.setIntakeMotors(-1);
                                 } else {
                                     //drive.setIntakeMotors(0);
@@ -138,22 +138,27 @@ public class Autonomous {
                                     hasFired = false;
                                     shotDelayCounter = 0;
                                     shotCount++;
+                                    runAutoDrive();
                                 }
                                 rollerDelay++;
                             } else {
-                                if(driveDelayCounter > 1){
-                            runAutoDrive();
-                        } else {
-                            driveDelayCounter++;
-                        }
+                                //if (driveDelayCounter > 1) {
+                                runAutoDrive();
+                                //} else {
+                                //    driveDelayCounter++;
+                                //}
                             }
                         }
                     } else {
                         shotDelayCounter++;
+                        if (shotCount > 0)
+                        {
+                            runAutoDrive();
+                        }
                     }
                 }
                 break;
-                
+
             default:
                 break;
         }
