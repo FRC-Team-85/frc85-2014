@@ -8,6 +8,7 @@
 package edu.wpi.first.wpilibj.templates;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,6 +49,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousPeriodic() {
+        SmartDashboard.putNumber("LeftDriveEnc:", drive.leftDriveEncoder.get());
+        SmartDashboard.putNumber("RightDriveEnc:", drive.rightDriveEncoder.get());
         //imageFiltering.runImageFiltering();
         tCompressor.runAirCompressor();
         autonomous.runAuton();
@@ -63,6 +66,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopPeriodic() {
+        SmartDashboard.putNumber("LeftDriveEnc:", drive.leftDriveEncoder.get());
+        SmartDashboard.putNumber("RightDriveEnc:", drive.rightDriveEncoder.get());
         drive.runTankDrive();
         tCompressor.runAirCompressor();
         //imageFiltering.setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));

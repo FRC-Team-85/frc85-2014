@@ -28,8 +28,8 @@ public class Drive {
     private final SpeedController _rightIntakeMotor;
     private final double INTAKE_SPEED = 1.0;
     
-    private final Encoder rightDriveEncoder;
-    private final Encoder leftDriveEncoder;
+    public final Encoder rightDriveEncoder;
+    public final Encoder leftDriveEncoder;
     
     
     public Drive(Joystick leftStick, Joystick rightStick) {

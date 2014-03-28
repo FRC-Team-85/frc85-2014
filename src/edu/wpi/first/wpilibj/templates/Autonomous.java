@@ -29,7 +29,7 @@ public class Autonomous {
     private double currentDistance = 0;
     private double currentSpeed;
     private final int DRIVE_ENCODER_CPR = 360;
-    private final double MAX_DRIVE_SPEED = 0.30;
+    private final double MAX_DRIVE_SPEED = 0.23;
     
     private double completeAngle;
     private double increaseSpeedAngle;
@@ -46,7 +46,7 @@ public class Autonomous {
         this.catapult = catapult;
         //this.imageFilter = imageFiltering;
         this.autoPreferences = autoPreferences;
-        gyro = new Gyro(Addresses.GYRO_CHANNEL);
+        //gyro = new Gyro(Addresses.GYRO_CHANNEL);
     }
 
     public void runAutonInit() {
@@ -54,12 +54,13 @@ public class Autonomous {
         drive.resetDriveEncoders();
         drive.startDriveEncoders();
         catapult.resetFiring();
+        drive.setAllMotors(0, 0);
         hasFired = false;
         shotDelayCounter = 0;
         driveDelayCounter = 0;
         rollerDelay = 0;
         shotCount = 0;
-        
+        currentSpeed = 0;
     }
     
     public void runAuton() {
@@ -72,13 +73,14 @@ public class Autonomous {
         autoState = autoPreferences.getAutoMode();
         totalDistance = (int) Math.ceil(((12 * autoPreferences.getDriveDistance()) / (4 * Math.PI)) * DRIVE_ENCODER_CPR);
         if (totalDistance == 0) {
-            totalDistance = 1000;
+            totalDistance = 700;
         }
     }
 
     public void selectState() {
         //imageFilter.setBlobVariable(imageFilter.getBlob());
-        currentDistance = drive.getAvgDriveEncValue();
+        //currentDistance = drive.getAvgDriveEncValue();
+        currentDistance = Math.abs(drive.leftDriveEncoder.get());// switched to Left Drive Encoder only due to right side being broken
         switch (autoState) {
             case 1://Drive only
                 runAutoDrive();
@@ -126,7 +128,7 @@ public class Autonomous {
                     catapult.setArmSolenoid(true);
                     catapult.setCamMotors(0);
                 } else {
-                    if ((shotCount == 0 && shotDelayCounter > 65) || (shotCount > 0 && shotDelayCounter > 45)) { // 2 sec delay, assuming cycle time is 20 millsecs
+                    if ((shotCount == 0 && shotDelayCounter > 65) || (shotCount > 0 && shotDelayCounter > 65)) { // 2 sec delay, assuming cycle time is 20 millsecs
                         runAutoCatapult();
                         if (!catapult.isFiring()) {
                             if (shotCount == 0) {
