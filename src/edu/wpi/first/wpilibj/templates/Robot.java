@@ -24,13 +24,13 @@ public class Robot extends IterativeRobot {
     Drive drive = new Drive(leftStick, rightStick);
     Catapult catapult = new Catapult(operatorPanel);
     TylersCompressor tCompressor = new TylersCompressor();
-    ImageFiltering imageFiltering = new ImageFiltering();
+    //ImageFiltering imageFiltering = new ImageFiltering();
     AutoPreferences autoPreferences = new AutoPreferences();
-    Autonomous autonomous = new Autonomous(drive, catapult, imageFiltering, autoPreferences);
+    Autonomous autonomous = new Autonomous(drive, catapult, autoPreferences);
     
 
     public void robotInit(){
-        imageFiltering.cameraRingLight.setDirection(Relay.Direction.kForward);
+        //imageFiltering.cameraRingLight.setDirection(Relay.Direction.kForward);
         tCompressor.airCompressorInit();
         autoPreferences.initAutoPrefs();
         autoPreferences.displayAutoModes();
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void autonomousInit() {
-        imageFiltering.cameraRingLight.set(Relay.Value.kOn);
+        //imageFiltering.cameraRingLight.set(Relay.Value.kOn);
         autoPreferences.getAutoSettings();
         autonomous.getAutonomousPreferencesData();
         autonomous.runAutonInit();
@@ -58,20 +58,20 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
-        imageFiltering.cameraRingLight.set(Relay.Value.kOn);
+        //imageFiltering.cameraRingLight.set(Relay.Value.kOn);
         drive.runDriveInit();
     }
 
     public void teleopPeriodic() {
         drive.runTankDrive();
         tCompressor.runAirCompressor();
-        imageFiltering.setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));
+        //imageFiltering.setCameraLED(leftStick.getRawButton(4), leftStick.getRawButton(5));
         catapult.runCatapult();
     }
 
     public void teleopDisable() {
         tCompressor.compressor.set(Relay.Value.kOff);
-        imageFiltering.cameraRingLight.set(Relay.Value.kOff);
+        //imageFiltering.cameraRingLight.set(Relay.Value.kOff);
     }
 
     public void testPeriodic() {

@@ -15,7 +15,7 @@ public class Autonomous {
 
     Drive drive;
     Catapult catapult;
-    ImageFiltering imageFilter;
+    //ImageFiltering imageFilter;
     Encoder rightDriveEncoder;
     Encoder leftDriveEncoder;
     Gyro gyro;
@@ -41,10 +41,10 @@ public class Autonomous {
     
     private int shotCount;
 
-    public Autonomous(Drive drive, Catapult catapult, ImageFiltering imageFiltering, AutoPreferences autoPreferences) {
+    public Autonomous(Drive drive, Catapult catapult, /*ImageFiltering imageFiltering,*/ AutoPreferences autoPreferences) {
         this.drive = drive;
         this.catapult = catapult;
-        this.imageFilter = imageFiltering;
+        //this.imageFilter = imageFiltering;
         this.autoPreferences = autoPreferences;
         gyro = new Gyro(Addresses.GYRO_CHANNEL);
     }
