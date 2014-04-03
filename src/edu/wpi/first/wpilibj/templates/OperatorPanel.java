@@ -46,12 +46,12 @@ public class OperatorPanel {
 
     public boolean getTrussSwitch() {
         driverstation = DriverStation.getInstance();
-        return !driverstation.getDigitalIn(TRUSS_TOGGLE_SWITCH);
+        return driverstation.getDigitalIn(TRUSS_TOGGLE_SWITCH);
     }
 
     public boolean getIntakeArmSwitch() {
         driverstation = DriverStation.getInstance();
-        return !driverstation.getDigitalIn(INTAKE_TOGGLE_SWITCH);
+        return driverstation.getDigitalIn(INTAKE_TOGGLE_SWITCH);
     }
 
     public void setCamSlowLED(boolean toggle){
