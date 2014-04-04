@@ -59,7 +59,7 @@ public class Drive {
         //runDebug();
         getJoystickY(leftJoystick.getTrigger(), rightJoystick.getTrigger());
         setDeadband();
-        setHalfSpeed(leftJoystick.getRawButton(2));
+        //setHalfSpeed(leftJoystick.getRawButton(2));
         setAllMotors(setDriveOutputScaling(leftDriveMotorOutput), setDriveOutputScaling(rightDriveMotorOutput));
         runIntakeRollers(rightJoystick.getRawButton(2), rightJoystick.getRawButton(3));
     }
