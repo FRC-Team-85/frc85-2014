@@ -44,7 +44,7 @@ public class Drive {
     public void runTankDrive() {
         getJoystickY();
         setDeadband();
-        setHalfSpeed(_leftStick.getRawButton(1), _rightStick.getRawButton(1)); //Joystick Triggers
+        //setHalfSpeed(_leftStick.getRawButton(1), _rightStick.getRawButton(1)); //Joystick Triggers
         setAllMotors();
         //runDebug(true);
     }
