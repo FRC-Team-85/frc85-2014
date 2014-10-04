@@ -27,7 +27,7 @@ public class Catapult {
     
     private final double CAM_RELEASE_SPEED = 0.45;
     private final double CAM_FAST_SPEED = 1.0;
-    private final double CAM_SLOW_SPEED = 0.75;
+    private final double CAM_SLOW_SPEED = 1.0;
     private boolean firing = false;
     
     
