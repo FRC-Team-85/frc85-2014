@@ -170,7 +170,7 @@ public class Autonomous {
         if (catapult.camEncoderCount > 350) {
             hasFired = true;
         }
-        catapult.runEncoderBasedCatapult(!hasFired, false, false);
+        catapult.runEncoderBasedCatapult(!hasFired, false);
     }
 
     public boolean runAutoDrive() {

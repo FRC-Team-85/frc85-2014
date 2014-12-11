@@ -21,7 +21,6 @@ public class OperatorPanel {
     
     private final int INTAKE_TOGGLE_SWITCH = 4;
     private final int TRUSS_TOGGLE_SWITCH = 6;
-    private final int INTAKE_OVERRIDE_TOGGLE_SWITCH = 3;
     private final int CAM_EMERGENCY_STOP_TOGGLE_SWITCH = 1;
     
     DriverStation driverstation;
@@ -32,11 +31,6 @@ public class OperatorPanel {
     public boolean getCatapultButton() {
            driverstation = DriverStation.getInstance();
         return !driverstation.getDigitalIn(FIRE_BUTTON);
-    }
-    
-    public boolean getIntakeOverrideSwitch() {
-        driverstation = DriverStation.getInstance();
-        return driverstation.getDigitalIn(INTAKE_OVERRIDE_TOGGLE_SWITCH);
     }
     
     public boolean getCamEmergencyStopSwitch() {

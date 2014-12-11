@@ -49,7 +49,7 @@ public class Catapult {
         runCatapultLED();
         runIntakeArm();
         runTruss();
-        runEncoderBasedCatapult(operatorPanel.getCatapultButton(), operatorPanel.getIntakeOverrideSwitch(), operatorPanel.getCamEmergencyStopSwitch());
+        runEncoderBasedCatapult(operatorPanel.getCatapultButton(), operatorPanel.getCamEmergencyStopSwitch());
     }
     
     public void catapultInit() {
@@ -60,11 +60,11 @@ public class Catapult {
     public void resetFiring() {
         firing = false;
     }
-    public void runEncoderBasedCatapult(boolean fire, boolean intakeOverride, boolean emergencyStopOverride) {
+    public void runEncoderBasedCatapult(boolean fire, boolean emergencyStopOverride) {
         resetCamEncoder();
         setEncoderDirection();
         if (!emergencyStopOverride) {
-            if (intakeLimit.get() || intakeOverride) {
+            if (intakeLimit.get()) {
                 if (fire) {
                     setCamMotors(CAM_RELEASE_SPEED);
                     firing = true;
