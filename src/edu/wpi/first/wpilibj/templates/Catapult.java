@@ -27,7 +27,7 @@ public class Catapult {
     
     private final double CAM_RELEASE_SPEED = 0.45;
     private final double CAM_FAST_SPEED = 1.0;
-    private final double CAM_SLOW_SPEED = 1.0;
+    private final double CAM_SLOW_SPEED = .8;
     private boolean firing = false;
     
     
@@ -69,7 +69,7 @@ public class Catapult {
                     setCamMotors(CAM_RELEASE_SPEED);
                     firing = true;
                 } else if (firing) {
-                    if (camEncoderCount >= 50 && camEncoderCount <= 205) {
+                    if (camEncoderCount >= 50 && camEncoderCount <= 195) {
                         setCamMotors(CAM_SLOW_SPEED);
                     } else if (camEncoderCount > 250 || camEncoderCount < 50) {
                         setCamMotors(CAM_FAST_SPEED);
